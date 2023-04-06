@@ -40,12 +40,16 @@ public:
 	//------------------
 	D3DXVECTOR3 GetPosV() { return m_posV; }	//視点を取得
 	D3DXVECTOR3 GetRot()  { return m_rot; }		//角度を取得
-	bool GetLockOn() { return m_bLockOn; }		//ロックオン状態の取得
 
 private:
-	void Turn();		//旋回
+	void Turn();	//旋回
 
 private:
+	//------------------
+	// 定数
+	//------------------
+	static const float m_fSpeed;	//旋回速度
+
 	//------------------
 	// メンバ変数
 	//------------------
@@ -60,8 +64,6 @@ private:
 	D3DXVECTOR3 m_vecU;			//上方向ベクトル
 	D3DXVECTOR3 m_maxShake;		//揺れの最大値
 	D3DXMATRIX  m_mtxWorld;		//ワールドマトリックス
-	float m_TSPEED;
-	bool m_bLockOn;
 	D3DXMATRIX m_mtxProjection;	//プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;		//ビューマトリックス
 	D3DVIEWPORT9 m_viewport;

@@ -17,6 +17,11 @@
 #include "debug_proc.h"
 #include "utility.h"
 
+//----------------------
+// 静的メンバ変数宣言
+//----------------------
+const float CCamera::m_fSpeed = 0.02f;
+
 //===========================
 // コンストラクタ
 //===========================
@@ -30,8 +35,6 @@ CCamera::CCamera()
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_TSPEED = 0.0f;
-	m_bLockOn = true;
 
 	//カメラの振動
 	m_nQuakeFreamCount = 0;
@@ -60,7 +63,6 @@ void CCamera::Init(void)
 	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_TSPEED = 0.02f;		//カメラの回転速度(Turn)
 }
 
 //========================
@@ -267,19 +269,19 @@ void CCamera::Turn()
 	//------------------
 	if (CInputKeyboard::Press(DIK_Q) || stick.x <= -fMoveValue)	//左回転
 	{//Qキーが押された
-		m_rot.y -= m_TSPEED;	//回転量の増加
+		m_rot.y -= m_fSpeed;	//回転量の増加
 	}
 	else if (CInputKeyboard::Press(DIK_E) || stick.x >= fMoveValue)	//右回転
 	{//Eキーが押された
-		m_rot.y += m_TSPEED;
+		m_rot.y += m_fSpeed;
 	}
-	if (CInputKeyboard::Press(DIK_Y) || stick.y >= fMoveValue)	//上回転
-	{//Yキーが押された
-		m_rot.x -= m_TSPEED;
-	}
-	else if (CInputKeyboard::Press(DIK_B) || stick.y <= -fMoveValue)	//下回転
+	if (CInputKeyboard::Press(DIK_B) || stick.y >= fMoveValue)	//上回転
 	{//Bキーが押された
-		m_rot.x += m_TSPEED;
+		m_rot.x -= m_fSpeed;
+	}
+	else if (CInputKeyboard::Press(DIK_Y) || stick.y <= -fMoveValue)	//下回転
+	{//Yキーが押された
+		m_rot.x += m_fSpeed;
 	}
 
 	//-------------------------
