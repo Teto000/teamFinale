@@ -26,6 +26,10 @@ public: /* 定義 */
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
 
+		/* ↓ 空 ↓ */
+		TEXTURE_SKY,			//空
+		TEXTURE_GROUND,			//地面
+
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字
 

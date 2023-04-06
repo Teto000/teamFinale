@@ -33,6 +33,9 @@
     <Filter Include="Main\Object\2D\Number">
       <UniqueIdentifier>{3d2dae15-ea42-4f4f-95b4-8c93f5006da6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Object\Mesh">
+      <UniqueIdentifier>{eaed9934-cba2-4c53-88c6-4ab05c97c9e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,6 +110,15 @@
     <ClCompile Include="bg.cpp">
       <Filter>Main\Object</Filter>
     </ClCompile>
+    <ClCompile Include="sky.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="meshfield.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -180,6 +192,15 @@
     </ClInclude>
     <ClInclude Include="bg.h">
       <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="sky.h">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="meshfield.h">
+      <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

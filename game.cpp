@@ -20,6 +20,8 @@
 #include "camera.h"
 #include "fade.h"
 #include "time.h"
+#include "sky.h"
+#include "meshfield.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -27,6 +29,8 @@
 bool		CGame::m_bFinish = false;		//ゲーム終了フラグ
 CCamera*	CGame::m_pCamera = nullptr;		//カメラ
 CTime*		CGame::m_pTime = nullptr;		//タイマー
+CSky*		CGame::m_pSky = nullptr;		//空
+CMeshField*	CGame::m_pMeshField = nullptr;	//地面
 
 //===========================
 // コンストラクタ
@@ -55,6 +59,12 @@ HRESULT CGame::Init()
 	//カメラの生成
 	m_pCamera = new CCamera;
 	m_pCamera->Init();
+
+	//メッシュフィールドの生成
+	m_pMeshField = CMeshField::Create();
+
+	//空の生成
+	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//タイマーの生成
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
@@ -101,7 +111,7 @@ void CGame::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
+	if (CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
 	{
 		//ゲーム終了フラグを立てる
 		m_bFinish = true;

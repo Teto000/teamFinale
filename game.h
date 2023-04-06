@@ -18,6 +18,8 @@
 //--------------------------------
 class CCamera;		//カメラ
 class CTime;		//タイマー
+class CSky;			//空
+class CMeshField;	//地面
 
 //================================
 // ゲームクラスの定義
@@ -47,8 +49,10 @@ private:
 	//-------------------
 	static bool m_bFinish;	//ゲーム終了フラグ
 
-	static CCamera*	m_pCamera;	//カメラ
-	static CTime*	m_pTime;	//タイマー
+	static CCamera*		m_pCamera;		//カメラ
+	static CTime*		m_pTime;		//タイマー
+	static CSky*		m_pSky;			//空
+	static CMeshField*	m_pMeshField;	//メッシュフィールド
 };
 
 #endif

@@ -25,6 +25,10 @@ const char* CTexture::s_FileName[] =
 	/* ↓ リザルト ↓ */
 	"data/TEXTURE/Result/BG.png",	//リザルト背景
 
+	/* ↓ ゲーム ↓ */
+	"data/TEXTURE/Game/Sky.jpg",	//空
+	"data/TEXTURE/Game/Ground.jpg",	//地面
+
 	/* ↓ その他 ↓ */
 	"data/TEXTURE/Number.png",		//数字
 };
