@@ -1,17 +1,185 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Main\Application">
+      <UniqueIdentifier>{e565fbaa-cf34-493d-825c-23f8a750f21b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object">
+      <UniqueIdentifier>{85f208f0-46d0-40ad-9fc7-058505a58bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Input">
+      <UniqueIdentifier>{a834eb10-e3e7-4d87-91e6-fa08deb83dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\2D">
+      <UniqueIdentifier>{e34d5c98-f4db-4986-9778-510d03e34d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\3D">
+      <UniqueIdentifier>{9c92a226-2e5a-40a6-a0fe-0a6cf3b1e309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\X">
+      <UniqueIdentifier>{47611afb-94b2-4c03-941b-191aaf3a641c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Scenes">
+      <UniqueIdentifier>{58c862e9-9000-494e-ab1e-2601193084c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\2D\Number">
+      <UniqueIdentifier>{3d2dae15-ea42-4f4f-95b4-8c93f5006da6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="application.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="debug_proc.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="input_joypad.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="input_keyboard.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object2D.cpp">
+      <Filter>Main\Object\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="object3d.cpp">
+      <Filter>Main\Object\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="objectX.cpp">
+      <Filter>Main\Object\X</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>Main\Object\2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Main\Object\2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="bg.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="application.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="debug_proc.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="input_joypad.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="input_keyboard.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object2D.h">
+      <Filter>Main\Object\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="object3d.h">
+      <Filter>Main\Object\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="objectX.h">
+      <Filter>Main\Object\X</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="number.h">
+      <Filter>Main\Object\2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Main\Object\2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="bg.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
