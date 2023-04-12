@@ -100,10 +100,12 @@ void CObjectX::Draw()
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-	//影の描画
-	DrawShadow();
-
-	//ワールドマトリックスの設定
+	if (m_name != nullptr)
+	{//影の描画
+		DrawShadow();
+	}
+	
+	//ワールドマトリックスの定設
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 	//現在のマテリアルを保持

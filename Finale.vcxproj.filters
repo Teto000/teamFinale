@@ -119,6 +119,12 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="move.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -201,6 +207,12 @@
     </ClInclude>
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="move.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Main\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
