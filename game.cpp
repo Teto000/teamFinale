@@ -38,7 +38,7 @@ CMeshField*	CGame::m_pMeshField = nullptr;	//地面
 //===========================
 CGame::CGame()
 {
-
+	m_pPlayer = nullptr;	//プレイヤー
 }
 
 //===========================
@@ -71,8 +71,8 @@ HRESULT CGame::Init()
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
 
 	// プレイヤーの設定
-	CPlayer *pPlayer = CPlayer::Create();
-	pPlayer->SetFireName("data/MODEL/01_head.x");
+	m_pPlayer = CPlayer::Create();
+	m_pPlayer->SetFireName("data/MODEL/01_head.x");
 
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

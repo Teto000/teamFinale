@@ -16,6 +16,7 @@
 #include "game.h"
 #include "debug_proc.h"
 #include "utility.h"
+#include "player.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -108,7 +109,7 @@ void CCamera::Update(void)
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
 
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
