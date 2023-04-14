@@ -58,8 +58,9 @@ HRESULT CGame::Init()
 	m_bFinish = false;	//ゲームが終了していない状態
 
 	//カメラの生成
-	m_pCamera = new CCamera;
-	m_pCamera->Init();
+	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
+								, (DWORD)SCREEN_WIDTH
+								, (DWORD)SCREEN_HEIGHT);
 
 	//メッシュフィールドの生成
 	m_pMeshField = CMeshField::Create();

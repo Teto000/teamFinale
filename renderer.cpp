@@ -199,6 +199,13 @@ void CRenderer::Draw()
 
 			//カメラの設定
 			m_pCamera->SetCamera(m_pD3DDevice);
+
+			//--------------------------------------
+			// ビューポートの処理
+			//--------------------------------------
+			//ビューポートの設定
+			D3DVIEWPORT9 viewport = m_pCamera->GetViewport();
+			m_pD3DDevice->SetViewport(&viewport);
 		}
 
 		//オブジェクトの描画

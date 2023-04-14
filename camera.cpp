@@ -37,6 +37,16 @@ CCamera::CCamera()
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
+	//-------------------------
+	// ビューポートの情報
+	//-------------------------
+	m_viewport.X = 0.0f;
+	m_viewport.Y = 0.0f;
+	m_viewport.Width = 0.0f;
+	m_viewport.Height = 0.0f;
+	m_viewport.MaxZ = 0.0f;
+	m_viewport.MinZ = 0.0f;
+
 	//カメラの振動
 	m_nQuakeFreamCount = 0;
 	m_fQuakeMagnitude = 0.0f;
@@ -64,6 +74,12 @@ void CCamera::Init(void)
 	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+	//-------------------------
+	// ビューポートの情報
+	//-------------------------
+	m_viewport.MaxZ = 1.0f;
+	m_viewport.MinZ = 0.0f;
 }
 
 //========================
@@ -251,6 +267,34 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 	//----------------------------
 	float fFogDensity = 0.000f;		//密度(0.001でもかなり真っ白)
 	pDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&fFogDensity));
+}
+
+//==================================================
+// カメラの生成
+// 引数 : 左上の座標 X, 左上の座標 Y, 幅, 高さ
+//==================================================
+CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
+{
+	CCamera* pCamera = nullptr;
+
+	//------------------------------
+	// ポリゴンの生成と初期化
+	//------------------------------
+	pCamera = new CCamera;	//生成
+
+	if (pCamera != nullptr)
+	{//NULLチェック
+	 //ビューポート構成の保存
+		pCamera->m_viewport.X = X;				//開始位置(X)
+		pCamera->m_viewport.Y = Y;				//開始位置(Y)
+		pCamera->m_viewport.Width = Width;		//幅
+		pCamera->m_viewport.Height = Height;	//高さ
+
+		//初期化
+		pCamera->Init();
+	}
+
+	return pCamera;
 }
 
 //========================
