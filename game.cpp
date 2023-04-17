@@ -27,11 +27,11 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-bool		CGame::m_bFinish = false;		//ゲーム終了フラグ
-CCamera*	CGame::m_pCamera = nullptr;		//カメラ
-CTime*		CGame::m_pTime = nullptr;		//タイマー
-CSky*		CGame::m_pSky = nullptr;		//空
-CMeshField*	CGame::m_pMeshField = nullptr;	//地面
+bool		CGame::m_bFinish = false;				//ゲーム終了フラグ
+CCamera*	CGame::m_pCamera[nMaxCamera] = {};		//カメラ
+CTime*		CGame::m_pTime = nullptr;				//タイマー
+CSky*		CGame::m_pSky = nullptr;				//空
+CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 
 //===========================
 // コンストラクタ
@@ -57,9 +57,15 @@ HRESULT CGame::Init()
 	//初期値の設定
 	m_bFinish = false;	//ゲームが終了していない状態
 
-	//カメラの生成
-	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
-								, (DWORD)SCREEN_WIDTH
+	//------------------------
+	// カメラの生成
+	//------------------------
+	m_pCamera[0] = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
+								, (DWORD)(SCREEN_WIDTH / 2)
+								, (DWORD)SCREEN_HEIGHT);
+
+	m_pCamera[1] = CCamera::Create((DWORD)(SCREEN_WIDTH/ 2), (DWORD)0.0f
+								, (DWORD)(SCREEN_WIDTH / 2)
 								, (DWORD)SCREEN_HEIGHT);
 
 	//メッシュフィールドの生成
@@ -89,12 +95,17 @@ void CGame::Uninit()
 	//BGMの停止
 	//CSound::StopSound();
 
-	//カメラの終了
-	if (m_pCamera != nullptr)
+	//---------------------
+	// カメラの終了
+	//---------------------
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		if (m_pCamera[i] != nullptr)
+		{
+			m_pCamera[i]->Uninit();
+			delete m_pCamera[i];
+			m_pCamera[i] = nullptr;
+		}
 	}
 }
 
@@ -106,9 +117,12 @@ void CGame::Update()
 	//----------------------------
 	// カメラの更新
 	//----------------------------
-	if (m_pCamera != nullptr)
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		m_pCamera->Update();
+		if (m_pCamera[i] != nullptr)
+		{
+			m_pCamera[i]->Update();
+		}
 	}
 
 	// ジョイパッドでの操作

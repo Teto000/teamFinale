@@ -26,7 +26,7 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-CCamera* CRenderer::m_pCamera = nullptr;			//カメラ
+CCamera* CRenderer::m_pCamera[nMaxCamera] = {};		//カメラ
 
 //=========================
 // コンストラクタ
@@ -178,48 +178,52 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
-	// バックバッファ＆Ｚバッファのクリア
-	m_pD3DDevice->Clear(0,
-						NULL,
-						(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-						D3DCOLOR_RGBA(0, 0, 0, 0),
-						1.0f,
-						0);
-
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+	//--------------------------------------
+	// カメラの設定
+	//--------------------------------------
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		//現在のモードを取得
-		CApplication::MODE mode = CApplication::GetMode();
-
-		if (mode == CApplication::MODE_GAME)
+		if (CApplication::GetMode() == CApplication::MODE_GAME)
 		{//ゲーム画面なら
 			//カメラの取得
-			m_pCamera = CGame::GetCamera();
+			m_pCamera[i] = CGame::GetCamera(i);
 
 			//カメラの設定
-			m_pCamera->SetCamera(m_pD3DDevice);
+			m_pCamera[i]->SetCamera(m_pD3DDevice);
 
 			//--------------------------------------
-			// ビューポートの処理
+			// ビューポートの設定
 			//--------------------------------------
-			//ビューポートの設定
-			D3DVIEWPORT9 viewport = m_pCamera->GetViewport();
+			D3DVIEWPORT9 viewport = m_pCamera[i]->GetViewport();
 			m_pD3DDevice->SetViewport(&viewport);
 		}
 
-		//オブジェクトの描画
-		CObject::DrawAll();
+		//-----------------------------------------
+		// バックバッファ＆Ｚバッファのクリア
+		//-----------------------------------------
+		m_pD3DDevice->Clear(0,
+							NULL,
+							(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+							D3DCOLOR_RGBA(0, 0, 0, 0),
+							1.0f,
+							0);
+
+		// Direct3Dによる描画の開始
+		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+		{
+			//オブジェクトの描画
+			CObject::DrawAll();
 
 #ifdef _DEBUG
-		// FPS表示
-		DrawFPS();
+			// FPS表示
+			DrawFPS();
 
-		CDebugProc::Draw();
+			CDebugProc::Draw();
 #endif // _DEBUG
 
-		// Direct3Dによる描画の終了
-		m_pD3DDevice->EndScene();
+			// Direct3Dによる描画の終了
+			m_pD3DDevice->EndScene();
+		}
 	}
 
 	// バックバッファとフロントバッファの入れ替え
