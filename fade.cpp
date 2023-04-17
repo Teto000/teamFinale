@@ -15,6 +15,8 @@
 #include "application.h"
 #include "renderer.h"
 #include "object2d.h"
+#include "camera.h"
+#include "game.h"
 
 //===========================
 // コンストラクタ
@@ -88,6 +90,20 @@ void CFade::Update()
 			{
 				m_col.a = 1.0f;
 				m_fade = FADE_IN;	//フェードイン状態に
+
+				//-----------------------
+				// カメラの拡大
+				//-----------------------
+				/*CCamera* pCamera[2] = {};
+
+				for (int i = 0; i < 2; i++)
+				{
+					if (CApplication::GetMode() == CApplication::MODE_GAME)
+					{//nullじゃないなら
+						pCamera[i] = CGame::GetCamera(i);
+						pCamera[i]->SetViewSize(0.0f, 0.0f, 1280.0f, 720.0f);
+					}
+				}*/
 
 				CApplication::SetMode(m_modeNext);
 				m_pObject = new CObject2D(3);
