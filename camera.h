@@ -39,6 +39,7 @@ public:
 	// セッター
 	//------------------
 	void ShakeCamera(int fream, float magnitude, D3DXVECTOR3 max);	//カメラの振動情報の設定
+	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeigh);
 
 	//------------------
 	// ゲッター

@@ -138,5 +138,11 @@ void CGame::Update()
 
 		//リザルト画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+
+		//画面サイズを拡大
+		for (int i = 0; i < nMaxCamera; i++)
+		{
+			m_pCamera[i]->SetViewSize(0, 0, 1280, 720);
+		}
 	}
 }

@@ -297,6 +297,19 @@ CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 	return pCamera;
 }
 
+//==================================================
+// ビューポートの大きさ設定
+// 引数 : 画面左上の座標X,Y、幅、高さ
+//==================================================
+void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
+{
+	//引数を代入
+	m_viewport.X = X;				//ビューポートの左上X座標
+	m_viewport.Y = Y;				//ビューポートの左上Y座標
+	m_viewport.Width = fWidth;		//ビューポートの幅
+	m_viewport.Height = fHeight;	//ビューポートの高さ
+}
+
 //========================
 // カメラの旋回
 //========================
