@@ -32,6 +32,7 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 	
+	CObject2D *Create(D3DXVECTOR3 pos);			//¶¬
 	D3DXVECTOR3 AddMove(D3DXVECTOR3 move);		//ˆÚ“®—Ê‚Ì‰ÁZ
 
 	//----------------

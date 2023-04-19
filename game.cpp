@@ -23,6 +23,7 @@
 #include "sky.h"
 #include "meshfield.h"
 #include "player.h"
+#include "mini_game_basis.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -144,5 +145,11 @@ void CGame::Update()
 		{
 			m_pCamera[i]->SetViewSize(0, 0, 1280, 720);
 		}
+	}
+
+	if (CInputKeyboard::Trigger(DIK_T))
+	{//Tキーを押したら
+		//ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
 	}
 }

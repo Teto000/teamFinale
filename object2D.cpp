@@ -182,6 +182,21 @@ void CObject2D::SetPosition(D3DXVECTOR3 pos)
 }
 
 //===========================
+// 生成
+//===========================
+CObject2D * CObject2D::Create(D3DXVECTOR3 pos)
+{
+	//オブジェクト2Dの生成
+	CObject2D* pObj2D = nullptr;
+	pObj2D = new CObject2D;
+
+	//初期化処理
+	pObj2D->Init(pos);
+
+	return pObj2D;
+}
+
+//===========================
 // 移動量の加算
 //===========================
 D3DXVECTOR3 CObject2D::AddMove(D3DXVECTOR3 move)
