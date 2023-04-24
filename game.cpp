@@ -72,7 +72,7 @@ HRESULT CGame::Init()
 
 	// ÉvÉåÉCÉÑÅ[ÇÃê›íË
 	m_pPlayer = CPlayer::Create();
-	m_pPlayer->SetFireName("data/MODEL/01_head.x");
+	m_pPlayer->SetMotion("data/MOTION/motion.txt");
 
 	//BGMÇÃçƒê∂
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

@@ -232,7 +232,7 @@ void CSky::Draw()
 	CTexture *pTexture = CApplication::GetTexture();
 
 	//テクスチャの設定
-	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+	pDevice->SetTexture(0, pTexture->GetTexture(m_NumTex));
 
 	//ポリゴンの描画
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP,	//プリミティブの種類
@@ -252,7 +252,7 @@ void CSky::Draw()
 //===========================
 // 生成
 //===========================
-CSky* CSky::Create(CTexture::TEXTURE texture)
+CSky* CSky::Create(CTexture::NUM_TEXTURE numTex)
 {
 	CSky *pSky = nullptr;
 
@@ -264,7 +264,7 @@ CSky* CSky::Create(CTexture::TEXTURE texture)
 	if (pSky != nullptr)
 	{//NULLチェック
 		//メンバ変数に代入
-		pSky->m_texture = texture;
+		pSky->m_NumTex = numTex;
 		
 		//初期化
 		pSky->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));

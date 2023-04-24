@@ -33,8 +33,8 @@ public:
 
 	void CollisionMesh();	//メッシュフィールドの当たり判定
 
-	void SetMeshSize(int nDivision, float fWidth);	//最大幅の設定
-	void SetTexture(CTexture::TEXTURE texture);		//テクスチャの設定
+	void SetMeshSize(int nDivision, float fWidth);		//最大幅の設定
+	void SetTexture(CTexture::NUM_TEXTURE numTex);		//テクスチャの設定
 
 	//----------------
 	// ゲッター
@@ -73,7 +73,7 @@ private:
 	float m_fTexSize;		//テクスチャの分割サイズ
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	CTexture::TEXTURE m_texture;		//テクスチャ
+	CTexture::NUM_TEXTURE m_NumTex;		//テクスチャ
 	LPDIRECT3DINDEXBUFFER9 m_pIdxBuff;	//インデックスバッファへのポインタ
 };
 

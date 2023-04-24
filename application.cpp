@@ -8,6 +8,7 @@
 //------------------------
 // インクルード
 //------------------------
+#include <assert.h>
 #include "application.h"
 #include "renderer.h"
 #include "object3d.h"
@@ -23,6 +24,7 @@
 #include "light.h"
 #include "debug_proc.h"
 #include "camera.h"
+#include "model3D.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -82,6 +84,11 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// テクスチャの生成
 	//----------------------------
 	m_pTexture = new CTexture;
+	assert(m_pTexture != nullptr);
+	m_pTexture->Init();
+
+	// モデル情報の初期化
+	CModel3D::InitModel();
 
 	//----------------------------
 	// サウンドの生成と初期化
@@ -125,11 +132,16 @@ void CApplication::Uninit()
 	//テクスチャの終了
 	//----------------------------
 	if (m_pTexture != nullptr)
-	{
-		m_pTexture->ReleaseAll();
+	{// 終了処理
+		m_pTexture->Uninit();
+
+		// メモリの解放
 		delete m_pTexture;
 		m_pTexture = nullptr;
 	}
+
+	// モデル情報の終了
+	CModel3D::UninitModel();
 
 	//----------------------------
 	// レンダリングの終了

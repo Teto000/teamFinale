@@ -48,8 +48,8 @@ public:
 	D3DXVECTOR3 MoveCircle(D3DXVECTOR3 CenterPos, float fAngle, float fLength);	//位置を円形に動かす
 
 	/* ↓テクスチャ↓ */
-	void SetTexCIE(float left, float fRight);	//テクスチャ座標の設定
-	void SetTexture(CTexture::TEXTURE texture);	//テクスチャの設定
+	void SetTexCIE(float left, float fRight);		//テクスチャ座標の設定
+	void SetTexture(CTexture::NUM_TEXTURE numTex);	//テクスチャの設定
 
 	/* ↓頂点座標↓ */
 	void SetVtxCIE(D3DXVECTOR3 pos, float fWidth, float fHeight);						//頂点座標の設定
@@ -84,7 +84,7 @@ protected:
 	float m_fScal;				//大きさ
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	CTexture::TEXTURE m_texture;		//テクスチャ
+	CTexture::NUM_TEXTURE m_NumTex;		//テクスチャ
 };
 
 #endif // !_OBJECT_H_

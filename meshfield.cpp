@@ -10,6 +10,7 @@
 //----------------------
 #include "meshfield.h"
 #include "renderer.h"
+#include "texture.h"
 
 //=======================
 // コンストラクタ
