@@ -31,15 +31,22 @@ public:
 	void SetCamera(LPDIRECT3DDEVICE9 pDevice);
 
 	//------------------
+	// 静的メンバ関数
+	//------------------
+	static CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
+
+	//------------------
 	// セッター
 	//------------------
 	void ShakeCamera(int fream, float magnitude, D3DXVECTOR3 max);	//カメラの振動情報の設定
+	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeigh);
 
 	//------------------
 	// ゲッター
 	//------------------
-	D3DXVECTOR3 GetPosV() { return m_posV; }	//視点を取得
-	D3DXVECTOR3 GetRot()  { return m_rot; }		//角度を取得
+	D3DXVECTOR3 GetPosV()		{ return m_posV; }		//視点を取得
+	D3DXVECTOR3 GetRot()		{ return m_rot; }		//角度を取得
+	D3DVIEWPORT9 GetViewport()  { return m_viewport; }	//ビューポートの取得	
 
 private:
 	void Turn();	//旋回
@@ -66,7 +73,7 @@ private:
 	D3DXMATRIX  m_mtxWorld;		//ワールドマトリックス
 	D3DXMATRIX m_mtxProjection;	//プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;		//ビューマトリックス
-	D3DVIEWPORT9 m_viewport;
+	D3DVIEWPORT9 m_viewport;	//ビューポート
 
 	//カメラの振動
 	int m_nQuakeFreamCount;		//揺らすフレーム数

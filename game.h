@@ -43,10 +43,16 @@ public:
 	//------------------
 	CPlayer* GetPlayer() { return m_pPlayer; }	//プレイヤーの取得
 
-	static bool GetFinish() { return m_bFinish; }	  //ゲーム終了状態を取得
-	static CCamera*	GetCamera() { return m_pCamera; } //カメラの取得
+	static bool GetFinish() { return m_bFinish; }		//ゲーム終了状態を取得
+	static CCamera*	GetCamera(int nNumber) { return m_pCamera[nNumber]; }	//カメラの取得
+	static int GetMaxCamera() { return nMaxCamera; }	//カメラの最大数を取得
 
 private:
+	//-------------------
+	// 定数
+	//-------------------
+	static const int nMaxCamera = 2;
+
 	//-------------------
 	// メンバ変数
 	//-------------------
@@ -57,7 +63,7 @@ private:
 	//-------------------
 	static bool m_bFinish;	//ゲーム終了フラグ
 
-	static CCamera*		m_pCamera;		//カメラ
+	static CCamera*		m_pCamera[nMaxCamera];		//カメラ
 	static CTime*		m_pTime;		//タイマー
 	static CSky*		m_pSky;			//空
 	static CMeshField*	m_pMeshField;	//メッシュフィールド

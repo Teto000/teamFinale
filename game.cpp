@@ -23,15 +23,16 @@
 #include "sky.h"
 #include "meshfield.h"
 #include "player.h"
+#include "mini_game_basis.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-bool		CGame::m_bFinish = false;		//ゲーム終了フラグ
-CCamera*	CGame::m_pCamera = nullptr;		//カメラ
-CTime*		CGame::m_pTime = nullptr;		//タイマー
-CSky*		CGame::m_pSky = nullptr;		//空
-CMeshField*	CGame::m_pMeshField = nullptr;	//地面
+bool		CGame::m_bFinish = false;				//ゲーム終了フラグ
+CCamera*	CGame::m_pCamera[nMaxCamera] = {};		//カメラ
+CTime*		CGame::m_pTime = nullptr;				//タイマー
+CSky*		CGame::m_pSky = nullptr;				//空
+CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 
 //===========================
 // コンストラクタ
@@ -57,9 +58,16 @@ HRESULT CGame::Init()
 	//初期値の設定
 	m_bFinish = false;	//ゲームが終了していない状態
 
-	//カメラの生成
-	m_pCamera = new CCamera;
-	m_pCamera->Init();
+	//------------------------
+	// カメラの生成
+	//------------------------
+	m_pCamera[0] = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
+								, (DWORD)(SCREEN_WIDTH / 2)
+								, (DWORD)SCREEN_HEIGHT);
+
+	m_pCamera[1] = CCamera::Create((DWORD)(SCREEN_WIDTH/ 2), (DWORD)0.0f
+								, (DWORD)(SCREEN_WIDTH / 2)
+								, (DWORD)SCREEN_HEIGHT);
 
 	//メッシュフィールドの生成
 	m_pMeshField = CMeshField::Create();
@@ -88,12 +96,17 @@ void CGame::Uninit()
 	//BGMの停止
 	//CSound::StopSound();
 
-	//カメラの終了
-	if (m_pCamera != nullptr)
+	//---------------------
+	// カメラの終了
+	//---------------------
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		if (m_pCamera[i] != nullptr)
+		{
+			m_pCamera[i]->Uninit();
+			delete m_pCamera[i];
+			m_pCamera[i] = nullptr;
+		}
 	}
 }
 
@@ -105,9 +118,12 @@ void CGame::Update()
 	//----------------------------
 	// カメラの更新
 	//----------------------------
-	if (m_pCamera != nullptr)
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		m_pCamera->Update();
+		if (m_pCamera[i] != nullptr)
+		{
+			m_pCamera[i]->Update();
+		}
 	}
 
 	// ジョイパッドでの操作
@@ -123,5 +139,17 @@ void CGame::Update()
 
 		//リザルト画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+
+		//画面サイズを拡大
+		for (int i = 0; i < nMaxCamera; i++)
+		{
+			m_pCamera[i]->SetViewSize(0, 0, 1280, 720);
+		}
+	}
+
+	if (CInputKeyboard::Trigger(DIK_T))
+	{//Tキーを押したら
+		//ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
 	}
 }

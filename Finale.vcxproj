@@ -165,6 +165,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="mini_game_basis.cpp" />
+    <ClCompile Include="mini_game_buttonpush.cpp" />
     <ClCompile Include="model3D.cpp" />
     <ClCompile Include="motion.cpp" />
     <ClCompile Include="motion_model3D.cpp" />
@@ -200,6 +202,8 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="mini_game_basis.h" />
+    <ClInclude Include="mini_game_buttonpush.h" />
     <ClInclude Include="model3D.h" />
     <ClInclude Include="motion.h" />
     <ClInclude Include="motion_model3D.h" />

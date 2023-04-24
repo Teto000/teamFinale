@@ -223,7 +223,7 @@ D3DXVECTOR3 CPlayer::Move()
 		}
 
 		// ƒJƒƒ‰î•ñ‚ÌŽæ“¾
-		CCamera *pCamera = CGame::GetCamera();
+		CCamera *pCamera = CGame::GetCamera(0);
 
 		// ˆÚ“®•ûŒü‚ÌŽZo
 		m_rotDest.y += pCamera->GetRot().y;
