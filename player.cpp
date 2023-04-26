@@ -22,7 +22,7 @@
 // マクロ定義
 //*****************************************************************************
 #define NOM_SPEED (1.0f)		// 速度
-#define MIN_SPEED (0.01f)		// 最低速度
+#define MIN_SPEED (0.09f)		// 最低速度
 #define MAX_SPEED (10.0f)		// 最高速度
 #define NOM_FRICTION (0.1f)		// 摩擦係数
 
