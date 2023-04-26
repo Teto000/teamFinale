@@ -43,7 +43,7 @@ CUtility::~CUtility()
 // 当たり判定の処理
 // 引数：自分(位置、前の位置、大きさ、マトリックス)
 //=============================================================================
-CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX targetMtx)
+CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX* targetMtx)
 {
 	//------------------------------------
 	// 行列を元に戻す
@@ -73,8 +73,8 @@ CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targe
 	//------------------------------------
 	// 相手の行列を元に戻す
 	//------------------------------------
-	D3DXVec3TransformCoord(&worldPos, &targetPos, &targetMtx);
-	D3DXMatrixInverse(&invMtxWorld, NULL, &targetMtx);
+	D3DXVec3TransformCoord(&worldPos, &targetPos, targetMtx);
+	D3DXMatrixInverse(&invMtxWorld, NULL, targetMtx);
 	D3DXVec3TransformCoord(&localPos, &worldPos, &invMtxWorld);
 
 	//------------------------------------
@@ -139,9 +139,9 @@ D3DXVECTOR3 CUtility::GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
 	m_mtxWorld = mtx;	//ワールドマトリックス
 
 	//変数宣言
-	D3DXVECTOR3 targetPos;		//相手の位置
-	D3DXVECTOR3 targetSize;		//相手の大きさ
-	D3DXMATRIX targetMtx;		//相手のマトリックス
+	D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);	//相手の位置
+	D3DXVECTOR3 targetSize(0.0f, 0.0f, 0.0f);	//相手の大きさ
+	D3DXMATRIX* targetMtx = nullptr;			//相手のマトリックス
 
 	//--------------------------
 	// 相手の情報を取得
@@ -176,7 +176,7 @@ D3DXVECTOR3 CUtility::GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
 			//情報の取得
 			targetPos = pPlayer->GetPosition();
 			targetSize = pPlayer->GetSize();
-			targetMtx = pPlayer->GetMtx();
+			targetMtx = pPlayer->GetMtxWorld();
 		}
 		/*else if (targetType == CObject::OBJTYPE_ENEMY)
 		{//相手が敵なら

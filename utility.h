@@ -38,7 +38,7 @@ public:
 	// Ã“Iƒƒ“ƒoŠÖ”
 	//-----------------------
 	//“–‚½‚è”»’è‚Ìˆ—
-	static COLLISION Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX targetMtx);
+	static COLLISION Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX* targetMtx);
 
 	//‰Ÿ‚µ–ß‚³‚ê‚½ˆÊ’u‚ğ•Ô‚·ˆ—
 	static D3DXVECTOR3 GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
