@@ -36,6 +36,12 @@
     <Filter Include="Main\Object\Mesh">
       <UniqueIdentifier>{eaed9934-cba2-4c53-88c6-4ab05c97c9e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\MiniGame">
+      <UniqueIdentifier>{8e8000e1-d380-4c14-8f4a-db797f3ad9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Model">
+      <UniqueIdentifier>{70c34df7-9db1-43bd-b474-8b523a259b3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,6 +131,24 @@
     <ClCompile Include="player.cpp">
       <Filter>Main\Object</Filter>
     </ClCompile>
+    <ClCompile Include="mini_game_basis.cpp">
+      <Filter>Main\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="mini_game_buttonpush.cpp">
+      <Filter>Main\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="motion.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="motion_model3D.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="parts.cpp">
+      <Filter>Main\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="model3D.cpp">
+      <Filter>Main\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -213,6 +237,24 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="motion.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="motion_model3D.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="parts.h">
+      <Filter>Main\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="model3D.h">
+      <Filter>Main\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="mini_game_basis.h">
+      <Filter>Main\MiniGame</Filter>
+    </ClInclude>
+    <ClInclude Include="mini_game_buttonpush.h">
+      <Filter>Main\MiniGame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

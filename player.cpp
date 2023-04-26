@@ -16,12 +16,13 @@
 #include "input_keyboard.h"
 #include "camera.h"
 #include "utility.h"
+#include "motion.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define NOM_SPEED (1.0f)		// 速度
-#define MIN_SPEED (0.0f)		// 最低速度
+#define MIN_SPEED (0.01f)		// 最低速度
 #define MAX_SPEED (10.0f)		// 最高速度
 #define NOM_FRICTION (0.1f)		// 摩擦係数
 
@@ -75,6 +76,9 @@ CPlayer::~CPlayer()
 //=============================================================================
 HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 {
+	// 親クラスの初期化
+	CMotionModel3D::Init(pos);
+
 	if (m_pMove == nullptr)
 	{// 移動
 		m_pMove = new CMove;
@@ -83,9 +87,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 
 	// 移動情報の初期化
 	m_pMove->SetMoving(NOM_SPEED, MAX_SPEED, MIN_SPEED, NOM_FRICTION);
-
-	// 親クラスの初期化
-	CObjectX::Init(pos);
 
 	return E_NOTIMPL;
 }
@@ -105,7 +106,7 @@ void CPlayer::Uninit()
 	}
 
 	// 親クラスの終了
-	CObjectX::Uninit();
+	CMotionModel3D::Uninit();
 
 	// オブジェクト3Dの解放
 	Release();
@@ -118,11 +119,14 @@ void CPlayer::Uninit()
 //=============================================================================
 void CPlayer::Update()
 {
+	// モーション情報の取得
+	CMotion *pMotion = CMotionModel3D::GetMotion();
+
 	// 位置の取得
-	D3DXVECTOR3 pos = GetPosition();
+	D3DXVECTOR3 pos = GetPos();
 
 	// 過去位置の更新
-	m_posOld = pos;
+	SetPosOld(pos);
 
 	// 移動
 	pos += Move();
@@ -133,8 +137,15 @@ void CPlayer::Update()
 	// 回転
 	Rotate();
 
+	if (pMotion != nullptr
+		&& !pMotion->GetMotion())
+	{// ニュートラルモーションの設定
+		m_EAction = NEUTRAL_ACTION;
+		pMotion->SetNumMotion(m_EAction);
+	}
+
 	// 親クラスの更新
-	CObjectX::Update();
+	CMotionModel3D::Update();
 }
 
 //=============================================================================
@@ -145,7 +156,7 @@ void CPlayer::Update()
 void CPlayer::Draw()
 {
 	// 親クラスの描画
-	CObjectX::Draw();
+	CMotionModel3D::Draw();
 }
 
 //=============================================================================
@@ -157,6 +168,9 @@ D3DXVECTOR3 CPlayer::Move()
 {
 	// 変数宣言
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	// モーション情報の取得
+	CMotion *pMotion = CMotionModel3D::GetMotion();
 
 	if ((CInputKeyboard::Press(DIK_W)
 		|| CInputKeyboard::Press(DIK_A)
@@ -225,6 +239,16 @@ D3DXVECTOR3 CPlayer::Move()
 
 		// 移動方向の正規化
 		m_rotDest.y = CUtility::GetNorRot(m_rotDest.y);
+
+		if (m_EAction == NEUTRAL_ACTION)
+		{// 移動
+			m_EAction = MOVE_ACTION;
+
+			if (pMotion != nullptr)
+			{
+				pMotion->SetNumMotion(m_EAction);
+			}
+		}
 	}
 
 	// 移動情報の計算
@@ -232,6 +256,15 @@ D3DXVECTOR3 CPlayer::Move()
 
 	// 移動情報の取得
 	D3DXVECTOR3 moveing = m_pMove->GetMove();
+	float fLength = m_pMove->GetMoveLength();
+
+	if (fLength <= 0.0f
+		&& pMotion != nullptr
+		&& m_EAction == MOVE_ACTION)
+	{
+		m_EAction = NEUTRAL_ACTION;
+		pMotion->SetNumMotion(m_EAction);
+	}
 
 	// 向きの取得
 	D3DXVECTOR3 rot = GetRot();

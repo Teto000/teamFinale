@@ -162,7 +162,7 @@ void CObject2D::Draw()
 	CTexture *pTexture = CApplication::GetTexture();
 
 	//テクスチャの設定
-	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+	pDevice->SetTexture(0, pTexture->GetTexture(m_NumTex));
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,	//プリミティブの種類
@@ -179,6 +179,21 @@ void CObject2D::Draw()
 void CObject2D::SetPosition(D3DXVECTOR3 pos)
 {
 	m_pos = pos;
+}
+
+//===========================
+// 生成
+//===========================
+CObject2D * CObject2D::Create(D3DXVECTOR3 pos)
+{
+	//オブジェクト2Dの生成
+	CObject2D* pObj2D = nullptr;
+	pObj2D = new CObject2D;
+
+	//初期化処理
+	pObj2D->Init(pos);
+
+	return pObj2D;
 }
 
 //===========================
@@ -296,9 +311,9 @@ void CObject2D::SetTexCIE(float left ,float fRight)
 //===========================
 // テクスチャの設定
 //===========================
-void CObject2D::SetTexture(CTexture::TEXTURE texture)
+void CObject2D::SetTexture(CTexture::NUM_TEXTURE numTex)
 {
-	m_texture = texture;
+	m_NumTex = numTex;
 }
 
 //===========================

@@ -245,7 +245,7 @@ void CMesh::Draw()
 	CTexture *pTexture = CApplication::GetTexture();
 
 	//テクスチャの設定
-	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+	pDevice->SetTexture(0, pTexture->GetTexture(m_NumTex));
 
 	//ポリゴンの描画
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP,	//プリミティブの種類
@@ -451,9 +451,9 @@ void CMesh::SetMeshSize(int nDivision, float fWidth)
 //===========================
 // テクスチャの設定
 //===========================
-void CMesh::SetTexture(CTexture::TEXTURE texture)
+void CMesh::SetTexture(CTexture::NUM_TEXTURE numTex)
 {
-	m_texture = texture;
+	m_NumTex = numTex;
 }
 
 //===========================

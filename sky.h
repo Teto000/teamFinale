@@ -40,7 +40,7 @@ public:
 	//----------------
 	// 静的メンバ関数
 	//----------------
-	static CSky* Create(CTexture::TEXTURE texture);
+	static CSky* Create(CTexture::NUM_TEXTURE numTex);
 
 private:
 	//------------------
@@ -66,7 +66,7 @@ private:
 	float m_fWidth;			//幅
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	CTexture::TEXTURE m_texture;		//テクスチャ
+	CTexture::NUM_TEXTURE m_NumTex;		//テクスチャ
 	LPDIRECT3DINDEXBUFFER9 m_pIdxBuff;	//インデックスバッファへのポインタ
 };
 

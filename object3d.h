@@ -44,8 +44,8 @@ public:
 	void SetVtx(VERTEX_3D* vtx);	//頂点情報の設定
 
 	/* ↓テクスチャ↓ */
-	void SetTexCIE(float left, float fRight);	//テクスチャ座標の設定
-	void SetTexture(CTexture::TEXTURE texture);	//テクスチャの設定
+	void SetTexCIE(float left, float fRight);		//テクスチャ座標の設定
+	void SetTexture(CTexture::NUM_TEXTURE numTex);	//テクスチャの設定
 
 	/* ↓描画↓ */
 	void SetSubALPHA();		//αブレンディングを減算合成に設定
@@ -73,7 +73,7 @@ private:
 	D3DXMATRIX m_mtxWorld;//ワールドマトリックス
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	CTexture::TEXTURE m_texture;		//テクスチャ
+	CTexture::NUM_TEXTURE m_NumTex;		//テクスチャ
 };
 
 #endif // !_OBJECT_H_
