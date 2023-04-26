@@ -4,7 +4,7 @@ Format Text Ver 1.0
 Scene {
 	pos -44.6395 -241.1619 2383.4216
 	lookat 0.0000 0.0000 0.0000
-	head -50.1449
+	head -50.4349
 	pich 0.0508
 	bank 0.0000
 	ortho 0
@@ -18,12 +18,12 @@ Scene {
 	}
 }
 Material 7 {
-	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Downloads\1178991.jpg")
+	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\1178991.jpg")
 	"mat2" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
 	"mat3" col(0.569 0.584 0.725 0.800) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
 	"mat4" col(1.000 0.859 0.259 1.000) dif(0.670) amb(0.240) emi(0.160) spc(0.320) power(7.00)
 	"mat5" col(0.000 0.000 0.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
-	"mat6" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Downloads\562\562\Small\562.png")
+	"mat6" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\562.png")
 	"mat7" col(0.757 0.353 0.141 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00)
 }
 Object "clock" {
