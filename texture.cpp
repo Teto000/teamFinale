@@ -1,142 +1,146 @@
-//**************************************************
-// 
-// texture.cpp
-// Author  : katsuki mizuki
-// 
-//**************************************************
+//=============================================================================
+//
+// テクスチャ設定処理(texture.cpp)
+// Author : 唐﨑結斗
+// 概要 : テクスチャ設定を行う
+//
+//=============================================================================
 
-//==================================================
+//*****************************************************************************
 // インクルード
-//==================================================
-#include "application.h"
-#include "texture.h"
-#include "renderer.h"
-
+//*****************************************************************************
 #include <assert.h>
+#include <stdio.h>
+#include <string.h>
 
-//==================================================
-// 定義
-//==================================================
-const char* CTexture::s_FileName[] =
-{// テクスチャのパス
-	/* ↓ タイトル ↓ */
-	"data/TEXTURE/Title/BG.png",	//タイトル背景
+#include "texture.h"
+#include "renderer.h" 
+#include "application.h"
 
-	/* ↓ リザルト ↓ */
-	"data/TEXTURE/Result/BG.png",	//リザルト背景
-
-	/* ↓ ゲーム ↓ */
-	"data/TEXTURE/Game/Sky.jpg",	//空
-	"data/TEXTURE/Game/Ground.jpg",	//地面
-
-	/* ↓ その他 ↓ */
-	"data/TEXTURE/Number.png",		//数字
-};
-
-static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");
-
-//--------------------------------------------------
-// デフォルトコンストラクタ
-//--------------------------------------------------
-CTexture::CTexture() :
-	s_pTexture()
+//=============================================================================
+// コンストラクタ
+// Author : 唐﨑結斗
+// 概要 : インスタンス生成時に行う処理
+//=============================================================================
+CTexture::CTexture()
 {
-	memset(s_pTexture, 0, sizeof(s_pTexture));
+	m_pTexture = nullptr;		// テクスチャ情報
+	m_nMaxTexture = 0;			// テクスチャの最大数
 }
 
-//--------------------------------------------------
+//=============================================================================
 // デストラクタ
-//--------------------------------------------------
+// Author : 唐﨑結斗
+// 概要 : インスタンス終了時に行う処理
+//=============================================================================
 CTexture::~CTexture()
 {
+
 }
 
-//--------------------------------------------------
-// 全ての読み込み
-//--------------------------------------------------
-void CTexture::LoadAll()
-{
-	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-	
-	for (int i = 0; i < TEXTURE_MAX; ++i)
-	{
-		if (s_pTexture[i] != nullptr)
-		{// テクスチャの読み込みがされている
-			continue;
-		}
+//=============================================================================
+// 初期化
+// Author : 唐﨑結斗
+// 概要 : 貼り付けるテクスチャ情報を格納する
+//=============================================================================
+void CTexture::Init(void)
+{// レンダラーのゲット
+	CRenderer *pRenderer = CApplication::GetRenderer();
 
-		// テクスチャの読み込み
-		D3DXCreateTextureFromFile(pDevice,
-			s_FileName[i],
-			&s_pTexture[i]);
+	// ファイルの読み込み
+	LoadFile();
+
+	for (int nCnt = 0; nCnt < m_nMaxTexture; nCnt++)
+	{//ポリゴンに貼り付けるテクスチャの読み込み
+		D3DXCreateTextureFromFile(pRenderer->GetDevice(),
+			&m_pTexture[nCnt].aFileName[0],
+			&m_pTexture[nCnt].pTexture);
 	}
 }
 
-//--------------------------------------------------
-// 読み込み
-//--------------------------------------------------
-void CTexture::Load(TEXTURE inTexture)
+//=============================================================================
+// 終了
+// Author : 唐﨑結斗
+// 概要 : テクスチャの解放
+//=============================================================================
+void CTexture::Uninit(void)
 {
-	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
+	for (int nCnt = 0; nCnt < m_nMaxTexture; nCnt++)
+	{//テクスチャの破棄	  
+		if (m_pTexture[nCnt].pTexture != nullptr)
+		{
+			m_pTexture[nCnt].pTexture->Release();
 
-	if (s_pTexture[inTexture] != nullptr)
-	{// テクスチャの読み込みがされている
-		return;
-	}
-
-	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-
-	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice,
-		s_FileName[inTexture],
-		&s_pTexture[inTexture]);
-}
-
-//--------------------------------------------------
-// 全ての解放
-//--------------------------------------------------
-void CTexture::ReleaseAll(void)
-{
-	for (int i = 0; i < TEXTURE_MAX; ++i)
-	{
-		if (s_pTexture[i] != NULL)
-		{// テクスチャの解放
-			s_pTexture[i]->Release();
-			s_pTexture[i] = NULL;
+			m_pTexture[nCnt].pTexture = nullptr;
 		}
 	}
-}
 
-//--------------------------------------------------
-// 解放
-//--------------------------------------------------
-void CTexture::Release(TEXTURE inTexture)
-{
-	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
-
-	if (s_pTexture[inTexture] != NULL)
-	{// テクスチャの解放
-		s_pTexture[inTexture]->Release();
-		s_pTexture[inTexture] = NULL;
+	if (m_pTexture != nullptr)
+	{
+		delete[] m_pTexture;
+		m_pTexture = nullptr;
 	}
 }
 
-//--------------------------------------------------
-// 取得
-//--------------------------------------------------
-LPDIRECT3DTEXTURE9 CTexture::GetTexture(TEXTURE inTexture)
+//=============================================================================
+// テクスチャポインタのゲッター	
+// Author : 唐﨑結斗
+// 概要 : テクスチャのゲッター
+//=============================================================================
+LPDIRECT3DTEXTURE9 CTexture::GetTexture(const int nNumTex)
 {
-	if (inTexture == TEXTURE_NONE)
-	{// テクスチャを使用しない
-		return nullptr;
+	LPDIRECT3DTEXTURE9 pTexture = nullptr;
+
+	if (nNumTex != -1)
+	{// タイプが設定されてる
+		pTexture = m_pTexture[nNumTex].pTexture;
 	}
 
-	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
+	return pTexture;
+}
 
-	// 読み込み
-	Load(inTexture);
+//=============================================================================
+// ファイルの読み込み
+// Author : 唐﨑結斗
+// 概要 : ファイルから読み込むテクスチャ数と名前を読み込む
+//=============================================================================
+void CTexture::LoadFile()
+{
+	// 変数宣言
+	char aStr[128];
+	int nCntTex = 0;
 
-	return s_pTexture[inTexture];
+	// ファイルの読み込み
+	FILE *pFile = fopen("data/TEXT/texture.txt", "r");
+
+	if (pFile != nullptr)
+	{
+		while (fscanf(pFile, "%s", &aStr[0]) != EOF)
+		{// "EOF"を読み込むまで 
+			if (strncmp(&aStr[0], "#", 1) == 0)
+			{// 一列読み込む
+				fgets(&aStr[0], sizeof(aStr), pFile);
+			}
+
+			if (strstr(&aStr[0], "MAX_TEXTURE") != NULL)
+			{
+				fscanf(pFile, "%s", &aStr[0]);
+				fscanf(pFile, "%d", &m_nMaxTexture);
+				m_pTexture = new TEXTURE[m_nMaxTexture];
+				assert(m_pTexture != nullptr);
+				memset(&m_pTexture[0], 0, sizeof(TEXTURE));
+			}
+
+			if (strstr(&aStr[0], "TEXTURE_FILENAME") != NULL)
+			{
+				fscanf(pFile, "%s", &aStr[0]);
+				fscanf(pFile, "%s", &m_pTexture[nCntTex].aFileName[0]);
+				nCntTex++;
+			}
+		}
+	}
+	else
+	{
+		assert(false);
+	}
 }
