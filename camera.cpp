@@ -40,12 +40,12 @@ CCamera::CCamera()
 	//-------------------------
 	// ビューポートの情報
 	//-------------------------
-	m_viewport.X = 0.0f;
-	m_viewport.Y = 0.0f;
-	m_viewport.Width = 0.0f;
-	m_viewport.Height = 0.0f;
-	m_viewport.MaxZ = 0.0f;
-	m_viewport.MinZ = 0.0f;
+	m_viewport.X = (DWORD)0.0f;
+	m_viewport.Y = (DWORD)0.0f;
+	m_viewport.Width = (DWORD)0.0f;
+	m_viewport.Height = (DWORD)0.0f;
+	m_viewport.MaxZ = (DWORD)0.0f;
+	m_viewport.MinZ = (DWORD)0.0f;
 
 	//カメラの振動
 	m_nQuakeFreamCount = 0;
