@@ -61,6 +61,7 @@ private:
 	//--------------------------------------------------------------------
 	D3DXVECTOR3 Move();		// 移動
 	void Rotate();			// 回転
+	void Warp();			// ワープ
 
 	//--------------------------------------------------------------------
 	// メンバ変数
@@ -69,6 +70,8 @@ private:
 	ACTION_TYPE m_EAction;		// アクションタイプ
 	D3DXVECTOR3 m_rotDest;		// 目的の向き
 	int m_nNumMotion;			// 現在のモーション番号
+	int m_nCntRimit;			// 過去に残れる時間を数える
+	bool m_bFuture;				// 未来にいるかどうか
 };
 
 #endif
