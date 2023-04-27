@@ -49,10 +49,11 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 	//テクスチャの設定
 	CObject2D::SetTexture(CTexture::TEXTURE_NONE);
 
+	//タイプごとに生成するものを決める
 	switch (m_nType)
 	{
 	case TYPE_BUTTUNPUSH:
-	{
+	{//ボタンプッシュゲーム
 		CButtonPushGame::Create(pos);
 	}
 
@@ -66,7 +67,6 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 
 	default:
 	{
-		
 	}
 
 	break;
