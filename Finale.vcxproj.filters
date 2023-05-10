@@ -149,6 +149,12 @@
     <ClCompile Include="model3D.cpp">
       <Filter>Main\Model</Filter>
     </ClCompile>
+    <ClCompile Include="mg_buttonmash.cpp">
+      <Filter>Main\MiniGame</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_select.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

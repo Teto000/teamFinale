@@ -83,6 +83,8 @@ HRESULT CGame::Init()
 	m_pPlayer = CPlayer::Create();
 	m_pPlayer->SetMotion("data/MOTION/motion.txt");
 
+	CObjectX::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
 
@@ -152,5 +154,11 @@ void CGame::Update()
 	{//Tキーを押したら
 		//ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+	}
+
+	if (CInputKeyboard::Trigger(DIK_L))
+	{//Lキーを押したら
+		//ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
 	}
 }

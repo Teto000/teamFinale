@@ -56,6 +56,10 @@ public:
 	void SetType(const int nType);			// タイプの設定
 	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
+
+private:
+	void DrawShadow();
+
 private:
 	//----------------
 	// メンバ変数

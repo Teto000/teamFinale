@@ -20,6 +20,7 @@
 #include "game.h"
 #include "title.h"
 #include "result.h"
+#include "stage_select.h"
 #include "fade.h"
 #include "light.h"
 #include "debug_proc.h"
@@ -30,10 +31,11 @@
 // 静的メンバ変数宣言
 //------------------------
 /* ↓ 画面遷移 ↓ */
-CTitle*			CApplication::m_pTitle = nullptr;		//タイトルクラス
-CGame*			CApplication::m_pGame = nullptr;		//ゲームクラス
-CResult*		CApplication::m_pResult = nullptr;		//リザルトクラス
-CFade*			CApplication::m_pFade = nullptr;		//フェードクラス
+CTitle*			CApplication::m_pTitle = nullptr;		//タイトル
+CGame*			CApplication::m_pGame = nullptr;		//ゲーム
+CResult*		CApplication::m_pResult = nullptr;		//リザルト
+CStageSelect*	CApplication::m_pStageSelect = nullptr;	//ステージ選択
+CFade*			CApplication::m_pFade = nullptr;		//フェード
 CApplication::MODE	CApplication::m_mode = MODE_MAX;	//ゲームモード
 
 /* ↓ その他 ↓ */
@@ -214,6 +216,16 @@ void CApplication::Uninit()
 	}
 
 	//----------------------------
+	// ステージ選択の終了
+	//----------------------------
+	if (m_pStageSelect != nullptr)
+	{
+		m_pStageSelect->Uninit();
+		delete m_pStageSelect;
+		m_pStageSelect = nullptr;
+	}
+
+	//----------------------------
 	// フェードの終了
 	//----------------------------
 	if (m_pFade != nullptr)
@@ -245,7 +257,9 @@ void CApplication::Update()
 	//レンダリングの更新
 	m_pRenderer->Update();
 
-	//モードごとの更新
+	//---------------------------
+	// モードごとの更新
+	//---------------------------
 	switch (m_mode)
 	{
 	case MODE_TITLE:
@@ -258,6 +272,10 @@ void CApplication::Update()
 
 	case MODE_RESULT:
 		m_pResult->Update();
+		break;
+
+	case MODE_STAGESELECT:
+		m_pStageSelect->Update();
 		break;
 
 	default:
@@ -282,6 +300,9 @@ void CApplication::Draw()
 //===========================
 void CApplication::SetMode(MODE mode)
 {
+	//----------------------------
+	// 現在のモードの終了処理
+	//----------------------------
 	switch (m_mode)
 	{
 	case MODE_TITLE:
@@ -302,6 +323,12 @@ void CApplication::SetMode(MODE mode)
 		m_pResult = nullptr;
 		break;
 
+	case MODE_STAGESELECT:
+		m_pStageSelect->Uninit();
+		delete m_pStageSelect;
+		m_pStageSelect = nullptr;
+		break;
+
 	default:
 		break;
 	}
@@ -312,7 +339,9 @@ void CApplication::SetMode(MODE mode)
 	//モードの切り替え
 	m_mode = mode;
 
-	//新しいモードの生成
+	//----------------------------
+	// 新しいモードの生成
+	//----------------------------
 	switch (m_mode)
 	{
 	case MODE_TITLE:
@@ -331,6 +360,12 @@ void CApplication::SetMode(MODE mode)
 		m_pResult = nullptr;
 		m_pResult = new CResult;
 		m_pResult->Init();
+		break;
+
+	case MODE_STAGESELECT:
+		m_pStageSelect = nullptr;
+		m_pStageSelect = new CStageSelect;
+		m_pStageSelect->Init();
 		break;
 
 	default:

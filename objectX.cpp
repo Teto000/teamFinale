@@ -15,6 +15,7 @@
 #include "renderer.h"
 #include "light.h"
 #include "model3D.h"
+#include "utility.h"
 
 //=============================================================================
 // インスタンス生成

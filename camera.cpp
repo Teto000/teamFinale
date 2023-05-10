@@ -125,7 +125,11 @@ void CCamera::Update(void)
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
+	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
+	if (CApplication::GetMode() == CApplication::MODE_GAME)
+	{//ゲーム画面なら
+		playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
+	}
 
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);

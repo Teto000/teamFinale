@@ -13,6 +13,7 @@
 #include "renderer.h"
 
 #include "mini_game_buttonpush.h"
+#include "mg_buttonmash.h"
 #include "player.h"
 
 //=======================
@@ -59,9 +60,9 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 
 	break;
 
-	case TYPE_A:
-	{
-		
+	case TYPE_BUTTONMASH:
+	{//ボタン連打ゲーム
+		CButtonMash::Create(pos);
 	}
 	break;
 
