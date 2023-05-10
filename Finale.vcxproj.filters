@@ -149,6 +149,9 @@
     <ClCompile Include="model3D.cpp">
       <Filter>Main\Model</Filter>
     </ClCompile>
+    <ClCompile Include="mg_buttonmash.cpp">
+      <Filter>Main\MiniGame</Filter>
+    </ClCompile>
     <ClCompile Include="stage_select.cpp">
       <Filter>Main\Application\Scenes</Filter>
     </ClCompile>
@@ -258,9 +261,6 @@
     </ClInclude>
     <ClInclude Include="mini_game_buttonpush.h">
       <Filter>Main\MiniGame</Filter>
-    </ClInclude>
-    <ClInclude Include="stage_select.h">
-      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

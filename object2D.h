@@ -44,6 +44,7 @@ public:
 	void SetScreenX(float posX, float fLeft, float fRight);	//左右画面端の設定
 	void SetScreenY(float posY, float fUp, float fDown);	//上下画面端の設定
 	void SetAnimation(float fNumber, int nPattern);			//アニメーションの設定
+	void SetSplitTex(float BesideSplit, float nNumIndexX, float Split, float nNumIndexY);	//アニメーションの設定
 
 	bool OutScreen(D3DXVECTOR3 pos);	//画面外に出た処理
 	D3DXVECTOR3 MoveCircle(D3DXVECTOR3 CenterPos, float fAngle, float fLength);	//位置を円形に動かす
