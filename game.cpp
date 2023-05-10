@@ -24,6 +24,7 @@
 #include "meshfield.h"
 #include "player.h"
 #include "mini_game_basis.h"
+#include "objectX.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾

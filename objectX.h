@@ -12,12 +12,22 @@
 //--------------------------------
 #include "object.h"
 
+//--------------------------------
+// 前方宣言
+//--------------------------------
+class CModel3D;
+
 //================================
 // オブジェクトXクラスの定義
 //================================
 class CObjectX : public CObject
 {
 public:
+	//--------------------------------------------------------------------
+	// 静的メンバ関数
+	//--------------------------------------------------------------------
+	static CObjectX *Create();			// モデルの生成
+
 	CObjectX();
 	explicit CObjectX(int nPriority);	//コンストラクタ
 	virtual ~CObjectX() override;		//デストラクタ
@@ -35,7 +45,6 @@ public:
 	//----------------
 	void SetPos(D3DXVECTOR3 pos);		//位置の設定
 	void SetRot(D3DXVECTOR3 rot);		//向きの設定
-	void SetFireName(LPCTSTR text);		//Xファイルの名前を設定
 
 	//----------------
 	// ゲッター
@@ -44,24 +53,19 @@ public:
 	D3DXVECTOR3 GetRot() { return m_rot; }	//向きのゲッター
 	float GetWidth() override;				//幅の取得
 	float GetHeight() override;				//高さの取得
+	void SetType(const int nType);			// タイプの設定
+	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
-
-private:
-	void DrawShadow();
-
 private:
 	//----------------
 	// メンバ変数
 	//----------------
+	CModel3D *m_pModel;					//モデル情報
 	D3DXMATRIX m_mtxWorld;				//ワールドマトリックス
 	D3DXVECTOR3 m_pos;					//位置
+	D3DXVECTOR3 m_posOld;				//過去位置
 	D3DXVECTOR3 m_rot;					//向き
-	LPCTSTR m_name;						//Xファイルの名前
-
-	/* ↓ モデル情報 ↓ */
-	LPD3DXMESH m_pMesh;					//メッシュ情報へのポインタ
-	LPD3DXBUFFER m_pBuffMat;			//マテリアル情報へのポインタ
-	DWORD m_nNumMat;					//マテリアル情報の数
+	int m_nType;						//モデルのタイプ
 };
 
 #endif
