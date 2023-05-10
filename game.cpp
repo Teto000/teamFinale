@@ -34,6 +34,7 @@ CCamera*	CGame::m_pCamera[nMaxCamera] = {};		//カメラ
 CTime*		CGame::m_pTime = nullptr;				//タイマー
 CSky*		CGame::m_pSky = nullptr;				//空
 CMeshField*	CGame::m_pMeshField = nullptr;			//地面
+CObjectX*	CGame::m_pObjectX = nullptr;			//オブジェクト
 
 //===========================
 // コンストラクタ
@@ -83,7 +84,7 @@ HRESULT CGame::Init()
 	m_pPlayer = CPlayer::Create();
 	m_pPlayer->SetMotion("data/MOTION/motion.txt");
 
-	CObjectX::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pObjectX = CObjectX::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

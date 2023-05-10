@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "utility.h"
 #include "motion.h"
+#include "objectX.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -141,6 +142,26 @@ void CPlayer::Update()
 
 	// ワープ
 	Warp();
+
+	//-----------------------------------
+	// オブジェクトとの当たり判定
+	//-----------------------------------
+	{
+		//プレイヤーの位置を取得
+		D3DXVECTOR3 pos = GetPos();
+		D3DXVECTOR3 posOld = GetPosOld();
+		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
+
+		//オブジェクトの位置を取得
+		D3DXVECTOR3 targetPos = CGame::GetObjectX()->GetPosition();
+
+		//当たり判定
+		pos = CUtility::Collision(pos, posOld, size
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+
+		//位置の更新
+		SetPos(pos);
+	}
 
 	if (pMotion != nullptr
 		&& !pMotion->GetMotion())
@@ -347,8 +368,8 @@ void CPlayer::Warp()
 	// キーを押したときの処理
 	// (オブジェクトに触れた時にする予定)
 	//-----------------------------
-	if (CInputKeyboard::Trigger(DIK_SPACE))
-	{//SPACEキーを押したとき
+	if (CInputKeyboard::Trigger(DIK_0))
+	{//0キーを押したとき
 		//-----------------------------
 		// 位置の変更
 		//-----------------------------

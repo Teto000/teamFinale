@@ -21,6 +21,7 @@ class CTime;		//タイマー
 class CSky;			//空
 class CMeshField;	//地面
 class CPlayer;		//プレイヤー
+class CObjectX;		//オブジェクト
 
 //================================
 // ゲームクラスの定義
@@ -42,7 +43,8 @@ public:
 	// ゲッター
 	//------------------
 	CPlayer* GetPlayer() { return m_pPlayer; }	//プレイヤーの取得
-
+	
+	static CObjectX* GetObjectX() { return m_pObjectX; }	//オブジェクトの取得
 	static bool GetFinish() { return m_bFinish; }		//ゲーム終了状態を取得
 	static CCamera*	GetCamera(int nNumber) { return m_pCamera[nNumber]; }	//カメラの取得
 	static int GetMaxCamera() { return nMaxCamera; }	//カメラの最大数を取得
@@ -64,9 +66,10 @@ private:
 	static bool m_bFinish;	//ゲーム終了フラグ
 
 	static CCamera*		m_pCamera[nMaxCamera];		//カメラ
-	static CTime*		m_pTime;		//タイマー
-	static CSky*		m_pSky;			//空
-	static CMeshField*	m_pMeshField;	//メッシュフィールド
+	static CTime*		m_pTime;					//タイマー
+	static CSky*		m_pSky;						//空
+	static CMeshField*	m_pMeshField;				//メッシュフィールド
+	static CObjectX*	m_pObjectX;					//オブジェクト
 };
 
 #endif
