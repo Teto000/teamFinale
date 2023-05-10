@@ -22,7 +22,7 @@ public:
 	enum MiniGameType		//ƒ~ƒjƒQ[ƒ€‚Ìí—Ş
 	{
 		TYPE_BUTTUNPUSH = 0,
-		TYPE_A,
+		TYPE_BUTTONMASH,
 		TYPE_MAX
 	};
 

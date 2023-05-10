@@ -448,6 +448,27 @@ void CObject2D::SetAnimation(float fNumber, int nPattern)
 	m_pVtxBuff->Unlock();
 }
 
+//=====================================================
+// アニメーションの設定
+// 引数：横の分割数、横の数値、縦の分割数、縦の数値
+//=====================================================
+void CObject2D::SetSplitTex(float BesideSplit, float nNumIndexX, float Split, float nNumIndexY)
+{
+	//頂点座標へのポインタ
+	VERTEX_2D *pVtx;
+
+	//頂点バッファをロックし頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	pVtx[0].tex = D3DXVECTOR2(nNumIndexX / BesideSplit, (nNumIndexY) / Split);
+	pVtx[1].tex = D3DXVECTOR2((nNumIndexX + 1) / BesideSplit, (nNumIndexY) / Split);
+	pVtx[2].tex = D3DXVECTOR2(nNumIndexX / BesideSplit, (nNumIndexY + 1) / Split);
+	pVtx[3].tex = D3DXVECTOR2((nNumIndexX + 1) / BesideSplit, (nNumIndexY + 1) / Split);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}
+
 //=========================================
 // αブレンディングを元に戻す
 //=========================================
