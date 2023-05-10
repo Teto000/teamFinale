@@ -43,7 +43,7 @@ CUtility::~CUtility()
 // 当たり判定の処理
 // 引数：自分(位置、前の位置、大きさ、マトリックス)
 //=============================================================================
-CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX* targetMtx)
+CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize)
 {
 	//------------------------------------
 	// 行列を元に戻す
@@ -69,13 +69,6 @@ CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targe
 	float fBottom = localPos.y - (m_size.y / 2);	//自分の下端
 	float fFront = localPos.z - (m_size.z / 2);		//自分の前端
 	float fBack = localPos.z + (m_size.z / 2);		//自分の後端
-
-	//------------------------------------
-	// 相手の行列を元に戻す
-	//------------------------------------
-	D3DXVec3TransformCoord(&worldPos, &targetPos, targetMtx);
-	D3DXMatrixInverse(&invMtxWorld, NULL, targetMtx);
-	D3DXVec3TransformCoord(&localPos, &worldPos, &invMtxWorld);
 
 	//------------------------------------
 	// 相手の端の設定
@@ -130,13 +123,12 @@ CUtility::COLLISION CUtility::Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targe
 // 引数：位置、前の位置、大きさ、マトリックス、相手の種類
 //=============================================================================
 D3DXVECTOR3 CUtility::GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
-	, D3DXVECTOR3 size, D3DXMATRIX mtx, CObject::EObjType targetType)
+	, D3DXVECTOR3 size, CObject::EObjType targetType)
 {
 	//引数に代入
 	m_pos = pos;		//位置
 	m_posOld = posOld;	//前の位置
 	m_size = size;		//大きさ
-	m_mtxWorld = mtx;	//ワールドマトリックス
 
 	//変数宣言
 	D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);	//相手の位置
@@ -192,7 +184,7 @@ D3DXVECTOR3 CUtility::GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
 		//--------------------------
 		// 当たり判定の処理
 		//--------------------------
-		CUtility::COLLISION direction = CUtility::Collision(targetPos, targetSize, targetMtx);
+		CUtility::COLLISION direction = CUtility::Collision(targetPos, targetSize);
 
 		//--------------------------
 		// 当たった方向に応じた処理

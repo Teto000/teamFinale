@@ -38,11 +38,11 @@ public:
 	// 静的メンバ関数
 	//-----------------------
 	//当たり判定の処理
-	static COLLISION Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize, D3DXMATRIX* targetMtx);
+	static COLLISION Collision(D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize);
 
 	//押し戻された位置を返す処理
 	static D3DXVECTOR3 GetCollisionPos(D3DXVECTOR3 pos, D3DXVECTOR3 posOld
-		, D3DXVECTOR3 size, D3DXMATRIX mtx, CObject::EObjType targetType);
+		, D3DXVECTOR3 size, CObject::EObjType targetType);
 
 	//モデル先の当たり判定(球)
 	static bool ColliaionWeapon(D3DXVECTOR3 offset, float fDiameter,
