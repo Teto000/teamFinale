@@ -84,7 +84,8 @@ HRESULT CGame::Init()
 	m_pPlayer = CPlayer::Create();
 	m_pPlayer->SetMotion("data/MOTION/motion.txt");
 
-	m_pObjectX = CObjectX::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pObjectX = CObjectX::Create();
+	m_pObjectX->SetType(1);
 
 	//BGM‚ÌÄ¶
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

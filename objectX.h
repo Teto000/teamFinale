@@ -58,9 +58,6 @@ public:
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 
 private:
-	void DrawShadow();
-
-private:
 	//----------------
 	// ƒƒ“ƒo•Ï”
 	//----------------

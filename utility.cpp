@@ -35,9 +35,11 @@ CUtility::~CUtility()
 // 押し戻された位置を返す当たり判定処理
 // 引数：自分の位置,自分の前の位置,自分の大きさ,相手の位置,相手の大きさ
 //==============================================================================
-D3DXVECTOR3 CUtility::Collision(D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
+bool CUtility::Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 									D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize)
 {
+	bool bCollision = false;
+
 	//------------------------------------
 	// 自分の端の設定
 	//------------------------------------
@@ -63,6 +65,8 @@ D3DXVECTOR3 CUtility::Collision(D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3
 	//------------------------------------
 	if (fTargetTop >= fTop && fTargetBottom <= fBottom)
 	{//上下の範囲内なら
+		bCollision = true;
+
 		//---------------------------------
 		// 前後の当たり判定
 		//---------------------------------
@@ -82,6 +86,8 @@ D3DXVECTOR3 CUtility::Collision(D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3
 		//---------------------------------
 		if (fTargetFront >= fFront && fTargetBack <= fBack)
 		{//前後の範囲内なら
+			bCollision = true;
+
 			if (fTargetRight >= fLeft && fTargetRight < posOld.x + (size.x / 2))
 			{
 				pos.x = targetPos.x + targetSize.x + (size.x / 2);
@@ -93,7 +99,7 @@ D3DXVECTOR3 CUtility::Collision(D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3
 		}
 	}
 
-	return pos;
+	return bCollision;
 }
 
 //=============================================================================

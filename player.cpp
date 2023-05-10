@@ -18,6 +18,7 @@
 #include "utility.h"
 #include "motion.h"
 #include "objectX.h"
+#include "move.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -156,8 +157,11 @@ void CPlayer::Update()
 		D3DXVECTOR3 targetPos = CGame::GetObjectX()->GetPosition();
 
 		//当たり判定
-		pos = CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+		if (CUtility::Collision(pos, posOld, size
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+		{// 衝突判定が行われた。
+
+		}
 
 		//位置の更新
 		SetPos(pos);
