@@ -75,7 +75,7 @@ void CTitle::Update()
 	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
 	{
 		//ÉQÅ[ÉÄâÊñ Ç…à⁄çs
-		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		CApplication::GetFade()->SetFade(CApplication::MODE_STAGESELECT);
 
 		//SEÇÃçƒê∂
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);

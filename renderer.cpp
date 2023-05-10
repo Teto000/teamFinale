@@ -22,6 +22,7 @@
 #include "input_keyboard.h"
 #include "game.h"
 #include "title.h"
+#include "stage_select.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -183,14 +184,33 @@ void CRenderer::Draw()
 	//--------------------------------------
 	for (int i = 0; i < nMaxCamera; i++)
 	{
-		if (CApplication::GetMode() == CApplication::MODE_GAME)
-		{//ゲーム画面なら
+		switch (CApplication::GetMode())
+		{
+		//-------------------------
+		// ゲーム画面なら
+		//-------------------------
+		case CApplication::MODE_GAME:
 			//カメラの取得
 			m_pCamera[i] = CGame::GetCamera(i);
 
 			//カメラの設定
 			m_pCamera[i]->SetCamera(m_pD3DDevice);
+			break;
 
+		//-------------------------
+		// ステージ選択画面なら
+		//-------------------------
+		case CApplication::MODE_STAGESELECT:
+			//カメラの取得
+			m_pCamera[i] = CApplication::GetStage()->GetCamera();
+
+			//カメラの設定
+			m_pCamera[i]->SetCamera(m_pD3DDevice);
+			break;
+		}
+
+		if (m_pCamera[i] != nullptr)
+		{//カメラがnullじゃないなら
 			//--------------------------------------
 			// ビューポートの設定
 			//--------------------------------------

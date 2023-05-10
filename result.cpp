@@ -77,7 +77,7 @@ void CResult::Update()
 	//-----------------------
 	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
 	{
-		//ゲーム画面に移行
+		//タイトル画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_TITLE);
 
 		//SEの再生

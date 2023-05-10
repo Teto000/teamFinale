@@ -19,6 +19,7 @@
 class CGame;		//ゲーム
 class CTitle;		//タイトル
 class CResult;		//リザルト
+class CStageSelect;	//ステージ選択
 class CFade;		//フェード
 
 /* ↓ その他 ↓ */
@@ -43,6 +44,7 @@ public:
 		MODE_TITLE = 0,		//タイトル
 		MODE_GAME,			//ゲーム
 		MODE_RESULT,		//リザルト
+		MODE_STAGESELECT,	//ステージ選択画面
 		MODE_FADE,			//フェード
 		MODE_MAX
 	};
@@ -72,6 +74,7 @@ public:
 	static MODE GetMode() { return m_mode; };	//モードの取得
 	static CGame*			GetGame()		{ return m_pGame; }			//ゲームの取得
 	static CTitle*			GetTitle()		{ return m_pTitle; }		//タイトルの取得
+	static CStageSelect*	GetStage()		{ return m_pStageSelect; }	//ステージの取得
 	static CFade*			GetFade()		{ return m_pFade; }			//フェードの取得
 	static CRenderer*		GetRenderer()	{ return m_pRenderer; }		//レンダラーの取得
 	static CInput*			GetInput()		{ return m_pInput; }		//インプットの取得
@@ -83,19 +86,20 @@ private:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CGame*		m_pGame;		//ゲームクラス
-	static CTitle*		m_pTitle;		//タイトルクラス
-	static CResult*		m_pResult;		//リザルトクラス
-	static CFade*		m_pFade;		//フェードクラス
-	static MODE			m_mode;			//モード
-	static GAMEMODE		m_gameMode;		//ゲームモード
+	static CGame*			m_pGame;		//ゲーム
+	static CTitle*			m_pTitle;		//タイトル
+	static CResult*			m_pResult;		//リザルト
+	static CStageSelect*	m_pStageSelect;	//ステージ選択
+	static CFade*			m_pFade;		//フェード
+	static MODE				m_mode;			//モード
+	static GAMEMODE			m_gameMode;		//ゲームモード
 
-	static CRenderer*	m_pRenderer;	//レンダラークラス
-	static CInput*		m_pInput;		//インプットクラス
-	static CTexture*	m_pTexture;		//テクスチャクラス
-	static CSound*		m_pSound;		//サウンドクラス
-	static CLight*		m_pLight;		//ライトクラス
-	static CDebugProc*	m_pDebugproc;	//デバッグ用文字
+	static CRenderer*		m_pRenderer;	//レンダラー
+	static CInput*			m_pInput;		//インプット
+	static CTexture*		m_pTexture;		//テクスチャ
+	static CSound*			m_pSound;		//サウンド
+	static CLight*			m_pLight;		//ライト
+	static CDebugProc*		m_pDebugproc;	//デバッグ用文字
 };
 
 #endif // !_APPLICATION_H_
