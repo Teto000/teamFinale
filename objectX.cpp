@@ -13,6 +13,7 @@
 #include "application.h"
 #include "renderer.h"
 #include "light.h"
+#include "utility.h"
 
 //========================
 // コンストラクタ
@@ -73,7 +74,6 @@ void CObjectX::Uninit()
 //========================
 void CObjectX::Update()
 {
-
 }
 
 //========================
@@ -125,6 +125,19 @@ void CObjectX::Draw()
 
 	//保持しているマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+}
+
+CObjectX * CObjectX::Create(D3DXVECTOR3 pos)
+{
+	//オブジェクトXの生成
+	CObjectX* pObjX = nullptr;
+	pObjX = new CObjectX;
+
+	//初期化処理
+	pObjX->Init(pos);
+	pObjX->SetFireName("data\\MODEL\\clock\\clock.x");
+
+	return pObjX;
 }
 
 //========================

@@ -46,6 +46,11 @@ public:
 	float GetHeight() override;				//‚‚³‚Ìæ“¾
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 
+	//-------------------
+	// Ã“Iƒƒ“ƒoŠÖ”
+	//-------------------
+	static CObjectX *Create(D3DXVECTOR3 pos);	//¶¬
+
 private:
 	void DrawShadow();
 

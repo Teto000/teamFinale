@@ -24,6 +24,7 @@
 #include "meshfield.h"
 #include "player.h"
 #include "mini_game_basis.h"
+#include "objectX.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -81,6 +82,8 @@ HRESULT CGame::Init()
 	// プレイヤーの設定
 	m_pPlayer = CPlayer::Create();
 	m_pPlayer->SetMotion("data/MOTION/motion.txt");
+
+	CObjectX::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
