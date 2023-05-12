@@ -262,5 +262,9 @@
     <ClInclude Include="mini_game_buttonpush.h">
       <Filter>Main\MiniGame</Filter>
     </ClInclude>
+    <ClInclude Include="mg_buttonmash.h" />
+    <ClInclude Include="stage_select.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

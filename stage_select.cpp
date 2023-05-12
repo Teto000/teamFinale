@@ -17,6 +17,8 @@
 #include "fade.h"
 #include "camera.h"
 #include "meshfield.h"
+#include "objectX.h"
+#include "player.h"
 
 //==================================
 // コンストラクタ
@@ -25,6 +27,8 @@ CStageSelect::CStageSelect()
 {
 	m_pCamera = nullptr;	//カメラ
 	m_pMeshField = nullptr;	//メッシュフィールド(地面)
+	m_pObjectX = nullptr;	//オブジェクトX
+	m_pPlayer = nullptr;	//プレイヤー
 }
 
 //=================================
@@ -48,6 +52,18 @@ HRESULT CStageSelect::Init()
 	// 地面の生成
 	//------------------------
 	m_pMeshField = CMeshField::Create();
+
+	//------------------------
+	// プレイヤーの生成
+	//------------------------
+	m_pPlayer = CPlayer::Create();
+	m_pPlayer->SetMotion("data/MOTION/motion.txt");
+
+	//------------------------
+	// オブジェクトの生成(旗)
+	//------------------------
+	m_pObjectX = CObjectX::Create();
+	m_pObjectX->SetType(1);
 
 	return S_OK;
 }
@@ -87,7 +103,7 @@ void CStageSelect::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
+	if (CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
 	{
 		//ゲーム画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);

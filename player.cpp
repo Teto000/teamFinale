@@ -13,6 +13,7 @@
 
 #include "player.h"
 #include "game.h"
+#include "stage_select.h"
 #include "input_keyboard.h"
 #include "camera.h"
 #include "utility.h"
@@ -152,11 +153,31 @@ void CPlayer::Update()
 		D3DXVECTOR3 pos = GetPos();
 		D3DXVECTOR3 posOld = GetPosOld();
 		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
+		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
 
-		//オブジェクトの位置を取得
-		D3DXVECTOR3 targetPos = CGame::GetObjectX()->GetPosition();
+		//--------------------------------
+		// オブジェクトの位置を取得
+		//--------------------------------
+		switch (CApplication::GetMode())
+		{//モードごとの処理
 
-		//当たり判定
+		//ゲーム画面なら
+		case CApplication::MODE_GAME:
+			targetPos = CGame::GetObjectX()->GetPosition();
+			break;
+
+		//ステージ選択画面なら
+		case CApplication::MODE_STAGESELECT:
+			targetPos = CApplication::GetStage()->GetObjectX()->GetPosition();
+			break;
+
+		default:
+			break;
+		}
+
+		//--------------------------------
+		// 当たり判定
+		//--------------------------------
 		if (CUtility::Collision(pos, posOld, size
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 		{// 衝突判定が行われた。
@@ -252,8 +273,25 @@ D3DXVECTOR3 CPlayer::Move()
 			m_rotDest.y = D3DX_PI * 0.5f;
 		}
 
+		//-----------------------------------
 		// カメラ情報の取得
-		CCamera *pCamera = CGame::GetCamera(0);
+		//-----------------------------------
+		CCamera* pCamera = nullptr;
+		switch (CApplication::GetMode())
+		{//モードごとの処理
+		 //ゲーム画面なら
+		case CApplication::MODE_GAME:
+			pCamera = CGame::GetCamera(0);
+			break;
+
+			//ステージ選択画面なら
+		case CApplication::MODE_STAGESELECT:
+			pCamera = CApplication::GetStage()->GetCamera();
+			break;
+
+		default:
+			break;
+		}
 
 		// 移動方向の算出
 		m_rotDest.y += pCamera->GetRot().y;
