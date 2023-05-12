@@ -145,48 +145,8 @@ void CPlayer::Update()
 	// ワープ
 	Warp();
 
-	//-----------------------------------
-	// オブジェクトとの当たり判定
-	//-----------------------------------
-	{
-		//プレイヤーの位置を取得
-		D3DXVECTOR3 pos = GetPos();
-		D3DXVECTOR3 posOld = GetPosOld();
-		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
-		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
-
-		//--------------------------------
-		// オブジェクトの位置を取得
-		//--------------------------------
-		switch (CApplication::GetMode())
-		{//モードごとの処理
-
-		//ゲーム画面なら
-		case CApplication::MODE_GAME:
-			targetPos = CGame::GetObjectX()->GetPosition();
-			break;
-
-		//ステージ選択画面なら
-		case CApplication::MODE_STAGESELECT:
-			targetPos = CApplication::GetStage()->GetObjectX()->GetPosition();
-			break;
-
-		default:
-			break;
-		}
-
-		//--------------------------------
-		// 当たり判定
-		//--------------------------------
-		if (CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
-		{// 衝突判定が行われた。
-
-		}
-
-		//位置の更新
-		SetPos(pos);
-	}
+	//当たり判定
+	Collision();
 
 	if (pMotion != nullptr
 		&& !pMotion->GetMotion())
@@ -430,5 +390,55 @@ void CPlayer::Warp()
 
 		//現在の時代を切り替え
 		m_bFuture = !m_bFuture;
+	}
+}
+
+//=============================================================================
+// 当たり判定の処理
+// 概要 : 当たり判定の処理をまとめた関数
+//=============================================================================
+void CPlayer::Collision()
+{
+	//-----------------------------------
+	// オブジェクトとの当たり判定
+	//-----------------------------------
+	{
+		//プレイヤーの位置を取得
+		D3DXVECTOR3 pos = GetPos();
+		D3DXVECTOR3 posOld = GetPosOld();
+		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
+		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
+
+		//--------------------------------
+		// オブジェクトの位置を取得
+		//--------------------------------
+		switch (CApplication::GetMode())
+		{//モードごとの処理
+
+		 //ゲーム画面なら
+		case CApplication::MODE_GAME:
+			targetPos = CGame::GetObjectX()->GetPosition();
+			break;
+
+			//ステージ選択画面なら
+		case CApplication::MODE_STAGESELECT:
+			targetPos = CApplication::GetStage()->GetObjectX()->GetPosition();
+			break;
+
+		default:
+			break;
+		}
+
+		//--------------------------------
+		// 当たり判定
+		//--------------------------------
+		if (CUtility::Collision(pos, posOld, size
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+		{// 衝突判定が行われた。
+
+		}
+
+		//位置の更新
+		SetPos(pos);
 	}
 }
