@@ -25,6 +25,7 @@
 #include "player.h"
 #include "mini_game_basis.h"
 #include "objectX.h"
+#include "itemObj.h"
 
 //------------------------
 // ê√ìIÉÅÉìÉoïœêîêÈåæ
@@ -84,8 +85,9 @@ HRESULT CGame::Init()
 	m_pPlayer = CPlayer::Create();
 	m_pPlayer->SetMotion("data/MOTION/motion.txt");
 
-	m_pObjectX = CObjectX::Create();
+	m_pObjectX = CItemObj::Create();
 	m_pObjectX->SetType(1);
+	m_pObjectX->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
 	//BGMÇÃçƒê∂
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

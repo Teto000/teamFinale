@@ -49,7 +49,8 @@ CItemObj::CItemObj() : m_pParent(nullptr),			// 親オブジェクトの情報
 m_posOffset(D3DXVECTOR3(0.0f,0.0f,0.0f)),			// 位置の差分
 m_rotOffset(D3DXVECTOR3(0.0f, 0.0f, 0.0f))			// 向きの差分
 {
-
+	// オブジェクトタイプ
+	SetObjType(OBJTYPE_ITEM);
 }
 
 //=============================================================================
