@@ -433,7 +433,8 @@ void CPlayer::Collision()
 		 // ゲーム画面なら
 		 //----------------------------
 		case CApplication::MODE_GAME:
-			targetPos = CGame::GetObjectX()->GetPosition();
+			pObject = CApplication::GetGame()->GetObjectX();
+			targetPos = pObject->GetPosition();
 
 			//--------------------------------
 			// 当たり判定
@@ -460,6 +461,19 @@ void CPlayer::Collision()
 		case CApplication::MODE_STAGESELECT:
 			pObject = CApplication::GetStage()->GetObjectX();
 			targetPos = pObject->GetPosition();
+			
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(pos, posOld, size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				CStageSelect::SetViewMap(true);
+			}
+			else
+			{
+				CStageSelect::SetViewMap(false);
+			}
 			break;
 
 		default:
@@ -467,7 +481,7 @@ void CPlayer::Collision()
 		}
 
 		//--------------------------------
-		// 当たり判定
+		// アイテムとの当たり判定
 		//--------------------------------
 		if (CUtility::Collision(pos, posOld, size
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
