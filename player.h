@@ -82,6 +82,7 @@ private:
 	int m_nCntRimit;			// 過去に残れる時間を数える
 	int m_nParentParts;			// 親パーツの番号
 	bool m_bFuture;				// 未来にいるかどうか
+	bool m_bMiniGame;			//ミニゲーム中かどうか
 };
 
 #endif

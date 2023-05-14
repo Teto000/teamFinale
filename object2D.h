@@ -32,8 +32,8 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 	
-	CObject2D *Create(D3DXVECTOR3 pos);			//生成
-	D3DXVECTOR3 AddMove(D3DXVECTOR3 move);		//移動量の加算
+	static CObject2D *Create(D3DXVECTOR3 pos);		//生成
+	D3DXVECTOR3 AddMove(D3DXVECTOR3 move);			//移動量の加算
 
 	//----------------
 	// セッター
