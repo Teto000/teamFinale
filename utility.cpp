@@ -65,13 +65,12 @@ bool CUtility::Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 	//------------------------------------
 	if (fTargetTop >= fTop && fTargetBottom <= fBottom)
 	{//ã‰º‚Ì”ÍˆÍ“à‚È‚ç
-		bCollision = true;
-
 		//---------------------------------
 		// ‘OŒã‚Ì“–‚½‚è”»’è
 		//---------------------------------
 		if (fTargetRight >= fLeft && fTargetLeft <= fRight)
 		{//¶‰E‚Ì”ÍˆÍ“à‚È‚ç
+			//bCollision = true;
 			if (fTargetFront >= fFront && fTargetFront < posOld.z + (size.z / 2))
 			{
 				pos.z = targetPos.z + targetSize.z + (size.z / 2);

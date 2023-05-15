@@ -77,6 +77,7 @@ private:
 	int m_nNumMotion;			// 現在のモーション番号
 	int m_nCntRimit;			// 過去に残れる時間を数える
 	bool m_bFuture;				// 未来にいるかどうか
+	bool m_bMiniGame;			//ミニゲーム中かどうか
 };
 
 #endif

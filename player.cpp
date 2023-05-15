@@ -19,6 +19,7 @@
 #include "motion.h"
 #include "objectX.h"
 #include "move.h"
+#include "mini_game_basis.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -61,6 +62,7 @@ CPlayer::CPlayer()
 	m_pMove = nullptr;
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
 	m_bFuture = false;		//未来にいるかどうか
+	m_bMiniGame = false;	// ミニゲーム中かどうか
 }
 
 //=============================================================================
@@ -160,7 +162,16 @@ void CPlayer::Update()
 		if (CUtility::Collision(pos, posOld, size
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 		{// 衝突判定が行われた。
-
+			if (m_bMiniGame)
+			{
+				//ミニゲームの生成
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+				m_bMiniGame = false;
+			}
+		}
+		else
+		{
+			m_bMiniGame = true;
 		}
 
 		//位置の更新
