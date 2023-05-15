@@ -14,6 +14,7 @@
 #include "input_joypad.h"
 #include "renderer.h"
 #include "game.h"
+#include "stage_select.h"
 #include "debug_proc.h"
 #include "utility.h"
 #include "player.h"
@@ -124,11 +125,25 @@ void CCamera::Update(void)
 	//----------------------------------------
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
-	//プレイヤーの位置を取得
+	//----------------------------------------
+	// プレイヤーの位置を取得
+	//----------------------------------------
 	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
-	if (CApplication::GetMode() == CApplication::MODE_GAME)
-	{//ゲーム画面なら
+	switch (CApplication::GetMode())
+	{//モードごとの処理
+
+	//ゲーム画面なら
+	case CApplication::MODE_GAME:
 		playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
+		break;
+
+	//ステージ選択画面なら
+	case CApplication::MODE_STAGESELECT:
+		playerPos = CApplication::GetStage()->GetPlayer()->GetPosition();
+		break;
+
+	default:
+		break;
 	}
 
 	//ワールドマトリックスの初期化

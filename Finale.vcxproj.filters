@@ -33,14 +33,14 @@
     <Filter Include="Main\Object\2D\Number">
       <UniqueIdentifier>{3d2dae15-ea42-4f4f-95b4-8c93f5006da6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\Object\Mesh">
-      <UniqueIdentifier>{eaed9934-cba2-4c53-88c6-4ab05c97c9e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main\MiniGame">
       <UniqueIdentifier>{8e8000e1-d380-4c14-8f4a-db797f3ad9e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Main\Model">
       <UniqueIdentifier>{70c34df7-9db1-43bd-b474-8b523a259b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\X\Mesh">
+      <UniqueIdentifier>{eaed9934-cba2-4c53-88c6-4ab05c97c9e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,13 +117,13 @@
       <Filter>Main\Object</Filter>
     </ClCompile>
     <ClCompile Include="sky.cpp">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="mesh.cpp">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="meshfield.cpp">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="move.cpp">
       <Filter>Main\Application</Filter>
@@ -154,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="stage_select.cpp">
       <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="itemObj.cpp">
+      <Filter>Main\Object\X</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,13 +233,13 @@
       <Filter>Main\Object</Filter>
     </ClInclude>
     <ClInclude Include="sky.h">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="meshfield.h">
-      <Filter>Main\Object\Mesh</Filter>
+      <Filter>Main\Object\X\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="move.h">
       <Filter>Main\Application</Filter>
@@ -261,6 +264,13 @@
     </ClInclude>
     <ClInclude Include="mini_game_buttonpush.h">
       <Filter>Main\MiniGame</Filter>
+    </ClInclude>
+    <ClInclude Include="mg_buttonmash.h" />
+    <ClInclude Include="stage_select.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="itemObj.h">
+      <Filter>Main\Object\X</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

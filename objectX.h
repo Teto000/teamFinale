@@ -56,6 +56,7 @@ public:
 	void SetType(const int nType);			// É^ÉCÉvÇÃê›íË
 	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
+	CModel3D *GetModel() { return m_pModel; }
 
 private:
 	//----------------

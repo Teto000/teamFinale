@@ -17,6 +17,8 @@
 //----------------------------------
 class CCamera;		//カメラ
 class CMeshField;	//メッシュフィールド(地面)
+class CObjectX;		//オブジェクトX
+class CPlayer;		//プレイヤー
 
 //==================================
 // タイトルクラスの定義
@@ -37,7 +39,9 @@ public:
 	//-------------------------
 	// ゲッター
 	//-------------------------
-	CCamera* GetCamera() { return m_pCamera; }	//カメラを取得
+	CCamera*	GetCamera()		{ return m_pCamera; }	//カメラを取得
+	CObjectX*	GetObjectX()	{ return m_pObjectX; }	//オブジェクトの取得
+	CPlayer*	GetPlayer()		{ return m_pPlayer; }	//プレイヤーの取得
 
 private:
 	//-------------------------
@@ -45,6 +49,8 @@ private:
 	//-------------------------
 	CCamera*	m_pCamera;		//カメラ
 	CMeshField*	m_pMeshField;	//メッシュフィールド
+	CObjectX*	m_pObjectX;		//オブジェクト
+	CPlayer*	m_pPlayer;		//プレイヤー
 };
 
 #endif
