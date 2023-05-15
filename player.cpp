@@ -417,36 +417,53 @@ void CPlayer::Collision()
 		switch (CApplication::GetMode())
 		{//モードごとの処理
 
-		 //ゲーム画面なら
+		 //----------------------------
+		 // ゲーム画面なら
+		 //----------------------------
 		case CApplication::MODE_GAME:
 			targetPos = CGame::GetObjectX()->GetPosition();
+
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(pos, posOld, size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				if (m_bMiniGame)
+				{
+					//ミニゲームの生成
+					CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+					m_bMiniGame = false;
+				}
+			}
+			else
+			{
+				m_bMiniGame = true;
+			}
 			break;
 
-			//ステージ選択画面なら
+		//----------------------------
+		// ステージ選択画面なら
+		//----------------------------
 		case CApplication::MODE_STAGESELECT:
 			targetPos = CApplication::GetStage()->GetObjectX()->GetPosition();
+
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(pos, posOld, size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				CStageSelect::SetViewMap(true);
+			}
+			else
+			{
+				CStageSelect::SetViewMap(false);
+			}
 			break;
 
 		default:
 			break;
-		}
-
-		//--------------------------------
-		// 当たり判定
-		//--------------------------------
-		if (CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
-		{// 衝突判定が行われた。
-			if (m_bMiniGame)
-			{
-				//ミニゲームの生成
-				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-				m_bMiniGame = false;
-			}
-		}
-		else
-		{
-			m_bMiniGame = true;
 		}
 
 		//位置の更新
