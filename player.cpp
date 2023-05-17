@@ -269,7 +269,7 @@ D3DXVECTOR3 CPlayer::Move()
 		{//モードごとの処理
 		 //ゲーム画面なら
 		case CApplication::MODE_GAME:
-			pCamera = CGame::GetCamera(0);
+			pCamera = CGame::GetCamera();
 			break;
 
 			//ステージ選択画面なら
