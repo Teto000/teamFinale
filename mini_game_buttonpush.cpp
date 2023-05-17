@@ -109,7 +109,7 @@ void CButtonPushGame::Update()
 
 		//タイミングよくボタンを押したら
 		if (m_col[1].a <= 1.0f
-			&& m_col[1].a > 0.95f)
+			&& m_col[1].a > 0.90f)
 		{
 			m_col[1].r = 0.0f;
 
