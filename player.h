@@ -60,7 +60,8 @@ public:
 	void Uninit() override;						// 終了
 	void Update() override;						// 更新
 	void Draw() override;						// 描画
-	void Acquisition(CItemObj *pItem);			// アイテム取得処理
+	void Retention(CItemObj *pItem);			// アイテム保持
+	void Drop();								// アイテムの保持解除
 
 	// セッター
 
@@ -76,7 +77,6 @@ private:
 	void Rotate();			// 回転
 	void Warp();			// ワープ
 	void Collision();		// 当たり判定
-	void Drop();			// アイテムの保持解除
 
 	//--------------------------------------------------------------------
 	// メンバ変数

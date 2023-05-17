@@ -185,7 +185,7 @@ void CPlayer::Draw()
 // Author : 唐﨑結斗
 // 概要 : 自分がアイテムを持っていなかったら、アイテムを取得する
 //=============================================================================
-void CPlayer::Acquisition(CItemObj * pItem)
+void CPlayer::Retention(CItemObj * pItem)
 {
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
@@ -504,7 +504,7 @@ void CPlayer::Collision()
 		{// 衝突判定が行われた。
 			if (CInputKeyboard::Trigger(DIK_H))
 			{// アイテムを取得する
-				Acquisition((CItemObj*)pObject);
+				Retention((CItemObj*)pObject);
 			}
 		}
 

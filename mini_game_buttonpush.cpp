@@ -131,7 +131,7 @@ void CButtonPushGame::Update()
 					pPlayerItem->SetType(0);
 
 					// プレイヤーのアイテムの設定
-					pPlayer->Acquisition(pPlayerItem);
+					pPlayer->Retention(pPlayerItem);
 				}
 			}
 		}
