@@ -18,6 +18,7 @@
 //--------------------------------
 class CMove;
 class CObjectX;
+class CItemObj;
 
 //=============================================================================
 // プレイヤークラス
@@ -68,15 +69,18 @@ private:
 	void Rotate();			// 回転
 	void Warp();			// ワープ
 	void Collision();		// 当たり判定
+	void Drop();			// アイテムの保持解除
 
 	//--------------------------------------------------------------------
 	// メンバ変数
 	//--------------------------------------------------------------------
 	CMove *m_pMove;				// 移動情報
+	CItemObj *m_pMyItem;		// 所持アイテム
 	ACTION_TYPE m_EAction;		// アクションタイプ
 	D3DXVECTOR3 m_rotDest;		// 目的の向き
 	int m_nNumMotion;			// 現在のモーション番号
 	int m_nCntRimit;			// 過去に残れる時間を数える
+	int m_nParentParts;			// 親パーツの番号
 	bool m_bFuture;				// 未来にいるかどうか
 	bool m_bMiniGame;			//ミニゲーム中かどうか
 };

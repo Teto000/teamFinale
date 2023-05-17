@@ -38,6 +38,7 @@ public:
 		OBJTYPE_NUMBER,		//数値
 		OBJTYPE_STYLESHIFT,	//スタイルシフト
 		OBJTYPE_MINIGAME,	//ミニゲーム
+		OBJTYPE_ITEM,		// アイテム
 		OBJTYPE_MAX,
 	};
 

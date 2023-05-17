@@ -20,6 +20,7 @@
 #include "motion.h"
 #include "objectX.h"
 #include "move.h"
+#include "itemObj.h"
 #include "mini_game_basis.h"
 
 //*****************************************************************************
@@ -64,6 +65,7 @@ CPlayer::CPlayer()
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
 	m_bFuture = false;		//未来にいるかどうか
 	m_bMiniGame = false;	// ミニゲーム中かどうか
+	m_pMyItem = nullptr;
 }
 
 //=============================================================================
@@ -94,6 +96,7 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 
 	// 移動情報の初期化
 	m_pMove->SetMoving(NOM_SPEED, MAX_SPEED, MIN_SPEED, NOM_FRICTION);
+	m_nParentParts = 3;
 
 	return E_NOTIMPL;
 }
@@ -146,6 +149,11 @@ void CPlayer::Update()
 
 	// ワープ
 	Warp();
+
+	if (CInputKeyboard::Trigger(DIK_F))
+	{// アイテムの保持の解除
+		Drop();
+	}
 
 	//当たり判定
 	Collision();
@@ -405,11 +413,15 @@ void CPlayer::Collision()
 	// オブジェクトとの当たり判定
 	//-----------------------------------
 	{
+		// モーション情報の取得
+		CMotion *pMotion = CMotionModel3D::GetMotion();
+
 		//プレイヤーの位置を取得
 		D3DXVECTOR3 pos = GetPos();
 		D3DXVECTOR3 posOld = GetPosOld();
 		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
 		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
+		CObjectX *pObject = nullptr;
 
 		//--------------------------------
 		// オブジェクトの位置を取得
@@ -417,14 +429,51 @@ void CPlayer::Collision()
 		switch (CApplication::GetMode())
 		{//モードごとの処理
 
-		 //ゲーム画面なら
+		 //----------------------------
+		 // ゲーム画面なら
+		 //----------------------------
 		case CApplication::MODE_GAME:
-			targetPos = CGame::GetObjectX()->GetPosition();
+			pObject = CApplication::GetGame()->GetObjectX();
+			targetPos = pObject->GetPosition();
+
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(pos, posOld, size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				if (m_bMiniGame)
+				{
+					//ミニゲームの生成
+					CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+					m_bMiniGame = false;
+				}
+			}
+			else
+			{
+				m_bMiniGame = true;
+			}
 			break;
 
-			//ステージ選択画面なら
+		//----------------------------
+		// ステージ選択画面なら
+		//----------------------------
 		case CApplication::MODE_STAGESELECT:
-			targetPos = CApplication::GetStage()->GetObjectX()->GetPosition();
+			pObject = CApplication::GetStage()->GetObjectX();
+			targetPos = pObject->GetPosition();
+			
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(pos, posOld, size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				CStageSelect::SetViewMap(true);
+			}
+			else
+			{
+				CStageSelect::SetViewMap(false);
+			}
 			break;
 
 		default:
@@ -432,24 +481,36 @@ void CPlayer::Collision()
 		}
 
 		//--------------------------------
-		// 当たり判定
+		// アイテムとの当たり判定
 		//--------------------------------
 		if (CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
 		{// 衝突判定が行われた。
-			if (m_bMiniGame)
-			{
-				//ミニゲームの生成
-				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-				m_bMiniGame = false;
+			if (m_pMyItem == nullptr
+				&& CInputKeyboard::Trigger(DIK_H))
+			{// アイテムを所持していない
+				CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
+				m_pMyItem = (CItemObj*)pObject;
+				m_pMyItem->SetParent(pParts);
 			}
-		}
-		else
-		{
-			m_bMiniGame = true;
 		}
 
 		//位置の更新
 		SetPos(pos);
+	}
+}
+
+//=============================================================================
+// アイテムの保持解除
+// Author : 唐﨑結斗
+// 概要 : アイテムの保持を解除する
+//=============================================================================
+void CPlayer::Drop()
+{
+	if (m_pMyItem != nullptr)
+	{
+		m_pMyItem->SetParent();
+		m_pMyItem = nullptr;
 	}
 }

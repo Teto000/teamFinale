@@ -19,6 +19,12 @@
 #include "meshfield.h"
 #include "objectX.h"
 #include "player.h"
+#include "object2D.h"
+
+//----------------------------------
+// 静的メンバ変数宣言
+//----------------------------------
+bool CStageSelect::m_bViewMap = false;	//マップを表示する状態
 
 //==================================
 // コンストラクタ
@@ -29,6 +35,7 @@ CStageSelect::CStageSelect()
 	m_pMeshField = nullptr;	//メッシュフィールド(地面)
 	m_pObjectX = nullptr;	//オブジェクトX
 	m_pPlayer = nullptr;	//プレイヤー
+	m_pObject2D = nullptr;	//オブジェクト2D
 }
 
 //=================================
@@ -65,6 +72,15 @@ HRESULT CStageSelect::Init()
 	m_pObjectX = CObjectX::Create();
 	m_pObjectX->SetType(1);
 
+	//------------------------
+	// 画像の生成
+	//------------------------
+	D3DXVECTOR3 pos((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 0.0f);	//位置
+	m_pObject2D = CObject2D::Create(pos);							//生成
+	m_pObject2D->SetSize(0.0f, 0.0f);								//大きさ
+	m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);				//テクスチャ
+	m_pObject2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));		//色
+
 	return S_OK;
 }
 
@@ -95,6 +111,18 @@ void CStageSelect::Update()
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Update();
+	}
+
+	//-----------------------
+	// 画像表示の切り替え
+	//-----------------------
+	if (m_bViewMap == true)
+	{//マップを表示する状態なら
+		m_pObject2D->SetSize(300.0f, 300.0f);
+	}
+	else
+	{
+		m_pObject2D->SetSize(0.0f, 0.0f);
 	}
 
 	// ジョイパッドでの操作
