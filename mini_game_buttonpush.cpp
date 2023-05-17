@@ -17,6 +17,11 @@
 #include "application.h"
 #include "fade.h"
 #include "game.h"
+#include "itemObj.h"
+#include "player.h"
+#include "game.h"
+#include "motion.h"
+#include "model3D.h"
 
 //=======================
 // コンストラクタ
@@ -115,6 +120,19 @@ void CButtonPushGame::Update()
 				pObj2D[1]->Uninit();
 				pObj2D[0] = nullptr;
 				pObj2D[1] = nullptr;
+
+				// プレイヤーの取得
+				CPlayer *pPlayer = CGame::GetPlayer();
+				CItemObj *pPlayerItem = pPlayer->GetMyItem();
+
+				if (pPlayerItem == nullptr)
+				{// アイテムを取得していない
+					pPlayerItem = CItemObj::Create();
+					pPlayerItem->SetType(0);
+
+					// プレイヤーのアイテムの設定
+					pPlayer->Acquisition(pPlayerItem);
+				}
 			}
 		}
 		else

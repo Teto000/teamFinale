@@ -42,7 +42,7 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
-	CPlayer* GetPlayer() { return m_pPlayer; }	//プレイヤーの取得
+	static CPlayer* GetPlayer() { return m_pPlayer; }	//プレイヤーの取得
 	
 	static CObjectX* GetObjectX() { return m_pObjectX; }	//オブジェクトの取得
 	static bool GetFinish() { return m_bFinish; }		//ゲーム終了状態を取得
@@ -58,7 +58,6 @@ private:
 	//-------------------
 	// メンバ変数
 	//-------------------
-	CPlayer* m_pPlayer;	//プレイヤー
 
 	//-------------------
 	// 静的メンバ変数
@@ -70,6 +69,7 @@ private:
 	static CSky*		m_pSky;						//空
 	static CMeshField*	m_pMeshField;				//メッシュフィールド
 	static CObjectX*	m_pObjectX;					//オブジェクト
+	static CPlayer*		m_pPlayer;	//プレイヤー
 };
 
 #endif

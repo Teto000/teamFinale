@@ -181,6 +181,24 @@ void CPlayer::Draw()
 }
 
 //=============================================================================
+// アイテムの取得処理
+// Author : 唐﨑結斗
+// 概要 : 自分がアイテムを持っていなかったら、アイテムを取得する
+//=============================================================================
+void CPlayer::Acquisition(CItemObj * pItem)
+{
+	// モーション情報の取得
+	CMotion *pMotion = CMotionModel3D::GetMotion();
+
+	if (m_pMyItem == nullptr)
+	{// アイテムを所持していない
+		CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
+		m_pMyItem = pItem;
+		m_pMyItem->SetParent(pParts);
+	}
+}
+
+//=============================================================================
 // 移動
 // Author : 唐﨑結斗
 // 概要 : 移動キーを入力で、指定方向への移動ベクトルを返す
@@ -413,9 +431,6 @@ void CPlayer::Collision()
 	// オブジェクトとの当たり判定
 	//-----------------------------------
 	{
-		// モーション情報の取得
-		CMotion *pMotion = CMotionModel3D::GetMotion();
-
 		//プレイヤーの位置を取得
 		D3DXVECTOR3 pos = GetPos();
 		D3DXVECTOR3 posOld = GetPosOld();
@@ -487,12 +502,9 @@ void CPlayer::Collision()
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
 		{// 衝突判定が行われた。
-			if (m_pMyItem == nullptr
-				&& CInputKeyboard::Trigger(DIK_H))
-			{// アイテムを所持していない
-				CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
-				m_pMyItem = (CItemObj*)pObject;
-				m_pMyItem->SetParent(pParts);
+			if (CInputKeyboard::Trigger(DIK_H))
+			{// アイテムを取得する
+				Acquisition((CItemObj*)pObject);
 			}
 		}
 
