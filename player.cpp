@@ -63,6 +63,7 @@ CPlayer::CPlayer()
 {
 	m_pMove = nullptr;
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
+	m_nNumber = 0;			// プレイヤー番号
 	m_bFuture = false;		//未来にいるかどうか
 	m_bMiniGame = false;	// ミニゲーム中かどうか
 	m_pMyItem = nullptr;
@@ -138,8 +139,22 @@ void CPlayer::Update()
 	// 過去位置の更新
 	SetPosOld(pos);
 
+	//----------------------------
 	// 移動
-	pos += Move();
+	//----------------------------
+	switch (m_nNumber)
+	{
+	case 0:
+		pos += Move(DIK_W, DIK_S, DIK_A, DIK_D);
+		break;
+
+	case 1:
+		pos += Move(DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT);
+		break;
+
+	default:
+		break;
+	}
 
 	// 位置の設定
 	SetPos(pos);
@@ -202,8 +217,9 @@ void CPlayer::Retention(CItemObj * pItem)
 // 移動
 // Author : 唐﨑結斗
 // 概要 : 移動キーを入力で、指定方向への移動ベクトルを返す
+// 引数 : 上下左右キー
 //=============================================================================
-D3DXVECTOR3 CPlayer::Move()
+D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 {
 	// 変数宣言
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -211,19 +227,19 @@ D3DXVECTOR3 CPlayer::Move()
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if ((CInputKeyboard::Press(DIK_W)
-		|| CInputKeyboard::Press(DIK_A)
-		|| CInputKeyboard::Press(DIK_D)
-		|| CInputKeyboard::Press(DIK_S)))
+	if ((CInputKeyboard::Press(nUpKey)
+		|| CInputKeyboard::Press(nLeftKey)
+		|| CInputKeyboard::Press(nRightKey)
+		|| CInputKeyboard::Press(nDownKey)))
 	{// 移動キーが押された
-		if (CInputKeyboard::Press(DIK_W))
+		if (CInputKeyboard::Press(nUpKey))
 		{// [W]キーが押された時
-			if (CInputKeyboard::Press(DIK_A))
+			if (CInputKeyboard::Press(nLeftKey))
 			{// [A]キーが押された時
 			 // 移動方向の更新
 				m_rotDest.y = D3DX_PI * -0.25f;
 			}
-			else if (CInputKeyboard::Press(DIK_D))
+			else if (CInputKeyboard::Press(nRightKey))
 			{// [D]キーが押された時
 			 // 移動方向の更新
 				m_rotDest.y = D3DX_PI * 0.25f;
@@ -233,14 +249,14 @@ D3DXVECTOR3 CPlayer::Move()
 				m_rotDest.y = D3DX_PI * 0.0f;
 			}
 		}
-		else if (CInputKeyboard::Press(DIK_S))
+		else if (CInputKeyboard::Press(nDownKey))
 		{// [S]キーが押された時
-			if (CInputKeyboard::Press(DIK_A))
+			if (CInputKeyboard::Press(nLeftKey))
 			{// [A]キーが押された時
 			 // 移動方向の更新
 				m_rotDest.y = D3DX_PI * -0.75f;
 			}
-			else if (CInputKeyboard::Press(DIK_D))
+			else if (CInputKeyboard::Press(nRightKey))
 			{// [D]キーが押された時
 			 // 移動方向の更新
 				m_rotDest.y = D3DX_PI * 0.75f;
@@ -250,12 +266,12 @@ D3DXVECTOR3 CPlayer::Move()
 				m_rotDest.y = D3DX_PI;
 			}
 		}
-		else if (CInputKeyboard::Press(DIK_A))
+		else if (CInputKeyboard::Press(nLeftKey))
 		{// [A]キーが押された時
 		 // 移動方向の更新
 			m_rotDest.y = D3DX_PI * -0.5f;
 		}
-		else if (CInputKeyboard::Press(DIK_D))
+		else if (CInputKeyboard::Press(nRightKey))
 		{// [D]キーが押された時
 		 // 移動方向の更新
 			m_rotDest.y = D3DX_PI * 0.5f;

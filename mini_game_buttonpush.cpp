@@ -122,7 +122,7 @@ void CButtonPushGame::Update()
 				pObj2D[1] = nullptr;
 
 				// ƒvƒŒƒCƒ„[‚ÌŽæ“¾
-				CPlayer *pPlayer = CGame::GetPlayer();
+				CPlayer *pPlayer = CGame::GetPlayer(0);
 				CItemObj *pPlayerItem = pPlayer->GetMyItem();
 
 				if (pPlayerItem == nullptr)

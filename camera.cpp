@@ -132,11 +132,6 @@ void CCamera::Update(void)
 	switch (CApplication::GetMode())
 	{//モードごとの処理
 
-	//ゲーム画面なら
-	case CApplication::MODE_GAME:
-		playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
-		break;
-
 	//ステージ選択画面なら
 	case CApplication::MODE_STAGESELECT:
 		playerPos = CApplication::GetStage()->GetPlayer()->GetPosition();

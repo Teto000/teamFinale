@@ -36,14 +36,14 @@ CTime*		CGame::m_pTime = nullptr;			//タイマー
 CSky*		CGame::m_pSky = nullptr;			//空
 CMeshField*	CGame::m_pMeshField = nullptr;		//地面
 CObjectX*	CGame::m_pObjectX = nullptr;		//オブジェクト
-CPlayer*	CGame::m_pPlayer = nullptr;			//プレイヤー
+CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 
 //===========================
 // コンストラクタ
 //===========================
 CGame::CGame()
 {
-	m_pPlayer = nullptr;	//プレイヤー
+
 }
 
 //===========================
@@ -79,8 +79,12 @@ HRESULT CGame::Init()
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
 
 	// プレイヤーの設定
-	m_pPlayer = CPlayer::Create();
-	m_pPlayer->SetMotion("data/MOTION/motion.txt");
+	for (int i = 0; i < nMaxPlayer; i++)
+	{
+		m_pPlayer[i] = CPlayer::Create();
+		m_pPlayer[i]->SetMotion("data/MOTION/motion.txt");
+		m_pPlayer[i]->SetNumber(i);		//プレイヤー番号の設定
+	}
 
 	m_pObjectX = CItemObj::Create();
 	m_pObjectX->SetType(1);
