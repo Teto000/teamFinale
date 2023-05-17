@@ -166,4 +166,12 @@ void CGame::Update()
 		//ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
 	}
+
+	//-------------------------------------------
+	// オブジェクトのモデルを切り替える処理
+	//-------------------------------------------
+	if (CInputKeyboard::Trigger(DIK_Z))
+	{
+		m_pObjectX->SetType(2);
+	}
 }
