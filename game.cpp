@@ -36,6 +36,7 @@ CTime*		CGame::m_pTime = nullptr;				//タイマー
 CSky*		CGame::m_pSky = nullptr;				//空
 CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 CObjectX*	CGame::m_pObjectX = nullptr;			//オブジェクト
+CPlayer*	CGame::m_pPlayer = nullptr;				//プレイヤー
 
 //===========================
 // コンストラクタ

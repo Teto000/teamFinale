@@ -60,6 +60,13 @@ public:
 	void Uninit() override;						// 終了
 	void Update() override;						// 更新
 	void Draw() override;						// 描画
+	void Acquisition(CItemObj *pItem);			// アイテム取得処理
+
+	// セッター
+
+	// ゲッター
+	CItemObj* GetMyItem() { return m_pMyItem; }			// 取得アイテムのゲッター
+	int GetParentParts() { return m_nParentParts; }		// 親パーツのゲッター
 
 private:
 	//--------------------------------------------------------------------
@@ -82,7 +89,7 @@ private:
 	int m_nCntRimit;			// 過去に残れる時間を数える
 	int m_nParentParts;			// 親パーツの番号
 	bool m_bFuture;				// 未来にいるかどうか
-	bool m_bMiniGame;			//ミニゲーム中かどうか
+	bool m_bMiniGame;			// ミニゲーム中かどうか
 };
 
 #endif
