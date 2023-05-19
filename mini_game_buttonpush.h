@@ -12,6 +12,12 @@
 //-------------------------------
 #include "mini_game_basis.h"
 
+//-------------------------------
+// マクロ定義
+//-------------------------------
+#define MAX_SPEED			(3.0f)	//速度
+#define MAX_BUTTONPOLYGON	(3)		//ポリゴンの数
+
 //================================
 // ミニゲーム基盤クラス
 //================================
@@ -19,12 +25,12 @@ class CButtonPushGame : public CMiniGameBasis
 {
 public:
 
-	enum FLASH
+	enum CLEAR
 	{
-		FLASH_NONE = 0,	//フラッシュしていない状態
-		FLASH_IN,		//フラッシュ状態
-		FLASH_OUT,		//フラッシュアウト状態
-		FADE_MAX
+		CLEAR_NONE = 0,	//透明に入っていない状態
+		CLEAR_IN,		//透明状態
+		CLEAR_OUT,		//透明じゃない状態
+		CLEAR_MAX
 	};
 
 	CButtonPushGame();				//コンストラクタ
@@ -47,9 +53,13 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	CObject2D *pObj2D[2];
-	D3DXCOLOR m_col[2];
-	FLASH m_flash;			//フラッシュ状態
+	CObject2D *pObj2D[MAX_OBJECT];
+	D3DXCOLOR m_col[MAX_OBJECT];
+	D3DXVECTOR3 m_move;		//移動
+	CLEAR m_flash;			//フラッシュ状態
+	int m_nCount;			//カウント
+	bool m_bStop;			//止まるかどうか
+	bool m_bEdge;			//端にたどり着いたかどうか
 };
 
 #endif

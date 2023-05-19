@@ -61,6 +61,8 @@ public:
 	void Update() override;						// 更新
 	void Draw() override;						// 描画
 
+	void SetMiniGame(bool bMiniGame);
+
 private:
 	//--------------------------------------------------------------------
 	// メンバ関数
@@ -82,7 +84,7 @@ private:
 	int m_nCntRimit;			// 過去に残れる時間を数える
 	int m_nParentParts;			// 親パーツの番号
 	bool m_bFuture;				// 未来にいるかどうか
-	bool m_bMiniGame;			//ミニゲーム中かどうか
+	bool m_bMiniGame;			// ミニゲーム中かどうか
 };
 
 #endif

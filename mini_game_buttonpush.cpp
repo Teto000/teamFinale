@@ -17,6 +17,7 @@
 #include "application.h"
 #include "fade.h"
 #include "game.h"
+#include "player.h"
 
 //=======================
 // コンストラクタ
@@ -42,9 +43,15 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 	//フラッシュ用カラー変数
 	m_col[0] = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.6f);
 	m_col[1] = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	m_col[2] = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//フラッシュ状態
-	m_flash = FLASH_IN;
+	m_flash = CLEAR_IN;
+
+	//端までいったかどうか
+	m_bEdge = false;
+	m_bStop = false;
+	m_nCount = 0;
 
 	//背景用黒ポリゴン
 	pObj2D[0] = CObject2D::Create(D3DXVECTOR3(640.0f,350.0f,0.0f));
@@ -52,11 +59,17 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 	pObj2D[0]->SetTexture(CTexture::TEXTURE_NONE);
 	pObj2D[0]->SetColor(m_col[0]);
 
-	//ボタンポリゴン
-	pObj2D[1] = CObject2D::Create(D3DXVECTOR3(640.0f, 500.0f, 0.0f));
-	pObj2D[1]->SetSize(300.0f, 100.0f);
-	pObj2D[1]->SetTexture(CTexture::TEXTURE_NONE);
+	//ゲージ画像
+	pObj2D[1] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
+	pObj2D[1]->SetSize(900.0f, 250.0f);
+	pObj2D[1]->SetTexture(CTexture::TEXTURE_GAUGE);
 	pObj2D[1]->SetColor(m_col[1]);
+
+	//ボタンポリゴン
+	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
+	pObj2D[2]->SetSize(25.0f, 300.0f);
+	pObj2D[2]->SetTexture(CTexture::TEXTURE_NONE);
+	pObj2D[2]->SetColor(m_col[2]);
 
 	return S_OK;
 }
@@ -74,52 +87,112 @@ void CButtonPushGame::Uninit()
 //=======================
 void CButtonPushGame::Update()
 {
+	//オブジェクトがあるなら
 	if (pObj2D[0] != nullptr
 		&&pObj2D[1] != nullptr)
-	{//オブジェクトがあるなら
-		if (m_flash == FLASH_IN)
-		{//フラッシュ状態
-			m_col[1].a -= 0.03f;	//ポリゴンを透明にしていく
-
-			if (m_col[1].a <= 0.0f)
-			{
-				m_col[1].a = 0.0f;
-				m_flash = FLASH_OUT;	//フラッシュアウト状態
-			}
-		}
-		else if (m_flash == FLASH_OUT)
-		{//フラッシュアウト状態
-			m_col[1].a += 0.02f;	//ポリゴンを不透明にしていく
-
-			if (m_col[1].a >= 1.0f)
-			{
-				m_col[1].a = 1.0f;
-				m_flash = FLASH_IN;	//フラッシュ状態に
-
-				pObj2D[1]->SetColor(m_col[1]);
-			}
-		}
-
-		pObj2D[1]->SetColor(m_col[1]);
-
-		//タイミングよくボタンを押したら
-		if (m_col[1].a <= 1.0f
-			&& m_col[1].a > 0.90f)
+	{
+		if (!m_bStop)
 		{
-			m_col[1].r = 0.0f;
+			//位置の取得
+			D3DXVECTOR3 pos = pObj2D[2]->GetPosition();
+
+			//移動量の最大値を設定
+			if (m_move.x <= -MAX_SPEED)
+			{
+				m_move.x = -MAX_SPEED;
+			}
+			else if (m_move.x >= MAX_SPEED)
+			{
+				m_move.x = MAX_SPEED;
+			}
+
+			//端まで行ったら反射
+			if (!m_bEdge)
+			{
+				if (pos.x >= 1080.0f)
+				{
+					m_move.x *= -1.0f;
+					m_bEdge = true;
+				}
+
+				//移動量を設定
+				m_move.x += MAX_SPEED;
+			}
+			else
+			{
+				if (pos.x <= 200.0f)
+				{
+					m_move.x *= -1.0f;
+					m_bEdge = false;
+				}
+
+				//移動量を設定
+				m_move.x -= MAX_SPEED;
+			}
+
+			//移動
+			pos += m_move;
+			pObj2D[2]->SetPosition(pos);
 
 			if (CInputKeyboard::Trigger(DIK_SPACE))
 			{//SPACEキーが押された時
-				//ポリゴンを全削除してnullptr代入
-				pObj2D[0]->Uninit();
-				pObj2D[1]->Uninit();
-				pObj2D[0] = nullptr;
-				pObj2D[1] = nullptr;
+			 //バーが真ん中の時
+				if (pos.x >= 615.0f
+					&& pos.x <= 665.0f)
+				{
+					//ポリゴンを全削除してnullptr代入
+					for (int nCnt = 0; nCnt < MAX_BUTTONPOLYGON; nCnt++)
+					{
+						pObj2D[nCnt]->Uninit();
+						pObj2D[nCnt] = nullptr;
+					}
+
+					//プレイヤーをゲーム中状態から解除する
+					CGame *pGame = CApplication::GetGame();
+					CPlayer *pPlayer = pGame->GetPlayer();;
+					pPlayer->SetMiniGame(true);
+				}
+				else
+				{
+					m_bStop = true;
+				}
 			}
 		}
-		else
+		else if (m_bStop)
 		{
-			m_col[1].r = 1.0f;
+			m_nCount++;
+
+			if (m_flash == CLEAR_IN)
+			{//透明状態
+				m_col[2].a -= 0.5f;	//ポリゴンを透明にしていく
+
+				if (m_col[2].a <= 0.0f)
+				{
+					m_col[2].a = 0.0f;
+					m_flash = CLEAR_OUT;	//透明じゃない状態
+				}
+			}
+			else if (m_flash == CLEAR_OUT)
+			{//透明じゃない状態
+				m_col[2].a += 0.5f;	//ポリゴンを不透明にしていく
+
+				if (m_col[2].a >= 1.0f)
+				{
+					m_col[2].a = 1.0f;
+					m_flash = CLEAR_IN;	//透明状態に
+
+					pObj2D[2]->SetColor(m_col[2]);
+				}
+			}
+
+			if (m_nCount >= 30)
+			{
+				m_col[2].a = 1.0f;
+				m_bStop = false;
+				m_nCount = 0;
+			}
+
+			pObj2D[2]->SetColor(m_col[2]);
 		}
 	}
 }

@@ -180,6 +180,11 @@ void CPlayer::Draw()
 	CMotionModel3D::Draw();
 }
 
+void CPlayer::SetMiniGame(bool bMiniGame)
+{
+	m_bMiniGame = bMiniGame;
+}
+
 //=============================================================================
 // 移動
 // Author : 唐﨑結斗
@@ -193,54 +198,57 @@ D3DXVECTOR3 CPlayer::Move()
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if ((CInputKeyboard::Press(DIK_W)
-		|| CInputKeyboard::Press(DIK_A)
-		|| CInputKeyboard::Press(DIK_D)
-		|| CInputKeyboard::Press(DIK_S)))
-	{// 移動キーが押された
-		if (CInputKeyboard::Press(DIK_W))
-		{// [W]キーが押された時
-			if (CInputKeyboard::Press(DIK_A))
+	if (m_bMiniGame)
+	{
+		if ((CInputKeyboard::Press(DIK_W)
+			|| CInputKeyboard::Press(DIK_A)
+			|| CInputKeyboard::Press(DIK_D)
+			|| CInputKeyboard::Press(DIK_S)))
+		{// 移動キーが押された
+			if (CInputKeyboard::Press(DIK_W))
+			{// [W]キーが押された時
+				if (CInputKeyboard::Press(DIK_A))
+				{// [A]キーが押された時
+				 // 移動方向の更新
+					m_rotDest.y = D3DX_PI * -0.25f;
+				}
+				else if (CInputKeyboard::Press(DIK_D))
+				{// [D]キーが押された時
+				 // 移動方向の更新
+					m_rotDest.y = D3DX_PI * 0.25f;
+				}
+				else
+				{// 移動方向の更新
+					m_rotDest.y = D3DX_PI * 0.0f;
+				}
+			}
+			else if (CInputKeyboard::Press(DIK_S))
+			{// [S]キーが押された時
+				if (CInputKeyboard::Press(DIK_A))
+				{// [A]キーが押された時
+				 // 移動方向の更新
+					m_rotDest.y = D3DX_PI * -0.75f;
+				}
+				else if (CInputKeyboard::Press(DIK_D))
+				{// [D]キーが押された時
+				 // 移動方向の更新
+					m_rotDest.y = D3DX_PI * 0.75f;
+				}
+				else
+				{// 移動方向の更新q
+					m_rotDest.y = D3DX_PI;
+				}
+			}
+			else if (CInputKeyboard::Press(DIK_A))
 			{// [A]キーが押された時
 			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * -0.25f;
+				m_rotDest.y = D3DX_PI * -0.5f;
 			}
 			else if (CInputKeyboard::Press(DIK_D))
 			{// [D]キーが押された時
 			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * 0.25f;
+				m_rotDest.y = D3DX_PI * 0.5f;
 			}
-			else
-			{// 移動方向の更新
-				m_rotDest.y = D3DX_PI * 0.0f;
-			}
-		}
-		else if (CInputKeyboard::Press(DIK_S))
-		{// [S]キーが押された時
-			if (CInputKeyboard::Press(DIK_A))
-			{// [A]キーが押された時
-			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * -0.75f;
-			}
-			else if (CInputKeyboard::Press(DIK_D))
-			{// [D]キーが押された時
-			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * 0.75f;
-			}
-			else
-			{// 移動方向の更新q
-				m_rotDest.y = D3DX_PI;
-			}
-		}
-		else if (CInputKeyboard::Press(DIK_A))
-		{// [A]キーが押された時
-		 // 移動方向の更新
-			m_rotDest.y = D3DX_PI * -0.5f;
-		}
-		else if (CInputKeyboard::Press(DIK_D))
-		{// [D]キーが押された時
-		 // 移動方向の更新
-			m_rotDest.y = D3DX_PI * 0.5f;
 		}
 
 		//-----------------------------------
