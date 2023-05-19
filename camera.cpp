@@ -70,15 +70,15 @@ void CCamera::Init(void)
 	// 視点・注視点・上方向を設定する
 	//---------------------------------
 	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);
-	m_posR = D3DXVECTOR3(0.0f, 100.0f, 0.0f);
+	m_posR = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	//-------------------------
+	//---------------------------------
 	// ビューポートの情報
-	//-------------------------
+	//---------------------------------
 	m_viewport.MaxZ = 1.0f;
 	m_viewport.MinZ = 0.0f;
 }
@@ -96,113 +96,11 @@ void CCamera::Uninit(void)
 //========================
 void CCamera::Update(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();	//デバイスの取得
-
 	//回転
 	Turn();
 
-	//----------------------------------------
-	// ロックオン状態の切り替え
-	//----------------------------------------
-	/*// ジョイパッドでの操作
-	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
-
-	if (CInputKeyboard::Trigger(DIK_SPACE)
-		|| joypad->Trigger(CInputJoypad::JOYKEY_RIGHT_THUMB))
-	{
-		//ロックオン状態を切り替え
-		m_bLockOn = !m_bLockOn;
-	}
-
-	if (CGame::GetFinish())
-	{//終了フラグが立っているなら
-		//ロックオンを解除
-		m_bLockOn = false;
-	}*/
-
-	//----------------------------------------
-	// 行列を使ったカメラ制御
-	//----------------------------------------
-	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
-
-	//----------------------------------------
-	// プレイヤーの位置を取得
-	//----------------------------------------
-	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
-	switch (CApplication::GetMode())
-	{//モードごとの処理
-
-	//ゲーム画面なら
-	case CApplication::MODE_GAME:
-		playerPos = CApplication::GetGame()->GetPlayer()->GetPosition();
-		break;
-
-	//ステージ選択画面なら
-	case CApplication::MODE_STAGESELECT:
-		playerPos = CApplication::GetStage()->GetPlayer()->GetPosition();
-		break;
-
-	default:
-		break;
-	}
-
-	//ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-
-	//行列に回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-
-	//行列に移動を反映
-	D3DXMatrixTranslation(&mtxTrans, playerPos.x, playerPos.y, playerPos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
-
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//ワールド変換行列を使ってposV,posRを求める
-	D3DXVec3TransformCoord(&m_posRDest, &m_posR, &m_mtxWorld);
-	D3DXVec3TransformCoord(&m_posVDest, &m_posV, &m_mtxWorld);
-
-	//----------------------------------------
-	// ロックオン処理
-	//----------------------------------------
-	/*//ロックオン位置
-	D3DXVECTOR3 lockOnPos;
-	if (CGame::GetEnemy())
-	{//敵がnullじゃないなら
-		lockOnPos = CGame::GetEnemy()->GetPosition();
-	}
-
-	if (m_bLockOn)
-	{//ロックオン状態なら
-		//注視点をロックオン位置に設定
-		m_posRDest = lockOnPos;
-		m_posRDest.y += 100.0f;	//注視点の座標を高くする
-
-		//プレイヤー位置とロックオン位置間のベクトルを求める
-		D3DXVECTOR3 vec = lockOnPos - playerPos;
-
-		//正規化
-		D3DXVec3Normalize(&vec, &vec);
-
-		//視点の位置を設定
-		{
-			float posV_y = m_posVDest.y;				//y座標を保存
-			m_posVDest = playerPos + (-vec) * 500.0f;	//視点の位置を変更
-			m_posVDest.y = posV_y;						//y座標を戻す
-		}
-
-		//カメラの角度をロックオン先に合わせる
-		m_rot.y = atan2f(m_posRDest.x - m_posVDest.x, m_posRDest.z - m_posVDest.z);
-	}
-
-	// 左右の角度の正規化
-	m_rot.y = CUtility::GetNorRot(m_rot.y);
-
-	//減衰
-	m_posRDest += (m_posRDest - m_posRDest) * 0.1f;
-	m_posVDest += (m_posVDest - m_posVDest) * 0.1f;*/
+	//追従処理
+	Follow();
 
 	//視点・注視点の表示
 	CDebugProc::Print("視点：%f,%f,%f", m_posVDest.x, m_posVDest.y, m_posVDest.z);
@@ -318,13 +216,13 @@ CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 
 //==================================================
 // ビューポートの大きさ設定
-// 引数 : 画面左上の座標X,Y、幅、高さ
+// 引数 : 画面左上の座標(X,Y)、幅、高さ
 //==================================================
 void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 {
 	//引数を代入
-	m_viewport.X = X;				//ビューポートの左上X座標
-	m_viewport.Y = Y;				//ビューポートの左上Y座標
+	m_viewport.X = X;				//ビューポートの左上のX座標
+	m_viewport.Y = Y;				//ビューポートの左上のY座標
 	m_viewport.Width = fWidth;		//ビューポートの幅
 	m_viewport.Height = fHeight;	//ビューポートの高さ
 }
@@ -372,6 +270,54 @@ void CCamera::Turn()
 	{
 		m_rot.x = -0.3f;
 	}
+}
+
+//========================
+// 追従処理
+//========================
+void CCamera::Follow()
+{
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+
+	//----------------------------------------
+	// 行列を使ったカメラ制御
+	//----------------------------------------
+	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
+
+	//----------------------------------------
+	// プレイヤーの位置を取得
+	//----------------------------------------
+	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
+	switch (CApplication::GetMode())
+	{//モードごとの処理
+
+	 //ステージ選択画面なら
+	case CApplication::MODE_STAGESELECT:
+		playerPos = CApplication::GetStage()->GetPlayer()->GetPosition();
+		break;
+
+	default:
+		break;
+	}
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
+
+	//行列に回転を反映
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+
+	//行列に移動を反映
+	D3DXMatrixTranslation(&mtxTrans, playerPos.x, playerPos.y, playerPos.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	//ワールド変換行列を使ってposV,posRを求める
+	D3DXVec3TransformCoord(&m_posRDest, &m_posR, &m_mtxWorld);
+	D3DXVec3TransformCoord(&m_posVDest, &m_posV, &m_mtxWorld);
 }
 
 //========================

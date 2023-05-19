@@ -63,6 +63,7 @@ CPlayer::CPlayer()
 {
 	m_pMove = nullptr;
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
+	m_nNumber = 0;			// プレイヤー番号
 	m_bFuture = false;		//未来にいるかどうか
 	m_bMiniGame = false;	// ミニゲーム中かどうか
 	m_pMyItem = nullptr;
@@ -138,8 +139,22 @@ void CPlayer::Update()
 	// 過去位置の更新
 	SetPosOld(pos);
 
+	//----------------------------
 	// 移動
-	pos += Move();
+	//----------------------------
+	switch (m_nNumber)
+	{
+	case 0:
+		pos += Move(DIK_W, DIK_S, DIK_A, DIK_D);
+		break;
+
+	case 1:
+		pos += Move(DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT);
+		break;
+
+	default:
+		break;
+	}
 
 	// 位置の設定
 	SetPos(pos);
@@ -186,11 +201,30 @@ void CPlayer::SetMiniGame(bool bMiniGame)
 }
 
 //=============================================================================
+// アイテムの取得処理
+// Author : 唐﨑結斗
+// 概要 : 自分がアイテムを持っていなかったら、アイテムを取得する
+//=============================================================================
+void CPlayer::Retention(CItemObj * pItem)
+{
+	// モーション情報の取得
+	CMotion *pMotion = CMotionModel3D::GetMotion();
+
+	if (m_pMyItem == nullptr)
+	{// アイテムを所持していない
+		CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
+		m_pMyItem = pItem;
+		m_pMyItem->SetParent(pParts);
+	}
+}
+
+//=============================================================================
 // 移動
 // Author : 唐﨑結斗
 // 概要 : 移動キーを入力で、指定方向への移動ベクトルを返す
+// 引数 : 上下左右キー
 //=============================================================================
-D3DXVECTOR3 CPlayer::Move()
+D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 {
 	// 変数宣言
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -259,7 +293,7 @@ D3DXVECTOR3 CPlayer::Move()
 		{//モードごとの処理
 		 //ゲーム画面なら
 		case CApplication::MODE_GAME:
-			pCamera = CGame::GetCamera(0);
+			pCamera = CGame::GetCamera();
 			break;
 
 			//ステージ選択画面なら
@@ -421,9 +455,6 @@ void CPlayer::Collision()
 	// オブジェクトとの当たり判定
 	//-----------------------------------
 	{
-		// モーション情報の取得
-		CMotion *pMotion = CMotionModel3D::GetMotion();
-
 		//プレイヤーの位置を取得
 		D3DXVECTOR3 pos = GetPos();
 		D3DXVECTOR3 posOld = GetPosOld();
@@ -495,12 +526,9 @@ void CPlayer::Collision()
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
 		{// 衝突判定が行われた。
-			if (m_pMyItem == nullptr
-				&& CInputKeyboard::Trigger(DIK_H))
-			{// アイテムを所持していない
-				CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
-				m_pMyItem = (CItemObj*)pObject;
-				m_pMyItem->SetParent(pParts);
+			if (CInputKeyboard::Trigger(DIK_H))
+			{// アイテムを取得する
+				Retention((CItemObj*)pObject);
 			}
 		}
 

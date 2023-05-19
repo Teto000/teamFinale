@@ -60,6 +60,15 @@ public:
 	void Uninit() override;						// 終了
 	void Update() override;						// 更新
 	void Draw() override;						// 描画
+	void Retention(CItemObj *pItem);			// アイテム保持
+	void Drop();								// アイテムの保持解除
+
+	// セッター
+	void SetNumber(int nNum) { m_nNumber = nNum; }	// プレイヤー番号の設定
+
+	// ゲッター
+	CItemObj* GetMyItem() { return m_pMyItem; }			// 取得アイテムのゲッター
+	int GetParentParts() { return m_nParentParts; }		// 親パーツのゲッター
 
 	void SetMiniGame(bool bMiniGame);
 
@@ -67,11 +76,11 @@ private:
 	//--------------------------------------------------------------------
 	// メンバ関数
 	//--------------------------------------------------------------------
-	D3DXVECTOR3 Move();		// 移動
+	D3DXVECTOR3 Move(int nUpKey, int nDownKey
+					, int nLeftKey, int nRightKey);		// 移動
 	void Rotate();			// 回転
 	void Warp();			// ワープ
 	void Collision();		// 当たり判定
-	void Drop();			// アイテムの保持解除
 
 	//--------------------------------------------------------------------
 	// メンバ変数
@@ -83,6 +92,7 @@ private:
 	int m_nNumMotion;			// 現在のモーション番号
 	int m_nCntRimit;			// 過去に残れる時間を数える
 	int m_nParentParts;			// 親パーツの番号
+	int m_nNumber;				// プレイヤー番号
 	bool m_bFuture;				// 未来にいるかどうか
 	bool m_bMiniGame;			// ミニゲーム中かどうか
 };

@@ -81,11 +81,6 @@ private:
 	void DrawFPS();
 
 	//-----------------
-	// 定数
-	//-----------------
-	static const int nMaxCamera = 2;	//カメラの最大数
-
-	//-----------------
 	// メンバ変数
 	//-----------------
 	LPDIRECT3D9 m_pD3D;					// Direct3Dオブジェクト
@@ -96,7 +91,7 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CCamera* m_pCamera[nMaxCamera]; //カメラクラス
+	static CCamera* m_pCamera;		//カメラクラス
 };
 
 #endif // !_RENDERER_H_

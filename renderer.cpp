@@ -27,7 +27,7 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-CCamera* CRenderer::m_pCamera[nMaxCamera] = {};		//カメラ
+CCamera* CRenderer::m_pCamera = nullptr;	//カメラ
 
 //=========================
 // コンストラクタ
@@ -182,68 +182,65 @@ void CRenderer::Draw()
 	//--------------------------------------
 	// カメラの設定
 	//--------------------------------------
-	for (int i = 0; i < nMaxCamera; i++)
+	switch (CApplication::GetMode())
 	{
-		switch (CApplication::GetMode())
-		{
 		//-------------------------
 		// ゲーム画面なら
 		//-------------------------
-		case CApplication::MODE_GAME:
-			//カメラの取得
-			m_pCamera[i] = CGame::GetCamera(i);
+	case CApplication::MODE_GAME:
+		//カメラの取得
+		m_pCamera = CGame::GetCamera();
 
-			//カメラの設定
-			m_pCamera[i]->SetCamera(m_pD3DDevice);
-			break;
+		//カメラの設定
+		m_pCamera->SetCamera(m_pD3DDevice);
+		break;
 
 		//-------------------------
 		// ステージ選択画面なら
 		//-------------------------
-		case CApplication::MODE_STAGESELECT:
-			//カメラの取得
-			m_pCamera[i] = CApplication::GetStage()->GetCamera();
+	case CApplication::MODE_STAGESELECT:
+		//カメラの取得
+		m_pCamera = CApplication::GetStage()->GetCamera();
 
-			//カメラの設定
-			m_pCamera[i]->SetCamera(m_pD3DDevice);
-			break;
-		}
+		//カメラの設定
+		m_pCamera->SetCamera(m_pD3DDevice);
+		break;
+	}
 
-		if (m_pCamera[i] != nullptr)
-		{//カメラがnullじゃないなら
-			//--------------------------------------
-			// ビューポートの設定
-			//--------------------------------------
-			D3DVIEWPORT9 viewport = m_pCamera[i]->GetViewport();
-			m_pD3DDevice->SetViewport(&viewport);
-		}
+	if (m_pCamera != nullptr)
+	{//カメラがnullじゃないなら
+		//--------------------------------------
+		// ビューポートの設定
+		//--------------------------------------
+		D3DVIEWPORT9 viewport = m_pCamera->GetViewport();
+		m_pD3DDevice->SetViewport(&viewport);
+	}
 
-		//-----------------------------------------
-		// バックバッファ＆Ｚバッファのクリア
-		//-----------------------------------------
-		m_pD3DDevice->Clear(0,
-							NULL,
-							(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-							D3DCOLOR_RGBA(0, 0, 0, 0),
-							1.0f,
-							0);
+	//-----------------------------------------
+	// バックバッファ＆Ｚバッファのクリア
+	//-----------------------------------------
+	m_pD3DDevice->Clear(0,
+						NULL,
+						(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+						D3DCOLOR_RGBA(0, 0, 0, 0),
+						1.0f,
+						0);
 
-		// Direct3Dによる描画の開始
-		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
-		{
-			//オブジェクトの描画
-			CObject::DrawAll();
+	// Direct3Dによる描画の開始
+	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+	{
+		//オブジェクトの描画
+		CObject::DrawAll();
 
 #ifdef _DEBUG
-			// FPS表示
-			DrawFPS();
+		// FPS表示
+		DrawFPS();
 
-			CDebugProc::Draw();
+		CDebugProc::Draw();
 #endif // _DEBUG
 
-			// Direct3Dによる描画の終了
-			m_pD3DDevice->EndScene();
-		}
+		// Direct3Dによる描画の終了
+		m_pD3DDevice->EndScene();
 	}
 
 	// バックバッファとフロントバッファの入れ替え

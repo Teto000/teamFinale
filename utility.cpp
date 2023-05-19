@@ -53,12 +53,12 @@ bool CUtility::Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 	//------------------------------------
 	// 相手の端の設定
 	//------------------------------------
-	float fTargetRight = targetPos.x + targetSize.x;	//相手の右端
-	float fTargetLeft = targetPos.x - targetSize.x;		//相手の左端
-	float fTargetTop = targetPos.y + targetSize.y;		//相手の上端
-	float fTargetBottom = targetPos.y - targetSize.y;	//相手の下端
-	float fTargetFront = targetPos.z + targetSize.z;	//相手の前端
-	float fTargetBack = targetPos.z - targetSize.z;		//相手の後端
+	float fTargetRight = targetPos.x + (targetSize.x / 2);	//相手の右端
+	float fTargetLeft = targetPos.x - (targetSize.x / 2);	//相手の左端
+	float fTargetTop = targetPos.y + (targetSize.y / 2);	//相手の上端
+	float fTargetBottom = targetPos.y - (targetSize.y / 2);	//相手の下端
+	float fTargetFront = targetPos.z + (targetSize.z / 2);	//相手の前端
+	float fTargetBack = targetPos.z - (targetSize.z / 2);	//相手の後端
 
 	//------------------------------------
 	// 当たり判定
@@ -70,14 +70,13 @@ bool CUtility::Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 		//---------------------------------
 		if (fTargetRight >= fLeft && fTargetLeft <= fRight)
 		{//左右の範囲内なら
-			//bCollision = true;
 			if (fTargetFront >= fFront && fTargetFront < posOld.z + (size.z / 2))
 			{
-				pos.z = targetPos.z + targetSize.z + (size.z / 2);
+				pos.z = fTargetFront + (size.z / 2);
 			}
 			else if (fTargetBack <= fBack && fTargetBack > posOld.z - (size.z / 2))
 			{
-				pos.z = targetPos.z - targetSize.z - (size.z / 2);
+				pos.z = fTargetBack - (size.z / 2);
 			}
 		}
 		//---------------------------------
@@ -85,16 +84,24 @@ bool CUtility::Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 		//---------------------------------
 		if (fTargetFront >= fFront && fTargetBack <= fBack)
 		{//前後の範囲内なら
-			bCollision = true;
-
 			if (fTargetRight >= fLeft && fTargetRight < posOld.x + (size.x / 2))
 			{
-				pos.x = targetPos.x + targetSize.x + (size.x / 2);
+				pos.x = fTargetRight + (size.x / 2);
 			}
 			else if (fTargetLeft <= fRight && fTargetLeft > posOld.x - (size.x / 2))
 			{
-				pos.x = targetPos.x - targetSize.x - (size.x / 2);
+				pos.x = fTargetLeft - (size.x / 2);
 			}
+		}
+
+		//---------------------------------
+		// 前後左右の範囲内なら
+		//---------------------------------
+		if (fTargetRight >= fLeft && fTargetLeft <= fRight
+			&& fTargetFront >= fFront && fTargetBack <= fBack)
+		{
+			//当たっている状態にする
+			bCollision = true;
 		}
 	}
 

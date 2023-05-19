@@ -30,19 +30,20 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-bool		CGame::m_bFinish = false;				//ゲーム終了フラグ
-CCamera*	CGame::m_pCamera[nMaxCamera] = {};		//カメラ
-CTime*		CGame::m_pTime = nullptr;				//タイマー
-CSky*		CGame::m_pSky = nullptr;				//空
-CMeshField*	CGame::m_pMeshField = nullptr;			//地面
-CObjectX*	CGame::m_pObjectX = nullptr;			//オブジェクト
+bool		CGame::m_bFinish = false;			//ゲーム終了フラグ
+CCamera*	CGame::m_pCamera = nullptr;			//カメラ
+CTime*		CGame::m_pTime = nullptr;			//タイマー
+CSky*		CGame::m_pSky = nullptr;			//空
+CMeshField*	CGame::m_pMeshField = nullptr;		//地面
+CObjectX*	CGame::m_pObjectX = nullptr;		//オブジェクト
+CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 
 //===========================
 // コンストラクタ
 //===========================
 CGame::CGame()
 {
-	m_pPlayer = nullptr;	//プレイヤー
+
 }
 
 //===========================
@@ -64,12 +65,8 @@ HRESULT CGame::Init()
 	//------------------------
 	// カメラの生成
 	//------------------------
-	m_pCamera[0] = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
-								, (DWORD)(SCREEN_WIDTH / 2)
-								, (DWORD)SCREEN_HEIGHT);
-
-	m_pCamera[1] = CCamera::Create((DWORD)(SCREEN_WIDTH/ 2), (DWORD)0.0f
-								, (DWORD)(SCREEN_WIDTH / 2)
+	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
+								, (DWORD)SCREEN_WIDTH
 								, (DWORD)SCREEN_HEIGHT);
 
 	//メッシュフィールドの生成
@@ -82,8 +79,12 @@ HRESULT CGame::Init()
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
 
 	// プレイヤーの設定
-	m_pPlayer = CPlayer::Create();
-	m_pPlayer->SetMotion("data/MOTION/motion.txt");
+	for (int i = 0; i < nMaxPlayer; i++)
+	{
+		m_pPlayer[i] = CPlayer::Create();
+		m_pPlayer[i]->SetMotion("data/MOTION/motion.txt");
+		m_pPlayer[i]->SetNumber(i);		//プレイヤー番号の設定
+	}
 
 	m_pObjectX = CItemObj::Create();
 	m_pObjectX->SetType(1);
@@ -106,14 +107,11 @@ void CGame::Uninit()
 	//---------------------
 	// カメラの終了
 	//---------------------
-	for (int i = 0; i < nMaxCamera; i++)
+	if (m_pCamera != nullptr)
 	{
-		if (m_pCamera[i] != nullptr)
-		{
-			m_pCamera[i]->Uninit();
-			delete m_pCamera[i];
-			m_pCamera[i] = nullptr;
-		}
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = nullptr;
 	}
 }
 
@@ -125,12 +123,9 @@ void CGame::Update()
 	//----------------------------
 	// カメラの更新
 	//----------------------------
-	for (int i = 0; i < nMaxCamera; i++)
+	if (m_pCamera != nullptr)
 	{
-		if (m_pCamera[i] != nullptr)
-		{
-			m_pCamera[i]->Update();
-		}
+		m_pCamera->Update();
 	}
 
 	// ジョイパッドでの操作
@@ -146,12 +141,6 @@ void CGame::Update()
 
 		//リザルト画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-
-		//画面サイズを拡大
-		for (int i = 0; i < nMaxCamera; i++)
-		{
-			m_pCamera[i]->SetViewSize(0, 0, 1280, 720);
-		}
 	}
 
 	if (CInputKeyboard::Trigger(DIK_T))
@@ -164,5 +153,13 @@ void CGame::Update()
 	{//Lキーを押したら
 		//ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
+	}
+
+	//-------------------------------------------
+	// オブジェクトのモデルを切り替える処理
+	//-------------------------------------------
+	if (CInputKeyboard::Trigger(DIK_Z))
+	{
+		m_pObjectX->SetType(2);
 	}
 }

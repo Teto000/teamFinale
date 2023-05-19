@@ -17,7 +17,11 @@
 #include "application.h"
 #include "fade.h"
 #include "game.h"
+#include "itemObj.h"
 #include "player.h"
+#include "game.h"
+#include "motion.h"
+#include "model3D.h"
 
 //=======================
 // コンストラクタ
