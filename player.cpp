@@ -232,57 +232,55 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if (m_bMiniGame)
-	{
-		if ((CInputKeyboard::Press(nUpKey)
+	if (m_bMiniGame
+		&& (CInputKeyboard::Press(nUpKey)
 			|| CInputKeyboard::Press(nLeftKey)
 			|| CInputKeyboard::Press(nRightKey)
 			|| CInputKeyboard::Press(nDownKey)))
-		{// 移動キーが押された
-			if (CInputKeyboard::Press(nUpKey))
-			{// [W]キーが押された時
-				if (CInputKeyboard::Press(nLeftKey))
-				{// [A]キーが押された時
-				 // 移動方向の更新
-					m_rotDest.y = D3DX_PI * -0.25f;
-				}
-				else if (CInputKeyboard::Press(nRightKey))
-				{// [D]キーが押された時
-				 // 移動方向の更新
-					m_rotDest.y = D3DX_PI * 0.25f;
-				}
-				else
-				{// 移動方向の更新
-					m_rotDest.y = D3DX_PI * 0.0f;
-				}
-			}
-			else if (CInputKeyboard::Press(nDownKey))
-			{// [S]キーが押された時
-				if (CInputKeyboard::Press(nLeftKey))
-				{// [A]キーが押された時
-				 // 移動方向の更新
-					m_rotDest.y = D3DX_PI * -0.75f;
-				}
-				else if (CInputKeyboard::Press(nRightKey))
-				{// [D]キーが押された時
-				 // 移動方向の更新
-					m_rotDest.y = D3DX_PI * 0.75f;
-				}
-				else
-				{// 移動方向の更新q
-					m_rotDest.y = D3DX_PI;
-				}
-			}
-			else if (CInputKeyboard::Press(nLeftKey))
+	{// 移動キーが押された
+		if (CInputKeyboard::Press(nUpKey))
+		{// [W]キーが押された時
+			if (CInputKeyboard::Press(nLeftKey))
 			{// [A]キーが押された時
 			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * -0.5f;
+				m_rotDest.y = D3DX_PI * -0.25f;
 			}
 			else if (CInputKeyboard::Press(nRightKey))
 			{// [D]キーが押された時
 			 // 移動方向の更新
-				m_rotDest.y = D3DX_PI * 0.5f;
+				m_rotDest.y = D3DX_PI * 0.25f;
 			}
+			else
+			{// 移動方向の更新
+				m_rotDest.y = D3DX_PI * 0.0f;
+			}
+		}
+		else if (CInputKeyboard::Press(nDownKey))
+		{// [S]キーが押された時
+			if (CInputKeyboard::Press(nLeftKey))
+			{// [A]キーが押された時
+			 // 移動方向の更新
+				m_rotDest.y = D3DX_PI * -0.75f;
+			}
+			else if (CInputKeyboard::Press(nRightKey))
+			{// [D]キーが押された時
+			 // 移動方向の更新
+				m_rotDest.y = D3DX_PI * 0.75f;
+			}
+			else
+			{// 移動方向の更新q
+				m_rotDest.y = D3DX_PI;
+			}
+		}
+		else if (CInputKeyboard::Press(nLeftKey))
+		{// [A]キーが押された時
+		 // 移動方向の更新
+			m_rotDest.y = D3DX_PI * -0.5f;
+		}
+		else if (CInputKeyboard::Press(nRightKey))
+		{// [D]キーが押された時
+		 // 移動方向の更新
+			m_rotDest.y = D3DX_PI * 0.5f;
 		}
 
 		//-----------------------------------
@@ -320,14 +318,11 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 		// 移動方向の正規化
 		m_rotDest.y = CUtility::GetNorRot(m_rotDest.y);
 
-		if (m_EAction == NEUTRAL_ACTION)
+		if (pMotion != nullptr
+			&& m_EAction == NEUTRAL_ACTION)
 		{// 移動
 			m_EAction = MOVE_ACTION;
-
-			if (pMotion != nullptr)
-			{
-				pMotion->SetNumMotion(m_EAction);
-			}
+			pMotion->SetNumMotion(m_EAction);
 		}
 	}
 
