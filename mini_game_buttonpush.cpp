@@ -153,7 +153,7 @@ void CButtonPushGame::Update()
 
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CApplication::GetGame();
-					CPlayer *pPlayer = pGame->GetPlayer();;
+					CPlayer *pPlayer = pGame->GetPlayer(0);
 					pPlayer->SetMiniGame(true);
 				}
 				else
