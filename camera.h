@@ -50,6 +50,7 @@ public:
 
 private:
 	void Turn();	//ù‰ñ
+	void Follow();	//’Ç]
 
 private:
 	//------------------
