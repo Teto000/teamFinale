@@ -43,7 +43,10 @@ CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 //===========================
 CGame::CGame()
 {
-
+	for (int i = 0; i < nMaxObjBG; i++)
+	{
+		m_pObjBG[i];
+	}
 }
 
 //===========================
@@ -89,6 +92,14 @@ HRESULT CGame::Init()
 	m_pObjectX = CItemObj::Create();
 	m_pObjectX->SetType(1);
 	m_pObjectX->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+
+	//背景オブジェクトの生成
+	for (int i = 0; i < nMaxObjBG; i++)
+	{
+		m_pObjBG[i] = CObjectX::Create();
+		m_pObjBG[i]->SetType(10);
+		m_pObjBG[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
+	}
 
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);

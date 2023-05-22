@@ -1,5 +1,5 @@
 // モデルの最大数
-MAX_TYPE = 10
+MAX_TYPE = 11
 
 //***************************
 // Xファイル名の読み込み
@@ -14,4 +14,14 @@ MODEL_FILENAME = data/MODEL/player000/06_legR.x			# [6]
 MODEL_FILENAME = data/MODEL/player000/07_footR.x		# [7]
 MODEL_FILENAME = data/MODEL/player000/08_legL.x			# [8]
 MODEL_FILENAME = data/MODEL/player000/09_footL.x		# [9]
+MODEL_FILENAME = data/MODEL/bill000.x					# [10]
+MODEL_FILENAME = data/MODEL/bill001.x					# [11]
+MODEL_FILENAME = data/MODEL/bill002.x					# [12]
+MODEL_FILENAME = data/MODEL/bill003.x					# [13]
+MODEL_FILENAME = data/MODEL/bill004.x					# [14]
+MODEL_FILENAME = data/MODEL/bill005.x					# [15]
+MODEL_FILENAME = data/MODEL/bill006.x					# [16]
+
+
+
                                                            

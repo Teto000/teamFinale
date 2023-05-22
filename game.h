@@ -43,20 +43,22 @@ public:
 	// ゲッター
 	//------------------
 	static CPlayer* GetPlayer(int nNumber) { return m_pPlayer[nNumber]; }	//プレイヤーの取得
-	
 	static CObjectX* GetObjectX() { return m_pObjectX; }	//オブジェクトの取得
-	static bool GetFinish() { return m_bFinish; }			//ゲーム終了状態を取得
 	static CCamera*	GetCamera() { return m_pCamera; }		//カメラの取得
+	static const int GetMaxPlayer() { return nMaxPlayer; }	//プレイヤーの最大数を取得
+	static bool GetFinish() { return m_bFinish; }			//ゲーム終了状態を取得
 
 private:
 	//-------------------
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
+	static const int nMaxObjBG = 4;		//背景オブジェクトの最大数
 
 	//-------------------
 	// メンバ変数
 	//-------------------
+	CObjectX*	m_pObjBG[nMaxObjBG];	//背景オブジェクト
 
 	//-------------------
 	// 静的メンバ変数
