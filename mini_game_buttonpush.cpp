@@ -153,8 +153,22 @@ void CButtonPushGame::Update()
 
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CApplication::GetGame();
-					CPlayer *pPlayer = pGame->GetPlayer(0);
-					pPlayer->SetMiniGame(true);
+					CPlayer *pPlayer[2] = {};
+
+					for (int nCnt = 0; nCnt < 2; nCnt++)
+					{
+						//プレイヤー情報の取得
+						pPlayer[nCnt] = pGame->GetPlayer(nCnt);
+						//pPlayer[nCnt]->Retention();
+
+						//プレイヤーがミニゲームを終了する時
+						if (pPlayer[nCnt]->GetMiniGame() == false)
+						{
+							D3DXVECTOR3 pos = pPlayer[nCnt]->GetPos();
+							pPlayer[nCnt]->SetPos(D3DXVECTOR3(pos.x, pos.y, pos.z - 0.5f));
+							pPlayer[nCnt]->SetMiniGame(true);
+						}
+					}				
 				}
 				else
 				{

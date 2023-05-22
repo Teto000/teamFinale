@@ -65,12 +65,12 @@ public:
 
 	// セッター
 	void SetNumber(int nNum) { m_nNumber = nNum; }	// プレイヤー番号の設定
+	void SetMiniGame(bool bMiniGame);				// ミニゲーム中かどうかの設定
 
 	// ゲッター
 	CItemObj* GetMyItem() { return m_pMyItem; }			// 取得アイテムのゲッター
 	int GetParentParts() { return m_nParentParts; }		// 親パーツのゲッター
-
-	void SetMiniGame(bool bMiniGame);
+	bool GetMiniGame() { return m_bMiniGame; }			// ミニゲーム中かどうかの取得
 
 private:
 	//--------------------------------------------------------------------
