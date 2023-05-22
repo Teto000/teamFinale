@@ -482,6 +482,14 @@ void CPlayer::Collision()
 					CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
 					m_bMiniGame = false;
 				}
+
+				//---------------------------------
+				// オブジェクトの見た目を変更する
+				//---------------------------------
+				if (CInputKeyboard::Trigger(DIK_Z))
+				{//Zキーが押されたら
+					pObject->SetType(10);
+				}
 			}
 			else
 			{
