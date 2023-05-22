@@ -1,5 +1,5 @@
 // テクスチャの最大数
-MAX_TEXTURE = 7
+MAX_TEXTURE = 13
 
 //***************************
 // TEXTUREファイル名の読み込み
@@ -11,3 +11,10 @@ TEXTURE_FILENAME = data/TEXTURE/Game/Ground.jpg					# [3]
 TEXTURE_FILENAME = data/TEXTURE/Number.png						# [4]
 TEXTURE_FILENAME = data/TEXTURE/MiniGame/ButtonMash.png			# [5]
 TEXTURE_FILENAME = data/TEXTURE/MiniGame/Gauge.png				# [6]
+TEXTURE_FILENAME = data/TEXTURE/Game/bill000.png				# [7]
+TEXTURE_FILENAME = data/TEXTURE/Game/bill001.jpg				# [8]
+TEXTURE_FILENAME = data/TEXTURE/Game/bill002.png				# [9]
+TEXTURE_FILENAME = data/TEXTURE/Game/bill003.png				# [10]
+TEXTURE_FILENAME = data/TEXTURE/Game/bill004.png				# [11]
+TEXTURE_FILENAME = data/TEXTURE/Game/block008.png				# [12]
+

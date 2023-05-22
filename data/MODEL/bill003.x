@@ -369,7 +369,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "data/TEXTURE/bill003.png";
+    "data/TEXTURE/Game/bill003.png";
    }
   }
   Material {
@@ -378,7 +378,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "data/TEXTURE/block008.png";
+    "data/TEXTURE/Game/block008.png";
    }
   }
   Material {
