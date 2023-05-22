@@ -40,7 +40,8 @@ public:
 	//-------------------------
 	// セッター
 	//-------------------------
-	static void SetViewMap(bool bView) { m_bViewMap = bView; }	//マップ表示状態の設定
+	static void SetViewMap(bool bView)	{ m_bViewMap = bView; }	//マップ表示状態の設定
+	static void SetStart(bool bStart)	{ m_bStart = bStart; }	//ゲーム開始状態の設定
 
 	//-------------------------
 	// ゲッター
@@ -63,6 +64,7 @@ private:
 	// 静的メンバ変数
 	//-------------------------
 	static bool m_bViewMap;		//マップを表示する状態
+	static bool m_bStart;		//ゲームを開始する状態
 };
 
 #endif

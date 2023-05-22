@@ -24,7 +24,8 @@
 //----------------------------------
 // 静的メンバ変数宣言
 //----------------------------------
-bool CStageSelect::m_bViewMap = false;	//マップを表示する状態
+bool CStageSelect::m_bViewMap = false;		//マップを表示する状態
+bool CStageSelect::m_bStart = false;		//ゲームを開始する状態
 
 //==================================
 // コンストラクタ
@@ -134,8 +135,9 @@ void CStageSelect::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
-	{
+	if (m_bStart &&
+		CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
+	{//ゲームを開始する状態 & キーが押されたら
 		//ゲーム画面に移行
 		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
 	}

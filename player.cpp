@@ -506,11 +506,13 @@ void CPlayer::Collision()
 			if (CUtility::Collision(pos, posOld, size
 				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 			{// 衝突判定が行われた。
-				CStageSelect::SetViewMap(true);
+				CStageSelect::SetViewMap(true);		//マップを表示する状態
+				CStageSelect::SetStart(true);		//画面遷移出来る状態
 			}
 			else
 			{
-				CStageSelect::SetViewMap(false);
+				CStageSelect::SetViewMap(false);	//マップを表示しない状態
+				CStageSelect::SetStart(false);		//画面遷移出来ない状態
 			}
 			break;
 
