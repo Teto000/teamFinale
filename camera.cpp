@@ -102,6 +102,23 @@ void CCamera::Update(void)
 	//追従処理
 	Follow();
 
+	if (CApplication::GetMode() == CApplication::MODE_GAME)
+	{//ゲーム画面なら
+		//プレイヤーごとの位置を取得
+		D3DXVECTOR3 pos1 = CGame::GetPlayer(0)->GetPos();
+		D3DXVECTOR3 pos2 = CGame::GetPlayer(1)->GetPos();
+
+		//2人のプレイヤーのXの差を求める
+		float fDistance = pos1.x - pos2.x;
+
+		//if (abs(fDistance) >= 1280.0f)
+		//{//差の絶対値が一定数以上なら
+		//	//カメラを離す
+		//	m_posV.y += 3.0f;
+		//	m_posV.z -= 3.0f;
+		//}
+	}
+
 	//視点・注視点の表示
 	CDebugProc::Print("視点：%f,%f,%f", m_posVDest.x, m_posVDest.y, m_posVDest.z);
 	CDebugProc::Print("注視点：%f,%f,%f", m_posRDest.x, m_posRDest.y, m_posRDest.z);
