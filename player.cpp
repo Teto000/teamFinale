@@ -64,7 +64,7 @@ CPlayer::CPlayer()
 	m_pMove = nullptr;
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
 	m_nNumber = 0;			// プレイヤー番号
-	m_bFuture = false;		//未来にいるかどうか
+	m_bFuture = false;		// 未来にいるかどうか
 	m_bMiniGame = false;	// ミニゲーム中かどうか
 	m_pMyItem = nullptr;
 }
@@ -232,7 +232,7 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if (m_bMiniGame
+	if (!m_bMiniGame
 		&& (CInputKeyboard::Press(nUpKey)
 			|| CInputKeyboard::Press(nLeftKey)
 			|| CInputKeyboard::Press(nRightKey)
@@ -476,11 +476,11 @@ void CPlayer::Collision()
 			if (CUtility::Collision(pos, posOld, size
 				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 			{// 衝突判定が行われた。
-				if (m_bMiniGame)
+				if (!m_bMiniGame)
 				{
 					//ミニゲームの生成
 					CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-					m_bMiniGame = false;
+					m_bMiniGame = true;
 				}
 
 				//---------------------------------
@@ -490,10 +490,6 @@ void CPlayer::Collision()
 				{//Zキーが押されたら
 					pObject->SetType(10);
 				}
-			}
-			else
-			{
-				m_bMiniGame = true;
 			}
 			break;
 
