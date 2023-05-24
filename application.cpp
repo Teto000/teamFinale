@@ -26,6 +26,7 @@
 #include "debug_proc.h"
 #include "camera.h"
 #include "model3D.h"
+#include "collision.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -108,8 +109,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// モードの設定
 	//----------------------------
 	m_pFade = new CFade;
-	SetMode(MODE_TITLE);
-	m_pFade->Init(MODE_TITLE);
+	SetMode(MODE_GAME);
+	m_pFade->Init(MODE_GAME);
 
 	//----------------------------
 	// デバッグ用文字の生成
@@ -129,6 +130,7 @@ void CApplication::Uninit()
 	// オブジェクトの全解放
 	//----------------------------
 	CObject::ReleaseAll(true);
+	CCollision::ReleaseAll();
 
 	//----------------------------
 	//テクスチャの終了
@@ -335,6 +337,9 @@ void CApplication::SetMode(MODE mode)
 
 	//オブジェクトの全解放
 	CObject::ReleaseAll(true);
+
+	// 当たり判定の終了
+	CCollision::ReleaseAll();
 
 	//モードの切り替え
 	m_mode = mode;

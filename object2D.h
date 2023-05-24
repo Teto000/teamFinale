@@ -38,7 +38,7 @@ public:
 	//----------------
 	// セッター
 	//----------------
-	void SetPosition(D3DXVECTOR3 pos);						//位置の設定
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
 	void SetSize(float fWidth, float fHeight);				//大きさの設定
 	void SetColor(D3DXCOLOR col);							//色の設定
 	void SetScreenX(float posX, float fLeft, float fRight);	//左右画面端の設定
@@ -67,11 +67,12 @@ public:
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;					//位置の取得
-	D3DXVECTOR3 GetTargetPos();							//相手の位置の取得
-	float GetWidth() override;							//幅の取得
-	float GetHeight() override;							//高さの取得
-	CObject* GetCollision(CObject::EObjType TirgetType);//当たり判定の取得
+	D3DXVECTOR3 GetPosition() override;												//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f,0.0f,0.0f); }		//位置の取得
+	D3DXVECTOR3 GetTargetPos();														//相手の位置の取得
+	float GetWidth() override;														//幅の取得
+	float GetHeight() override;														//高さの取得
+	CObject* GetCollision(CObject::EObjType TirgetType);							//当たり判定の取得
 
 protected:
 	//----------------

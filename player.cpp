@@ -22,6 +22,7 @@
 #include "move.h"
 #include "itemObj.h"
 #include "mini_game_basis.h"
+#include "collision_rectangle3D.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -169,6 +170,10 @@ void CPlayer::Update()
 	{// アイテムの保持の解除
 		Drop();
 	}
+
+	// 当たり判定の取得
+	CCollision_Rectangle3D *pCollision = GetCollision();
+	pCollision->Collision(true);
 
 	//当たり判定
 	Collision();

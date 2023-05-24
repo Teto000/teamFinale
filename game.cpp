@@ -26,6 +26,8 @@
 #include "mini_game_basis.h"
 #include "objectX.h"
 #include "itemObj.h"
+#include "collision.h"
+#include "collision_rectangle3D.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -87,6 +89,10 @@ HRESULT CGame::Init()
 		m_pPlayer[i] = CPlayer::Create();
 		m_pPlayer[i]->SetMotion("data/MOTION/motion.txt");
 		m_pPlayer[i]->SetNumber(i);		//プレイヤー番号の設定
+
+		CCollision_Rectangle3D *pCollision = m_pPlayer[i]->GetCollision();
+		pCollision->SetSize(D3DXVECTOR3(20.0f, 50.0f, 20.0f));
+		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
 
 	m_pObjectX = CItemObj::Create();

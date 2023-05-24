@@ -23,6 +23,7 @@
 #include "game.h"
 #include "title.h"
 #include "stage_select.h"
+#include "collision.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -155,6 +156,9 @@ void CRenderer::Uninit()
 //=============================================================================
 void CRenderer::Update()
 {
+	// 当たり判定の更新
+	CCollision::UpdateAll();
+
 	//オブジェクトの更新
 	CObject::UpdateAll();
 
@@ -229,6 +233,9 @@ void CRenderer::Draw()
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
+		// 当たり判定の描画
+		CCollision::DrawAll();
+
 		//オブジェクトの描画
 		CObject::DrawAll();
 

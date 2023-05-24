@@ -31,11 +31,17 @@ public:
 	void Draw() override;
 
 	//----------------
+	// セッター
+	//----------------
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定
+
+	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition()override { return m_pos; }	//位置の取得
-	float GetWidth() override { return 0; };			//幅の取得
-	float GetHeight() override { return 0; };			//高さの取得
+	D3DXVECTOR3 GetPosition()override { return m_pos; }								//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }		//位置の取得
+	float GetWidth() override { return 0; };										//幅の取得
+	float GetHeight() override { return 0; };										//高さの取得
 
 	//----------------
 	// 静的メンバ関数

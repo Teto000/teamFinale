@@ -136,7 +136,7 @@ void CButtonPushGame::Update()
 
 			//ˆÚ“®
 			pos += m_move;
-			pObj2D[2]->SetPosition(pos);
+			pObj2D[2]->SetPos(pos);
 
 			if (CInputKeyboard::Trigger(DIK_SPACE))
 			{//SPACEƒL[‚ª‰Ÿ‚³‚ê‚½

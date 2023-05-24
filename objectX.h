@@ -43,17 +43,19 @@ public:
 	//----------------
 	// セッター
 	//----------------
-	void SetPos(D3DXVECTOR3 pos);		//位置の設定
-	void SetRot(D3DXVECTOR3 rot);		//向きの設定
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
+	void SetPosOld(D3DXVECTOR3 posOld) { m_posOld = posOld; }				//
+	void SetRot(D3DXVECTOR3 rot);											//向きの設定
 
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;		//位置の取得
-	D3DXVECTOR3 GetRot() { return m_rot; }	//向きのゲッター
-	float GetWidth() override;				//幅の取得
-	float GetHeight() override;				//高さの取得
-	void SetType(const int nType);			// タイプの設定
+	D3DXVECTOR3 GetPosition() override;										//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return m_posOld; }					//位置の取得
+	D3DXVECTOR3 GetRot() { return m_rot; }									//向きのゲッター
+	float GetWidth() override;												//幅の取得
+	float GetHeight() override;												//高さの取得
+	void SetType(const int nType);											// タイプの設定
 	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 	CModel3D *GetModel() { return m_pModel; }

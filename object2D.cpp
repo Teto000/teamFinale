@@ -174,14 +174,6 @@ void CObject2D::Draw()
 }
 
 //===========================
-// à íuÇÃê›íË
-//===========================
-void CObject2D::SetPosition(D3DXVECTOR3 pos)
-{
-	m_pos = pos;
-}
-
-//===========================
 // ê∂ê¨
 //===========================
 CObject2D * CObject2D::Create(D3DXVECTOR3 pos)

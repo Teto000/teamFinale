@@ -136,14 +136,6 @@ void CObjectX::Draw()
 }
 
 //===========================
-// à íuÇÃê›íË
-//===========================
-void CObjectX::SetPos(D3DXVECTOR3 pos)
-{
-	m_pos = pos;
-}
-
-//===========================
 // å¸Ç´ÇÃê›íË
 //===========================
 void CObjectX::SetRot(D3DXVECTOR3 rot)

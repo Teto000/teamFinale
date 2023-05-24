@@ -16,6 +16,7 @@
 #include "renderer.h"
 #include "application.h"
 #include "objectX.h"
+#include "collision_rectangle3D.h"
 
 //=============================================================================
 // インスタンス生成
@@ -50,6 +51,7 @@ CMotionModel3D::CMotionModel3D() : CMotionModel3D(0)
 }
 CMotionModel3D::CMotionModel3D(int nPriority) : CObject(nPriority),
 m_pMotion(nullptr),											// モーション情報
+m_pCollision(nullptr),										// 当たり判定
 m_mtxWorld(D3DXMATRIX()),									// ワールドマトリックス
 m_pos(D3DXVECTOR3()),										// 位置
 m_posOld(D3DXVECTOR3()),									// 過去位置
@@ -82,6 +84,10 @@ HRESULT CMotionModel3D::Init(D3DXVECTOR3 pos)
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);					// 向き
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);					// 大きさ
 
+	// 当たり判定の生成
+	m_pCollision = CCollision_Rectangle3D::Create();
+	m_pCollision->SetParent(this);
+
 	return E_NOTIMPL;
 }
 
@@ -92,6 +98,15 @@ HRESULT CMotionModel3D::Init(D3DXVECTOR3 pos)
 //=============================================================================
 void CMotionModel3D::Uninit()
 {
+	if (m_pCollision != nullptr)
+	{// 終了処理
+		m_pCollision->Uninit();
+
+		// メモリの解放
+		delete m_pCollision;
+		m_pCollision = nullptr;
+	}
+
 	if (m_pMotion != nullptr)
 	{// 終了処理
 		m_pMotion->Uninit();
