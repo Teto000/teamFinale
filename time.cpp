@@ -23,10 +23,11 @@ CTime::CTime() : CObject(1)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
 	m_numberPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//数字の位置
-	m_nTime = 0;								//時間
-	m_nCntMove = 0;								//移動までの時間
-	m_nCntFream = 0;							//フレーム数のカウント
-	fInterval = 0.0f;							//数値の間隔
+	m_nTime = 0;				//時間
+	m_nCntMove = 0;				//移動までの時間
+	m_nCntFream = 0;			//フレーム数のカウント
+	fInterval = 0.0f;			//数値の間隔
+	m_bCntTime = false;			//時間を数える状態
 
 	for (int i = 0; i < nMaxDigits; i++)
 	{
@@ -50,6 +51,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
+	m_nTime = 300;		//初期時間
 	fInterval = 50.0f;	//数値の間隔
 
 	//------------------------------
@@ -88,8 +90,8 @@ void CTime::Update()
 		//タイムを保存
 		CRanking::SetNewTime(m_nTime);
 	}
-	else
-	{
+	else if(m_bCntTime)
+	{//時間を数える状態なら
 		//フレーム数を数える
 		m_nCntFream++;
 
@@ -98,7 +100,7 @@ void CTime::Update()
 		//----------------------
 		if (m_nCntFream >= 60)
 		{
-			m_nTime++;
+			m_nTime--;
 			SetNumber();
 			m_nCntFream = 0;
 		}
@@ -173,6 +175,7 @@ void CTime::SetNumber()
 
 //=======================
 // 時間の設定
+// 引数：設定したい数値
 //=======================
 void CTime::SetTime(int nTime)
 {
@@ -182,7 +185,20 @@ void CTime::SetTime(int nTime)
 }
 
 //=======================
+// 描画状態の設定
+// 引数：描画状態のbool
+//=======================
+void CTime::SetDraw(bool bDraw)
+{
+	for (int i = 0; i < nMaxDigits; i++)
+	{
+		m_pNumber[i]->SetEnable(bDraw);
+	}
+}
+
+//=======================
 // 色の設定
+// 引数：変更先の色
 //=======================
 void CTime::SetColor(D3DXCOLOR col)
 {

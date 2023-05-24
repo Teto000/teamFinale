@@ -14,14 +14,13 @@
 
 #include "object2D.h"
 #include "input_keyboard.h"
-#include "application.h"
 #include "fade.h"
-#include "game.h"
-#include "itemObj.h"
-#include "player.h"
 #include "game.h"
 #include "motion.h"
 #include "model3D.h"
+
+#include "itemObj.h"
+#include "player.h"
 
 //=======================
 // コンストラクタ
@@ -44,6 +43,8 @@ CButtonPushGame::~CButtonPushGame()
 //=======================
 HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 {
+	pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	//フラッシュ用カラー変数
 	m_col[0] = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.6f);
 	m_col[1] = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -154,21 +155,28 @@ void CButtonPushGame::Update()
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CApplication::GetGame();
 					CPlayer *pPlayer[2] = {};
+					CItemObj *pPlayerItem = {};
 
-					for (int nCnt = 0; nCnt < 2; nCnt++)
+					for (int nCnt = 0; nCnt < pGame->GetMaxPlayer(); nCnt++)
 					{
 						//プレイヤー情報の取得
 						pPlayer[nCnt] = pGame->GetPlayer(nCnt);
-						//pPlayer[nCnt]->Retention();
+
+						if (pPlayerItem == nullptr)
+						{// アイテムを取得していない
+							pPlayerItem = CItemObj::Create();
+							pPlayerItem->SetType(0);
+						}
 
 						//プレイヤーがミニゲームを終了する時
-						if (pPlayer[nCnt]->GetMiniGame() == false)
+						if (pPlayer[nCnt]->GetMiniGame() == true)
 						{
-							D3DXVECTOR3 pos = pPlayer[nCnt]->GetPos();
-							pPlayer[nCnt]->SetPos(D3DXVECTOR3(pos.x, pos.y, pos.z - 0.5f));
-							pPlayer[nCnt]->SetMiniGame(true);
+							D3DXVECTOR3 PlayerPos = pPlayer[nCnt]->GetPos();
+							pPlayer[nCnt]->SetPos(D3DXVECTOR3(PlayerPos.x, PlayerPos.y, PlayerPos.z - 0.5f));
+							pPlayer[nCnt]->SetMiniGame(false);	
+							pPlayer[nCnt]->Retention(pPlayerItem);		// プレイヤーのアイテムの設定
 						}
-					}				
+					}
 				}
 				else
 				{

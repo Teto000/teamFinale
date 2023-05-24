@@ -20,6 +20,7 @@ class CMeshField;	//メッシュフィールド(地面)
 class CObjectX;		//オブジェクトX
 class CPlayer;		//プレイヤー
 class CObject2D;	//オブジェクト2D
+class CTime;		//数字
 
 //==================================
 // タイトルクラスの定義
@@ -40,7 +41,8 @@ public:
 	//-------------------------
 	// セッター
 	//-------------------------
-	static void SetViewMap(bool bView) { m_bViewMap = bView; }	//マップ表示状態の設定
+	static void SetViewMap(bool bView)	{ m_bViewMap = bView; }	//マップ表示状態の設定
+	static void SetStart(bool bStart)	{ m_bStart = bStart; }	//ゲーム開始状態の設定
 
 	//-------------------------
 	// ゲッター
@@ -58,11 +60,13 @@ private:
 	CObjectX*	m_pObjectX;		//オブジェクト
 	CPlayer*	m_pPlayer;		//プレイヤー
 	CObject2D*	m_pObject2D;	//オブジェクト2D
+	CTime*		m_pNumber;		//数字
 
 	//-------------------------
 	// 静的メンバ変数
 	//-------------------------
 	static bool m_bViewMap;		//マップを表示する状態
+	static bool m_bStart;		//ゲームを開始する状態
 };
 
 #endif

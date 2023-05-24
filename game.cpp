@@ -82,6 +82,7 @@ HRESULT CGame::Init()
 
 	//タイマーの生成
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+	m_pTime->SetCntTime(true);
 
 	// プレイヤーの設定
 	for (int i = 0; i < nMaxPlayer; i++)
@@ -170,13 +171,5 @@ void CGame::Update()
 	{//Lキーを押したら
 		//ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
-	}
-
-	//-------------------------------------------
-	// オブジェクトのモデルを切り替える処理
-	//-------------------------------------------
-	if (CInputKeyboard::Trigger(DIK_Z))
-	{
-		m_pObjectX->SetType(2);
 	}
 }
