@@ -50,6 +50,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//‰Šú’l‚ÌÝ’è
 	m_pos = pos;		//ˆÊ’u
+	m_nTime = 300;		//‰ŠúŽžŠÔ
 	fInterval = 50.0f;	//”’l‚ÌŠÔŠu
 
 	//------------------------------
@@ -98,7 +99,7 @@ void CTime::Update()
 		//----------------------
 		if (m_nCntFream >= 60)
 		{
-			m_nTime++;
+			m_nTime--;
 			SetNumber();
 			m_nCntFream = 0;
 		}
