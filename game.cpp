@@ -80,6 +80,7 @@ HRESULT CGame::Init()
 
 	//タイマーの生成
 	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+	m_pTime->SetCntTime(true);
 
 	// プレイヤーの設定
 	for (int i = 0; i < nMaxPlayer; i++)
