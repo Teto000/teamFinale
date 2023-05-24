@@ -152,7 +152,8 @@ void CGame::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
+	if (!m_bFinish
+		&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
 	{
 		//ゲーム終了フラグを立てる
 		m_bFinish = true;

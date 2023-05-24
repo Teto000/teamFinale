@@ -156,11 +156,11 @@ void CRenderer::Uninit()
 //=============================================================================
 void CRenderer::Update()
 {
-	// 当たり判定の更新
-	CCollision::UpdateAll();
-
 	//オブジェクトの更新
 	CObject::UpdateAll();
+
+	// 当たり判定の更新
+	CCollision::UpdateAll();
 
 	if (CInputKeyboard::Trigger(DIK_F4))
 	{//F4キーが押された
@@ -233,11 +233,11 @@ void CRenderer::Draw()
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
-		// 当たり判定の描画
-		CCollision::DrawAll();
-
 		//オブジェクトの描画
 		CObject::DrawAll();
+
+		// 当たり判定の描画
+		CCollision::DrawAll();
 
 #ifdef _DEBUG
 		// FPS表示

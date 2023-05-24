@@ -78,9 +78,6 @@ void CCollision::UpdateAll(void)
 			pCollision = pCollisionNext;
 		}
 	}
-
-	// すべてのリスト解除
-	ReleaseListAll();
 }
 
 //=============================================================================
@@ -108,6 +105,9 @@ void CCollision::DrawAll()
 			pCollision = pCollisionNext;
 		}
 	}
+
+	// すべてのリスト解除
+	ReleaseListAll();
 }
 
 //=============================================================================

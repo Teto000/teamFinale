@@ -101,9 +101,6 @@ void CMotionModel3D::Uninit()
 	if (m_pCollision != nullptr)
 	{// I—¹ˆ—
 		m_pCollision->Uninit();
-
-		// ƒƒ‚ƒŠ‚Ì‰ğ•ú
-		delete m_pCollision;
 		m_pCollision = nullptr;
 	}
 
