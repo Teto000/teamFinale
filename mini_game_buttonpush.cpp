@@ -14,14 +14,13 @@
 
 #include "object2D.h"
 #include "input_keyboard.h"
-#include "application.h"
 #include "fade.h"
-#include "game.h"
-#include "itemObj.h"
-#include "player.h"
 #include "game.h"
 #include "motion.h"
 #include "model3D.h"
+
+#include "itemObj.h"
+#include "player.h"
 
 //=======================
 // コンストラクタ
@@ -44,6 +43,8 @@ CButtonPushGame::~CButtonPushGame()
 //=======================
 HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 {
+	pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	//フラッシュ用カラー変数
 	m_col[0] = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.6f);
 	m_col[1] = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);

@@ -13,6 +13,11 @@
 #include "mini_game_basis.h"
 
 //-------------------------------
+// マクロ定義
+//-------------------------------
+#define MAX_LIFEPOLYGON		(29)	//ライフポリゴン数
+
+//-------------------------------
 // 前方宣言
 //-------------------------------
 class CNumber;	//数値
@@ -41,27 +46,19 @@ public:
 	static CButtonMash* Create(D3DXVECTOR3 pos);
 
 private:
-	void SetNumber();	//数値の設定
-
-private:
-	//------------------
-	// 定数
-	//------------------
-	static const int nMaxDigits = 2;	//最大桁数
 
 	//------------------
 	// メンバ変数
 	//------------------
-	CObject2D *pObj2D;				//オブジェクト2D
-	CNumber* m_pNumber[nMaxDigits];	//数値
-	D3DXVECTOR3 m_numberPos;		//数字の位置
+	CObject2D *pObj2D[2];			//オブジェクト2D
+	CObject2D *pLife[29];			//ライフポリゴン
+	D3DXCOLOR m_col[3];				//カラー
+	D3DXVECTOR3 m_PolygonPos;		//ポリゴンの位置
 	D3DXVECTOR3 m_pos;				//位置
 	
 	int m_nCounterAnim;	//アニメーションカウンター
 	int m_nPatternAnim;	//アニメーションパターン
 	int m_nMashCounter;	//連打数
-	int m_aPosTexU[nMaxDigits];	//今の桁の数値
-	float m_fInterval;			//数値の間隔
 };
 
 #endif
