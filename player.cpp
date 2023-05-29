@@ -499,11 +499,14 @@ void CPlayer::Collision()
 			if (CUtility::Collision(pos, posOld, size
 				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 			{// 衝突判定が行われた。
-				if (!m_bMiniGame)
+				if (CInputKeyboard::Trigger(DIK_X))
 				{
-					//ミニゲームの生成
-					CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-					m_bMiniGame = true;
+					if (!m_bMiniGame)
+					{
+						//ミニゲームの生成
+						CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+						m_bMiniGame = true;
+					}
 				}
 
 				//---------------------------------

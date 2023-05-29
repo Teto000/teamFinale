@@ -178,8 +178,6 @@ void CButtonPushGame::Update()
 						//プレイヤーがミニゲームを終了する時
 						if (pPlayer[nCnt]->GetMiniGame() == true)
 						{
-							D3DXVECTOR3 PlayerPos = pPlayer[nCnt]->GetPos();
-							pPlayer[nCnt]->SetPos(D3DXVECTOR3(PlayerPos.x, PlayerPos.y, PlayerPos.z - 0.5f));
 							pPlayer[nCnt]->SetMiniGame(false);	
 							pPlayer[nCnt]->Retention(pPlayerItem);		// プレイヤーのアイテムの設定
 						}
