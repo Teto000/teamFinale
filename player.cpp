@@ -10,6 +10,7 @@
 // インクルード
 //*****************************************************************************
 #include <assert.h>
+#include <vector>
 
 #include "player.h"
 #include "game.h"
@@ -173,7 +174,24 @@ void CPlayer::Update()
 
 	// 当たり判定の取得
 	CCollision_Rectangle3D *pCollision = GetCollision();
-	pCollision->Collision(true);
+	pCollision->Collision(CObject::OBJTYPE_NONE, true);
+
+	// 当たったオブジェクトのリストを取得
+	std::vector<CObject*> apCollidedObj = pCollision->GetCollidedObj();
+
+	if (apCollidedObj.size() > 0)
+	{// 当たったオブジェクトとの処理
+		for (int nCntObj = 0; nCntObj < apCollidedObj.size(); nCntObj++)
+		{
+			CObject *pCollidedObj = apCollidedObj.at(nCntObj);
+
+			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
+				&& CInputKeyboard::Trigger(DIK_H))
+			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
+				Retention((CItemObj*)pCollidedObj);
+			}
+		}
+	}
 
 	//当たり判定
 	Collision();
@@ -565,7 +583,13 @@ void CPlayer::Drop()
 {
 	if (m_pMyItem != nullptr)
 	{
+		// 親設定の放棄
 		m_pMyItem->SetParent();
+
+		// 当たり判定の設定
+		CCollision_Rectangle3D* pItemCollision = m_pMyItem->GetCollision();
+		pItemCollision->SetUseFlag(true);
+
 		m_pMyItem = nullptr;
 	}
 }

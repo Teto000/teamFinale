@@ -155,7 +155,7 @@ void CCollision_Rectangle3D::Draw()
 // Author : 唐﨑結斗
 // 概要 : 当たり判定
 //=============================================================================
-bool CCollision_Rectangle3D::Collision(bool bExtrude)
+bool CCollision_Rectangle3D::Collision(CObject::EObjType objType, bool bExtrude)
 {
 #ifdef _DEBUG
 	lineCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
@@ -177,8 +177,11 @@ bool CCollision_Rectangle3D::Collision(bool bExtrude)
 		while (pCollision)
 		{// 現在のオブジェクトの次のオブジェクトを保管
 			CCollision *pCollisionNext = pCollision->GetNext();
+			CObject::EObjType myObjeType = pCollision->GetParent()->GetObjType();
 
-			if (pCollision != this
+			if ((myObjeType == objType
+				|| CObject::OBJTYPE_NONE == objType)
+				&& pCollision != this
 				&& pCollision->GetUseFlag()
 				&& !pCollision->GetDeathFlag())
 			{
@@ -205,8 +208,8 @@ bool CCollision_Rectangle3D::Collision(bool bExtrude)
 			pCollision = pCollisionNext;
 		}
 
-		// 衝突したオブジェクトの最大数
-		SetMaxCollidedObj(nCntCollided);
+		// 衝突したオブジェクトのセット
+		SetCollidedObj(pCollided);
 	}
 
 	return bCollision;

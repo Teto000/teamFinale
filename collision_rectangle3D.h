@@ -55,7 +55,7 @@ public:
 	void Uninit() override;														// 終了
 	void Update() override;														// 更新
 	void Draw() override;														// 描画
-	bool Collision(bool bExtrude) override;										// 当たり判定	
+	bool Collision(CObject::EObjType objType, bool bExtrude) override;			// 当たり判定	
 	bool ToRectangle(CCollision *pTarget, bool bExtrude);						// 矩形との当たり判定
 	EState GetState() { return m_state; }										// 当たった場所の取得
 	bool GetPlusMinus() { return m_bPlusMinus; }								// 正負判定の取得

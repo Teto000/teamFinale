@@ -24,6 +24,7 @@ CObject::CObject(int nPriority)
 {
 	m_nPriority = nPriority;	//プライオリティの番号
 	m_bDeath = false;			//死亡フラグ
+	m_ObjType = OBJTYPE_NONE;
 
 	//-----------------------------
 	// 先頭のオブジェクトを設定
