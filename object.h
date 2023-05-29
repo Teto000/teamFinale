@@ -33,6 +33,7 @@ public:
 	//------------------------
 	enum EObjType
 	{
+		OBJTYPE_NONE = -1,	// タイプ無し
 		OBJTYPE_FADE = 0,	//フェード
 		OBJTYPE_PLAYER,		//プレイヤー
 		OBJTYPE_ENEMY,		//エネミー

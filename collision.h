@@ -61,34 +61,32 @@ public:
 	//--------------------------------------------------------------------
 	// 純粋仮想関数
 	//--------------------------------------------------------------------
-	virtual HRESULT Init() = 0;							// 初期化
-	virtual void Uninit() = 0;							// 終了
-	virtual void Update() = 0;							// 更新
-	virtual void Draw() = 0;							// 描画
-	virtual bool Collision(bool bExtrude) = 0;			// 当たり判定	
+	virtual HRESULT Init() = 0;														// 初期化
+	virtual void Uninit() = 0;														// 終了
+	virtual void Update() = 0;														// 更新
+	virtual void Draw() = 0;														// 描画
+	virtual bool Collision(CObject::EObjType objType, bool bExtrude) = 0;			// 当たり判定	
 
 	//--------------------------------------------------------------------
 	// メンバ関数
 	//--------------------------------------------------------------------
-	void Release(void);																	// オブジェクトの解放
-	void ReleaseList(void);																// オブジェクトのリスト解除
-	void SetParent(CObject *pParent) { m_pParent = pParent; }							// 親オブジェクトの設定
-	void SetType(COLLISION_TYPE type) { m_type = type; }								// 当たり判定の設定
-	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }										// 位置の設定
-	void SetSize(D3DXVECTOR3 size) { m_size = size; }									// サイズの設定
-	void SetUseFlag(bool bUse) { m_bUse = bUse; }										// 使用状況の設定
-	void SetMaxCollidedObj(const int nMax) { m_nMaxCollidedObj = nMax; }				// 衝突したオブジェクトの取得
-	CCollision *GetPrev() { return m_pPrev; }											// 前のオブジェクトへのポインタ取得
-	CCollision *GetNext() { return m_pNext; }											// 次のオブジェクトへのポインタ取得
-	CObject *GetParent() { return m_pParent; }											// 親オブジェクトのポインタ取得
-	std::vector<CObject*> GetCollidedObj() { return m_pCollidedObj; }					// 親オブジェクトのポインタ取得
-	CObject *GetCollidedObj(const int nNum) { return m_pCollidedObj[nNum]; }			// 当たったオブジェクトのポインタ取得
-	COLLISION_TYPE GetType() { return m_type; }											// 当たり判定の取得
-	D3DXVECTOR3 GetPos() { return m_pos; }												// 位置の取得
-	D3DXVECTOR3 GetSize() { return m_size; }											// サイズの取得
-	int GetMaxCollidedObj() { return m_nMaxCollidedObj; }								// 衝突したオブジェクトの取得
-	bool GetUseFlag() { return m_bUse; }												// 使用状況の取得
-	bool GetDeathFlag() { return m_bDeath; }											// 死亡フラグの取得
+	void Release(void);																							// オブジェクトの解放
+	void ReleaseList(void);																						// オブジェクトのリスト解除
+	void SetParent(CObject *pParent) { m_pParent = pParent; }													// 親オブジェクトの設定
+	void SetType(COLLISION_TYPE type) { m_type = type; }														// 当たり判定の設定
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }																// 位置の設定
+	void SetSize(D3DXVECTOR3 size) { m_size = size; }															// サイズの設定
+	void SetUseFlag(bool bUse) { m_bUse = bUse; }																// 使用状況の設定
+	void SetCollidedObj(std::vector<CObject*> pCollidedObj) { m_pCollidedObj = pCollidedObj; }					// 親オブジェクトのポインタ取得
+	CCollision *GetPrev() { return m_pPrev; }																	// 前のオブジェクトへのポインタ取得
+	CCollision *GetNext() { return m_pNext; }																	// 次のオブジェクトへのポインタ取得
+	CObject *GetParent() { return m_pParent; }																	// 親オブジェクトのポインタ取得
+	std::vector<CObject*> GetCollidedObj() { return m_pCollidedObj; }											// 親オブジェクトのポインタ取得
+	COLLISION_TYPE GetType() { return m_type; }																	// 当たり判定の取得
+	D3DXVECTOR3 GetPos() { return m_pos; }																		// 位置の取得
+	D3DXVECTOR3 GetSize() { return m_size; }																	// サイズの取得
+	bool GetUseFlag() { return m_bUse; }																		// 使用状況の取得
+	bool GetDeathFlag() { return m_bDeath; }																	// 死亡フラグの取得
 
 private:
 	//--------------------------------------------------------------------
@@ -108,7 +106,6 @@ private:
 	COLLISION_TYPE m_type;						// 当たり判定の種別
 	D3DXVECTOR3 m_pos;							// 位置
 	D3DXVECTOR3 m_size;							// 大きさ
-	int m_nMaxCollidedObj;						// 当たったオブジェクト数
 	bool m_bUse;								// 使用状況
 	bool m_bDeath;								// 死亡フラグ
 };

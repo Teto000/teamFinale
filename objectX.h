@@ -16,6 +16,7 @@
 // 前方宣言
 //--------------------------------
 class CModel3D;
+class CCollision_Rectangle3D;
 
 //================================
 // オブジェクトXクラスの定義
@@ -59,17 +60,18 @@ public:
 	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 	CModel3D *GetModel() { return m_pModel; }
-
+	CCollision_Rectangle3D *GetCollision() { return m_pCollision; }
 private:
 	//----------------
 	// メンバ変数
 	//----------------
-	CModel3D *m_pModel;					//モデル情報
-	D3DXMATRIX m_mtxWorld;				//ワールドマトリックス
-	D3DXVECTOR3 m_pos;					//位置
-	D3DXVECTOR3 m_posOld;				//過去位置
-	D3DXVECTOR3 m_rot;					//向き
-	int m_nType;						//モデルのタイプ
+	CModel3D *m_pModel;							//モデル情報
+	CCollision_Rectangle3D *m_pCollision;		// 当たり判定
+	D3DXMATRIX m_mtxWorld;						//ワールドマトリックス
+	D3DXVECTOR3 m_pos;							//位置
+	D3DXVECTOR3 m_posOld;						//過去位置
+	D3DXVECTOR3 m_rot;							//向き
+	int m_nType;								//モデルのタイプ
 };
 
 #endif
