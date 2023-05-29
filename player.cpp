@@ -10,6 +10,7 @@
 // インクルード
 //*****************************************************************************
 #include <assert.h>
+#include <vector>
 
 #include "player.h"
 #include "game.h"
@@ -22,6 +23,7 @@
 #include "move.h"
 #include "itemObj.h"
 #include "mini_game_basis.h"
+#include "collision_rectangle3D.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -168,6 +170,27 @@ void CPlayer::Update()
 	if (CInputKeyboard::Trigger(DIK_F))
 	{// アイテムの保持の解除
 		Drop();
+	}
+
+	// 当たり判定の取得
+	CCollision_Rectangle3D *pCollision = GetCollision();
+	pCollision->Collision(CObject::OBJTYPE_NONE, true);
+
+	// 当たったオブジェクトのリストを取得
+	std::vector<CObject*> apCollidedObj = pCollision->GetCollidedObj();
+
+	if (apCollidedObj.size() > 0)
+	{// 当たったオブジェクトとの処理
+		for (int nCntObj = 0; nCntObj < apCollidedObj.size(); nCntObj++)
+		{
+			CObject *pCollidedObj = apCollidedObj.at(nCntObj);
+
+			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
+				&& CInputKeyboard::Trigger(DIK_H))
+			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
+				Retention((CItemObj*)pCollidedObj);
+			}
+		}
 	}
 
 	//当たり判定
@@ -533,6 +556,19 @@ void CPlayer::Collision()
 			}
 		}
 
+		//--------------------------------
+		// 時計との当たり判定
+		//--------------------------------
+		pObject = CApplication::GetGame()->GetObjectX();
+		targetPos = pObject->GetPosition();
+
+		if (CUtility::Collision(pos, posOld, size
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+			&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
+		{// 衝突判定が行われた。
+			int a = 0;
+		}
+
 		//位置の更新
 		SetPos(pos);
 	}
@@ -547,7 +583,13 @@ void CPlayer::Drop()
 {
 	if (m_pMyItem != nullptr)
 	{
+		// 親設定の放棄
 		m_pMyItem->SetParent();
+
+		// 当たり判定の設定
+		CCollision_Rectangle3D* pItemCollision = m_pMyItem->GetCollision();
+		pItemCollision->SetUseFlag(true);
+
 		m_pMyItem = nullptr;
 	}
 }

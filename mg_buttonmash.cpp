@@ -118,7 +118,7 @@ void CButtonMash::Update()
 		{
 			m_col[2].a = 1.0f;
 			pLife[m_nMashCounter]->SetColor(m_col[2]);
-			pLife[m_nMashCounter]->SetPosition(D3DXVECTOR3(640.0f + (10.0f * m_nMashCounter), 350.0f, 0.0f));
+			pLife[m_nMashCounter]->SetPos(D3DXVECTOR3(640.0f + (10.0f * m_nMashCounter), 350.0f, 0.0f));
 		}
 
 		if (m_nMashCounter >= MAX_LIFEPOLYGON - 1)

@@ -16,6 +16,7 @@
 // 前方宣言
 //--------------------------------
 class CModel3D;
+class CCollision_Rectangle3D;
 
 //================================
 // オブジェクトXクラスの定義
@@ -43,31 +44,34 @@ public:
 	//----------------
 	// セッター
 	//----------------
-	void SetPos(D3DXVECTOR3 pos);		//位置の設定
-	void SetRot(D3DXVECTOR3 rot);		//向きの設定
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
+	void SetPosOld(D3DXVECTOR3 posOld) { m_posOld = posOld; }				//
+	void SetRot(D3DXVECTOR3 rot);											//向きの設定
 
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;		//位置の取得
-	D3DXVECTOR3 GetRot() { return m_rot; }	//向きのゲッター
-	float GetWidth() override;				//幅の取得
-	float GetHeight() override;				//高さの取得
-	void SetType(const int nType);			// タイプの設定
+	D3DXVECTOR3 GetPosition() override;										//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return m_posOld; }					//位置の取得
+	D3DXVECTOR3 GetRot() { return m_rot; }									//向きのゲッター
+	float GetWidth() override;												//幅の取得
+	float GetHeight() override;												//高さの取得
+	void SetType(const int nType);											// タイプの設定
 	void SetMtx(D3DXMATRIX mtxWorld) { m_mtxWorld = mtxWorld; }
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 	CModel3D *GetModel() { return m_pModel; }
-
+	CCollision_Rectangle3D *GetCollision() { return m_pCollision; }
 private:
 	//----------------
 	// メンバ変数
 	//----------------
-	CModel3D *m_pModel;					//モデル情報
-	D3DXMATRIX m_mtxWorld;				//ワールドマトリックス
-	D3DXVECTOR3 m_pos;					//位置
-	D3DXVECTOR3 m_posOld;				//過去位置
-	D3DXVECTOR3 m_rot;					//向き
-	int m_nType;						//モデルのタイプ
+	CModel3D *m_pModel;							//モデル情報
+	CCollision_Rectangle3D *m_pCollision;		// 当たり判定
+	D3DXMATRIX m_mtxWorld;						//ワールドマトリックス
+	D3DXVECTOR3 m_pos;							//位置
+	D3DXVECTOR3 m_posOld;						//過去位置
+	D3DXVECTOR3 m_rot;							//向き
+	int m_nType;								//モデルのタイプ
 };
 
 #endif

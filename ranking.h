@@ -41,14 +41,16 @@ public:
 	//----------------
 	// セッター
 	//----------------
-	static void SetNewTime(int nTime) { m_nTime = nTime; }	//新しい時間を設定
+	static void SetNewTime(int nTime) { m_nTime = nTime; }							//新しい時間を設定
+	void SetPos(D3DXVECTOR3 pos) override {}									//位置の設定
 
 	//----------------
 	// ゲッター
 	//----------------
 	D3DXVECTOR3 GetPosition() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }	//位置の取得
-	float GetWidth() override { return 0.0f; }				//幅の取得
-	float GetHeight() override { return 0.0f; }				//高さの取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }		//位置の取得
+	float GetWidth() override { return 0.0f; }										//幅の取得
+	float GetHeight() override { return 0.0f; }										//高さの取得
 
 	//------------------
 	// 静的メンバ変数

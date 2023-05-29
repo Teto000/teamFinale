@@ -16,6 +16,7 @@
 #include "light.h"
 #include "model3D.h"
 #include "utility.h"
+#include "collision_rectangle3D.h"
 
 //=============================================================================
 // インスタンス生成
@@ -79,6 +80,10 @@ HRESULT CObjectX::Init(D3DXVECTOR3 pos)
 	assert(m_pModel != nullptr);
 	m_pModel->SetModelID(m_nType);
 
+	// 当たり判定クラスのメモリ確保
+	m_pCollision = CCollision_Rectangle3D::Create();
+	m_pCollision->SetParent(this);
+
 	return S_OK;
 }
 
@@ -87,6 +92,12 @@ HRESULT CObjectX::Init(D3DXVECTOR3 pos)
 //========================
 void CObjectX::Uninit()
 {
+	if (m_pCollision != nullptr)
+	{// 終了処理
+		m_pCollision->Uninit();
+		m_pCollision = nullptr;
+	}
+
 	if (m_pModel != nullptr)
 	{// 終了処理
 		m_pModel->Uninit();
@@ -133,14 +144,6 @@ void CObjectX::Draw()
 
 	// モデルの描画
 	m_pModel->Draw(m_mtxWorld);
-}
-
-//===========================
-// 位置の設定
-//===========================
-void CObjectX::SetPos(D3DXVECTOR3 pos)
-{
-	m_pos = pos;
 }
 
 //===========================

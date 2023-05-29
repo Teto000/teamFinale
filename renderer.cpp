@@ -23,6 +23,7 @@
 #include "game.h"
 #include "title.h"
 #include "stage_select.h"
+#include "collision.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -158,6 +159,9 @@ void CRenderer::Update()
 	//オブジェクトの更新
 	CObject::UpdateAll();
 
+	// 当たり判定の更新
+	CCollision::UpdateAll();
+
 	if (CInputKeyboard::Trigger(DIK_F4))
 	{//F4キーが押された
 		if (m_bWIRE == false)
@@ -231,6 +235,9 @@ void CRenderer::Draw()
 	{
 		//オブジェクトの描画
 		CObject::DrawAll();
+
+		// 当たり判定の描画
+		CCollision::DrawAll();
 
 #ifdef _DEBUG
 		// FPS表示

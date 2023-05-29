@@ -37,11 +37,17 @@ public:
 	void SetTexture(CTexture::NUM_TEXTURE numTex);		//テクスチャの設定
 
 	//----------------
+	// セッター
+	//----------------
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
+
+	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;	//位置の取得
-	float GetWidth() override;			//幅の取得
-	float GetHeight() override;			//高さの取得
+	D3DXVECTOR3 GetPosition() override;													//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f,0.0f,0.0f); }			//位置の取得
+	float GetWidth() override;															//幅の取得
+	float GetHeight() override;															//高さの取得
 
 private:
 	void SetVtxNor(VERTEX_3D* pVtx, WORD* pIdx);	//頂点の法線を設定

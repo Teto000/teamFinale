@@ -21,6 +21,7 @@
 
 #include "itemObj.h"
 #include "player.h"
+#include "collision_rectangle3D.h"
 
 //=======================
 // コンストラクタ
@@ -137,7 +138,7 @@ void CButtonPushGame::Update()
 
 			//移動
 			pos += m_move;
-			pObj2D[2]->SetPosition(pos);
+			pObj2D[2]->SetPos(pos);
 
 			if (CInputKeyboard::Trigger(DIK_SPACE))
 			{//SPACEキーが押された時
@@ -166,6 +167,12 @@ void CButtonPushGame::Update()
 						{// アイテムを取得していない
 							pPlayerItem = CItemObj::Create();
 							pPlayerItem->SetType(0);
+
+							// 当たり判定の設定
+							CCollision_Rectangle3D *pCollision = pPlayerItem->GetCollision();
+							pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
+							pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+							pCollision->SetUseFlag(false);
 						}
 
 						//プレイヤーがミニゲームを終了する時

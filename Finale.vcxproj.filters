@@ -158,6 +158,15 @@
     <ClCompile Include="itemObj.cpp">
       <Filter>Main\Object\X</Filter>
     </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_rectangle3D.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="line.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -272,5 +281,8 @@
     <ClInclude Include="itemObj.h">
       <Filter>Main\Object\X</Filter>
     </ClInclude>
+    <ClInclude Include="collision.h" />
+    <ClInclude Include="collision_rectangle3D.h" />
+    <ClInclude Include="line.h" />
   </ItemGroup>
 </Project>

@@ -17,6 +17,11 @@
 //-------------------------------
 #define MAX_OBJECT		(512)	//オブジェクトの最大数
 
+//-------------------------------
+// 前方宣言
+//-------------------------------
+class CCollision;
+
 //================================
 // オブジェクトクラス
 //================================
@@ -28,6 +33,7 @@ public:
 	//------------------------
 	enum EObjType
 	{
+		OBJTYPE_NONE = -1,	// タイプ無し
 		OBJTYPE_FADE = 0,	//フェード
 		OBJTYPE_PLAYER,		//プレイヤー
 		OBJTYPE_ENEMY,		//エネミー
@@ -38,7 +44,8 @@ public:
 		OBJTYPE_NUMBER,		//数値
 		OBJTYPE_STYLESHIFT,	//スタイルシフト
 		OBJTYPE_MINIGAME,	//ミニゲーム
-		OBJTYPE_ITEM,		// アイテム
+		OBJTYPE_ITEM,		//アイテム
+		OBJTYPE_CLOCK,		//時計
 		OBJTYPE_MAX,
 	};
 
@@ -67,8 +74,12 @@ public:
 	void SetObjType(EObjType ObjType);	//種類の設定
 	EObjType GetObjType();				//種類の取得
 
+	// セッター
+	virtual void SetPos(D3DXVECTOR3 pos) = 0;
+
 	//ゲッター
 	virtual D3DXVECTOR3 GetPosition() = 0;
+	virtual D3DXVECTOR3 GetPosOld() = 0;
 	virtual float GetWidth() = 0;
 	virtual float GetHeight() = 0;
 	static const int GetMaxPriolity() { return nMaxPriority; }	//プライオリティの最大数を返す
@@ -85,10 +96,11 @@ private:
 	//----------------
 	// メンバ変数
 	//----------------
-	CObject* m_pPrev;	//1つ前のオブジェクト
-	CObject* m_pNext;	//1つ後のオブジェクト
-	EObjType m_ObjType;	//オブジェクトの種類
-	bool m_bDeath;		//死亡フラグ
+	CObject* m_pPrev;			//1つ前のオブジェクト
+	CObject* m_pNext;			//1つ後のオブジェクト
+	CCollision *m_pCollision;	// 当たり判定
+	EObjType m_ObjType;			//オブジェクトの種類
+	bool m_bDeath;				//死亡フラグ
 
 	//----------------
 	// 静的メンバ変数

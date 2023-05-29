@@ -37,16 +37,20 @@ public:
 	//----------------
 	// セッター
 	//----------------
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定
 	void SetTime(int nTime);		//時間の設定
 	void SetColor(D3DXCOLOR col);	//色の設定
+	void SetDraw(bool bDraw);		//描画状態の設定
+	void SetCntTime(bool bCnt) { m_bCntTime = bCnt; }	//時間を数える状態の設定
 
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override { return m_pos; }	//位置の取得
-	float GetWidth() override { return 0.0f; }				//幅の取得
-	float GetHeight() override { return 0.0f; }				//高さの取得
-	int GetTime() { return m_nTime; }		//時間の取得
+	D3DXVECTOR3 GetPosition() override { return m_pos; }							//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }		//位置の取得
+	float GetWidth() override { return 0.0f; }										//幅の取得
+	float GetHeight() override { return 0.0f; }										//高さの取得
+	int GetTime() { return m_nTime; }												//時間の取得
 
 	//------------------
 	// 静的メンバ変数
@@ -72,6 +76,7 @@ private:
 	int m_nCntFream;				//フレーム数のカウント
 	int m_aPosTexU[nMaxDigits];		//今の桁の数値
 	float fInterval;				//数値の間隔
+	bool m_bCntTime;				//時間を数える状態
 	CNumber* m_pNumber[nMaxDigits];	//数値
 };
 
