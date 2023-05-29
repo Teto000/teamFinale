@@ -43,7 +43,8 @@ public:
 		OBJTYPE_NUMBER,		//数値
 		OBJTYPE_STYLESHIFT,	//スタイルシフト
 		OBJTYPE_MINIGAME,	//ミニゲーム
-		OBJTYPE_ITEM,		// アイテム
+		OBJTYPE_ITEM,		//アイテム
+		OBJTYPE_CLOCK,		//時計
 		OBJTYPE_MAX,
 	};
 

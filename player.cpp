@@ -538,6 +538,19 @@ void CPlayer::Collision()
 			}
 		}
 
+		//--------------------------------
+		// 時計との当たり判定
+		//--------------------------------
+		pObject = CApplication::GetGame()->GetObjectX();
+		targetPos = pObject->GetPosition();
+
+		if (CUtility::Collision(pos, posOld, size
+			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+			&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
+		{// 衝突判定が行われた。
+			int a = 0;
+		}
+
 		//位置の更新
 		SetPos(pos);
 	}

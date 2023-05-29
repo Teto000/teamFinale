@@ -45,9 +45,9 @@ CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 //===========================
 CGame::CGame()
 {
-	for (int i = 0; i < nMaxObjBG; i++)
+	for (int i = 0; i < nMaxObj; i++)
 	{
-		m_pObjBG[i];
+		m_pObj[i];
 	}
 }
 
@@ -100,12 +100,21 @@ HRESULT CGame::Init()
 	m_pObjectX->SetType(1);
 	m_pObjectX->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
-	//背景オブジェクトの生成
-	for (int i = 0; i < nMaxObjBG; i++)
+	//オブジェクトの生成
 	{
-		m_pObjBG[i] = CObjectX::Create();
-		m_pObjBG[i]->SetType(10);
-		m_pObjBG[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
+		for (int i = 0; i < 4; i++)
+		{
+			//ビル*4
+			m_pObj[i] = CObjectX::Create();
+			m_pObj[i]->SetType(10);
+			m_pObj[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
+		}
+
+		//時計
+		m_pObj[4] = CObjectX::Create();
+		m_pObj[4]->SetType(17);
+		m_pObj[4]->SetObjType(CObject::OBJTYPE_CLOCK);
+		m_pObj[4]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 	}
 
 	//BGMの再生
