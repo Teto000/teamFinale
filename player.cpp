@@ -190,6 +190,11 @@ void CPlayer::Update()
 			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
 				Retention((CItemObj*)pCollidedObj);
 			}
+
+			else if (pCollidedObj->GetObjType() == CObject::OBJTYPE_CLOCK)
+			{// 時計オブジェクトに触れていた場合
+
+			}
 		}
 	}
 
@@ -490,7 +495,7 @@ void CPlayer::Collision()
 		 // ゲーム画面なら
 		 //----------------------------
 		case CApplication::MODE_GAME:
-			pObject = CApplication::GetGame()->GetObjectX();
+			pObject = CApplication::GetGame()->GetObjectX(0);
 			targetPos = pObject->GetPosition();
 
 			//--------------------------------
@@ -562,7 +567,7 @@ void CPlayer::Collision()
 		//--------------------------------
 		// 時計との当たり判定
 		//--------------------------------
-		pObject = CApplication::GetGame()->GetObjectX();
+		pObject = CApplication::GetGame()->GetObjectX(1);
 		targetPos = pObject->GetPosition();
 
 		if (CUtility::Collision(pos, posOld, size

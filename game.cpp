@@ -37,7 +37,7 @@ CCamera*	CGame::m_pCamera = nullptr;			//カメラ
 CTime*		CGame::m_pTime = nullptr;			//タイマー
 CSky*		CGame::m_pSky = nullptr;			//空
 CMeshField*	CGame::m_pMeshField = nullptr;		//地面
-CObjectX*	CGame::m_pObjectX = nullptr;		//オブジェクト
+CObjectX*	CGame::m_pObjectX[nMaxObject] = {};	//オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 
 //===========================
@@ -45,7 +45,7 @@ CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 //===========================
 CGame::CGame()
 {
-	for (int i = 0; i < nMaxObj; i++)
+	for (int i = 0; i < nMaxObjBG; i++)
 	{
 		m_pObj[i];
 	}
@@ -96,9 +96,14 @@ HRESULT CGame::Init()
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
 
-	m_pObjectX = CItemObj::Create();
-	m_pObjectX->SetType(1);
-	m_pObjectX->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(1);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+
+	m_pObjectX[1] = CItemObj::Create();
+	m_pObjectX[1]->SetType(17);
+	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 
 	//オブジェクトの生成
 	{
@@ -109,12 +114,6 @@ HRESULT CGame::Init()
 			m_pObj[i]->SetType(10);
 			m_pObj[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
 		}
-
-		//時計
-		m_pObj[4] = CObjectX::Create();
-		m_pObj[4]->SetType(17);
-		m_pObj[4]->SetObjType(CObject::OBJTYPE_CLOCK);
-		m_pObj[4]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 	}
 
 	//BGMの再生
