@@ -79,7 +79,7 @@ private:
 	D3DXVECTOR3 Move(int nUpKey, int nDownKey
 					, int nLeftKey, int nRightKey);		// 移動
 	void Rotate();			// 回転
-	void Warp();			// ワープ
+	D3DXVECTOR3 Warp(D3DXVECTOR3 pos);		// ワープ
 	void Collision();		// 当たり判定
 
 	//--------------------------------------------------------------------

@@ -164,9 +164,6 @@ void CPlayer::Update()
 	// 回転
 	Rotate();
 
-	// ワープ
-	Warp();
-
 	if (CInputKeyboard::Trigger(DIK_F))
 	{// アイテムの保持の解除
 		Drop();
@@ -189,11 +186,6 @@ void CPlayer::Update()
 				&& CInputKeyboard::Trigger(DIK_H))
 			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
 				Retention((CItemObj*)pCollidedObj);
-			}
-
-			else if (pCollidedObj->GetObjType() == CObject::OBJTYPE_CLOCK)
-			{// 時計オブジェクトに触れていた場合
-
 			}
 		}
 	}
@@ -411,12 +403,12 @@ void CPlayer::Rotate()
 // Author : 佐藤輝翔
 // 概要 : 現在の情報(過去・未来)に合わせて指定の位置までワープする
 //=============================================================================
-void CPlayer::Warp()
+D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 {
 	//-----------------------------
 	// 変数宣言
 	//-----------------------------
-	D3DXVECTOR3 pos = GetPos();	//位置を取得
+	CCamera* pCamera = CApplication::GetGame()->GetCamera();
 	int nTimeRimit = 300;		//過去に残れる時間の限界
 
 	//-----------------------------
@@ -433,8 +425,12 @@ void CPlayer::Warp()
 			m_bFuture = true;
 
 			//位置を更新
-			pos.y = 0.0f;
+			pos.x = 0.0f;
 			SetPos(pos);
+
+			//カメラの位置の設定
+			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 
 			//時間を初期化
 			m_nCntRimit = 0;
@@ -446,26 +442,31 @@ void CPlayer::Warp()
 	// (オブジェクトに触れた時にする予定)
 	//-----------------------------
 	if (CInputKeyboard::Trigger(DIK_0))
-	{//0キーを押したとき
+	{//0キーを押したとき & ワープ出来る状態なら
 		//-----------------------------
 		// 位置の変更
 		//-----------------------------
-		if (m_bFuture)
+		if (!m_bFuture)
 		{//未来にいるなら
 			//プレイヤーの位置を変更
-			pos.y = 300.0f;
+			pos.x = 1000.0f;
+
+			//カメラの位置の設定
+			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 		}
 		else
 		{//過去にいるなら
-			pos.y = 0.0f;
+			pos.x = 0.0f;
+			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 		}
-
-		//位置を更新
-		SetPos(pos);
 
 		//現在の時代を切り替え
 		m_bFuture = !m_bFuture;
 	}
+
+	return pos;
 }
 
 //=============================================================================
@@ -569,16 +570,24 @@ void CPlayer::Collision()
 		//--------------------------------
 		pObject = CApplication::GetGame()->GetObjectX(1);
 		targetPos = pObject->GetPosition();
+		D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
 
 		if (CUtility::Collision(pos, posOld, size
 			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 			&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
 		{// 衝突判定が行われた。
-			int a = 0;
+			// ワープ
+			newPos = Warp(pos);
 		}
 
 		//位置の更新
 		SetPos(pos);
+
+		if (newPos != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+		{//ワープ先の位置が更新されていたら
+			//位置を更新
+			SetPos(newPos);
+		}
 	}
 }
 

@@ -100,6 +100,7 @@ HRESULT CGame::Init()
 	m_pObjectX[0]->SetType(1);
 	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
+	//ŽžŒv
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
