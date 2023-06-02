@@ -40,11 +40,14 @@ public:
 	//------------------
 	void ShakeCamera(int fream, float magnitude, D3DXVECTOR3 max);	//カメラの振動情報の設定
 	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeigh);
+	void SetPosV(D3DXVECTOR3 posV) { m_posV = posV; }	//視点の設定
+	void SetPosR(D3DXVECTOR3 posR) { m_posR = posR; }	//注視点の設定
 
 	//------------------
 	// ゲッター
 	//------------------
 	D3DXVECTOR3 GetPosV()		{ return m_posV; }		//視点を取得
+	D3DXVECTOR3 GetPosR()		{ return m_posR; }		//注視点を取得
 	D3DXVECTOR3 GetRot()		{ return m_rot; }		//角度を取得
 	D3DVIEWPORT9 GetViewport()  { return m_viewport; }	//ビューポートの取得	
 

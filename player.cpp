@@ -408,6 +408,7 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	// 変数宣言
 	//-----------------------------
+	CCamera* pCamera = CApplication::GetGame()->GetCamera();
 	int nTimeRimit = 300;		//過去に残れる時間の限界
 
 	//-----------------------------
@@ -424,8 +425,12 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 			m_bFuture = true;
 
 			//位置を更新
-			pos.y -= 1000.0f;
+			pos.x = 0.0f;
 			SetPos(pos);
+
+			//カメラの位置の設定
+			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 
 			//時間を初期化
 			m_nCntRimit = 0;
@@ -444,11 +449,17 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 		if (!m_bFuture)
 		{//未来にいるなら
 			//プレイヤーの位置を変更
-			pos.x += 1000.0f;
+			pos.x = 1000.0f;
+
+			//カメラの位置の設定
+			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 		}
 		else
 		{//過去にいるなら
-			pos.x -= 1000.0f;
+			pos.x = 0.0f;
+			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 		}
 
 		//現在の時代を切り替え
