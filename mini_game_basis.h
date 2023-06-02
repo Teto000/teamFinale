@@ -23,6 +23,7 @@ public:
 	{
 		TYPE_BUTTUNPUSH = 0,
 		TYPE_BUTTONMASH,
+		TYPE_STICKROTATE,
 		TYPE_MAX
 	};
 
