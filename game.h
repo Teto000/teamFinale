@@ -46,6 +46,7 @@ public:
 	static CObjectX* GetObjectX(int nNum) { return m_pObjectX[nNum]; }		//オブジェクトの取得
 	static CCamera*	GetCamera() { return m_pCamera; }		//カメラの取得
 	static const int GetMaxPlayer() { return nMaxPlayer; }	//プレイヤーの最大数を取得
+	static const int GetMaxObject() { return nMaxObject; }	//オブジェクトの最大数を取得
 	static bool GetFinish() { return m_bFinish; }			//ゲーム終了状態を取得
 
 private:
@@ -53,7 +54,7 @@ private:
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
-	static const int nMaxObject = 2;	//オブジェクトの最大数
+	static const int nMaxObject = 3;	//オブジェクトの最大数
 	static const int nMaxObjBG = 4;		//背景オブジェクトの最大数
 
 	//-------------------

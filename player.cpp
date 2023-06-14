@@ -24,6 +24,7 @@
 #include "itemObj.h"
 #include "mini_game_basis.h"
 #include "collision_rectangle3D.h"
+#include "debug_proc.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -561,7 +562,7 @@ void CPlayer::Collision()
 		//-------------------------------------------
 		D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
 
-		for (int i = 0; i < CObject::GetMaxPriolity(); i++)
+		for (int i = 0; i < CGame::GetMaxObject(); i++)
 		{//オブジェクト数分回す
 
 			//オブジェクトの位置を取得
@@ -599,7 +600,10 @@ void CPlayer::Collision()
 		if (newPos != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 		{//ワープ先の位置が更新されていたら
 			//位置を更新
-			SetPos(newPos);
+			for (int i = 0; i < CGame::GetMaxPlayer(); i++)
+			{
+				CGame::GetPlayer(i)->SetPos(newPos);
+			}
 		}
 	}
 }
