@@ -111,7 +111,7 @@ HRESULT CGame::Init()
 	m_pObjectX[2] = CItemObj::Create();
 	m_pObjectX[2]->SetType(17);
 	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 100.0f));
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
 
 	//-----------------------------------
 	// オブジェクトの生成(ビル)

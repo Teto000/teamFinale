@@ -60,7 +60,8 @@ CPlayer * CPlayer::Create()
 //=============================================================================
 // 静的メンバ変数宣言
 //=============================================================================
-bool CPlayer::m_bFuture = false;		// 未来にいるかどうか
+bool CPlayer::m_bFuture = false;	// 未来にいるかどうか
+bool CPlayer::m_bWarp = false;		// ワープする状態かどうか
 
 //=============================================================================
 // コンストラクタ
@@ -446,15 +447,14 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	// キーを押したときの処理
 	// (オブジェクトに触れた時にする予定)
 	//-----------------------------
-	if (CInputKeyboard::Trigger(DIK_0))
-	{//0キーを押したとき & ワープ出来る状態なら
+	if (CInputKeyboard::Trigger(DIK_0) && !m_bWarp)
+	{//0キーを押したとき & ワープしない状態なら
 		//-----------------------------
 		// 位置の変更
 		//-----------------------------
 		if (!m_bFuture)
 		{//未来にいるなら
-			//プレイヤーの位置を変更
-			pos.x = 1000.0f;
+			pos.x = 1000.0f;	//プレイヤーの位置を変更
 
 			//カメラの位置の設定
 			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
@@ -467,8 +467,9 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 		}
 
-		//現在の時代を切り替え
-		m_bFuture = !m_bFuture;
+		m_bFuture = !m_bFuture;		//現在の時代を切り替え
+
+		m_bWarp = true;				//ワープする状態にする
 	}
 
 	return pos;
@@ -518,14 +519,6 @@ void CPlayer::Collision()
 						CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
 						m_bMiniGame = true;
 					}
-				}
-
-				//---------------------------------
-				// オブジェクトの見た目を変更する
-				//---------------------------------
-				if (CInputKeyboard::Trigger(DIK_Z))
-				{//Zキーが押されたら
-					pObject->SetType(10);
 				}
 			}
 			break;
@@ -595,15 +588,17 @@ void CPlayer::Collision()
 		}
 
 		//位置の更新
-		//SetPos(pos);
+		SetPos(pos);
 
-		if (newPos != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-		{//ワープ先の位置が更新されていたら
+		if (m_bWarp)
+		{//ワープする状態なら
 			//位置を更新
 			for (int i = 0; i < CGame::GetMaxPlayer(); i++)
 			{
 				CGame::GetPlayer(i)->SetPos(newPos);
 			}
+
+			m_bWarp = false;	//ワープしない状態
 		}
 	}
 }
