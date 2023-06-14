@@ -445,16 +445,12 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 
 	//-----------------------------
 	// キーを押したときの処理
-	// (オブジェクトに触れた時にする予定)
 	//-----------------------------
 	if (CInputKeyboard::Trigger(DIK_0) && !m_bWarp)
 	{//0キーを押したとき & ワープしない状態なら
-		//-----------------------------
-		// 位置の変更
-		//-----------------------------
 		if (!m_bFuture)
 		{//未来にいるなら
-			pos.x = 1000.0f;	//プレイヤーの位置を変更
+			pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
 
 			//カメラの位置の設定
 			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
@@ -462,7 +458,7 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 		}
 		else
 		{//過去にいるなら
-			pos.x = 0.0f;
+			pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
 			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
 			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 		}
