@@ -14,6 +14,7 @@
 
 #include "mini_game_buttonpush.h"
 #include "mg_buttonmash.h"
+#include "mg_stickrotate.h"
 #include "player.h"
 
 //=======================
@@ -63,6 +64,12 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 	case TYPE_BUTTONMASH:
 	{//ボタン連打ゲーム
 		CButtonMash::Create(pos);
+	}
+	break;
+
+	case TYPE_STICKROTATE:
+	{//スティック回転ゲーム
+		CStickRotate::Create(pos);
 	}
 	break;
 
