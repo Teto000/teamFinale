@@ -185,7 +185,14 @@ void CPlayer::Update()
 			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
 				&& CInputKeyboard::Trigger(DIK_H))
 			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
-				Retention((CItemObj*)pCollidedObj);
+				if (m_pMyItem != nullptr)
+				{
+					m_pMyItem->Stack((CItemObj*)pCollidedObj);
+				}
+				else
+				{// アイテムを取得する
+					Retention((CItemObj*)pCollidedObj);
+				}
 			}
 		}
 	}
@@ -549,8 +556,15 @@ void CPlayer::Collision()
 			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
 		{// 衝突判定が行われた。
 			if (CInputKeyboard::Trigger(DIK_H))
-			{// アイテムを取得する
-				Retention((CItemObj*)pObject);
+			{
+				if (m_pMyItem != nullptr)
+				{
+					m_pMyItem->Stack((CItemObj*)pObject);
+				}
+				else
+				{// アイテムを取得する
+					Retention((CItemObj*)pObject);
+				}
 			}
 		}
 
