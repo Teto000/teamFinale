@@ -254,7 +254,6 @@ void CItemObj::Stack()
 
 			// 親の設定
 			CItemObj *pItem = this;
-			int nCntChildItem = 0;
 
 			while (1)
 			{//pObjがnullじゃないなら
@@ -268,6 +267,10 @@ void CItemObj::Stack()
 					pItem->SetChildItem(pTargetItem);
 
 					// アイテムの当たり判定の設定
+					pTargetItem->GetCollision()->SetUseFlag(false);
+					D3DXVECTOR3 collisionSize = GetCollision()->GetSize();
+					collisionSize.y += pTargetItem->GetCollision()->GetSize().y;
+					GetCollision()->SetSize(collisionSize);
 					D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMaterial()->size;
 					pTargetItem->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
 
@@ -276,7 +279,6 @@ void CItemObj::Stack()
 
 				//次のオブジェクトのアドレスを代入
 				pItem = pItemNext;
-				nCntChildItem++;
 			}
 		}
 	}

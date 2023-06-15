@@ -194,10 +194,12 @@ void CPlayer::Update()
 				if (m_pMyItem != nullptr)
 				{
 					m_pMyItem->Stack((CItemObj*)pCollidedObj);
+					break;
 				}
 				else
 				{// ƒAƒCƒeƒ€‚ðŽæ“¾‚·‚é
 					Retention((CItemObj*)pCollidedObj);
+					break;
 				}
 			}
 		}
