@@ -167,6 +167,9 @@
     <ClCompile Include="line.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="mg_stickrotate.cpp">
+      <Filter>Main\MiniGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -274,7 +277,6 @@
     <ClInclude Include="mini_game_buttonpush.h">
       <Filter>Main\MiniGame</Filter>
     </ClInclude>
-    <ClInclude Include="mg_buttonmash.h" />
     <ClInclude Include="stage_select.h">
       <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
@@ -284,5 +286,11 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="collision_rectangle3D.h" />
     <ClInclude Include="line.h" />
+    <ClInclude Include="mg_stickrotate.h">
+      <Filter>Main\MiniGame</Filter>
+    </ClInclude>
+    <ClInclude Include="mg_buttonmash.h">
+      <Filter>Main\MiniGame</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -100,13 +100,22 @@ HRESULT CGame::Init()
 	m_pObjectX[0]->SetType(1);
 	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
-	//時計
+	//-----------------------------------
+	// オブジェクトの生成(時計)
+	//-----------------------------------
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[1]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
 
-	//オブジェクトの生成
+	m_pObjectX[2] = CItemObj::Create();
+	m_pObjectX[2]->SetType(17);
+	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+
+	//-----------------------------------
+	// オブジェクトの生成(ビル)
+	//-----------------------------------
 	{
 		for (int i = 0; i < 4; i++)
 		{
@@ -181,5 +190,11 @@ void CGame::Update()
 	{//Lキーを押したら
 		//ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
+	}
+
+	if (CInputKeyboard::Trigger(DIK_M))
+	{//Mキーを押したら
+		//ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
 	}
 }

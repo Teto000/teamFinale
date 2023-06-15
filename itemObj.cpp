@@ -16,6 +16,7 @@
 #include "application.h"
 #include "renderer.h"
 #include "model3D.h"
+#include "collision_rectangle3D.h"
 
 //=============================================================================
 // インスタンス生成
@@ -45,7 +46,9 @@ CItemObj * CItemObj::Create()
 // Author : 唐﨑結斗
 // 概要 : インスタンス生成時に行う処理
 //=============================================================================
-CItemObj::CItemObj() : m_pParent(nullptr),			// 親オブジェクトの情報
+CItemObj::CItemObj() : m_pParentItem(nullptr),		// 親オブジェの情報
+m_pChildItem(nullptr),								// 子供オブジェの情報
+m_pParent(nullptr),									// 親オブジェクトの情報
 m_posOffset(D3DXVECTOR3(0.0f,0.0f,0.0f)),			// 位置の差分
 m_rotOffset(D3DXVECTOR3(0.0f, 0.0f, 0.0f))			// 向きの差分
 {
@@ -99,6 +102,11 @@ void CItemObj::Update()
 {
 	// モデルオブジェクトの更新
 	CObjectX::Update();
+
+	if (GetParent() == nullptr)
+	{// 詰み重ね
+		Stack();
+	}
 }
 
 //=============================================================================
@@ -158,4 +166,118 @@ void CItemObj::Draw()
 	// モデルの描画
 	pModel->Draw(mtxWorld);
 	SetMtx(mtxWorld);
+}
+
+void CItemObj::Stack(CItemObj * pTarget)
+{
+	// 親の設定
+	CItemObj *pItem = this;
+	int nCntChildItem = 0;
+
+	while (1)
+	{//pObjがnullじゃないなら
+	 //次のオブジェクトを保存
+		CItemObj *pItemNext = (CItemObj*)pItem->GetChildItem();
+
+		if (pItem->GetChildItem() == nullptr)
+		{// 親子関係の設定
+			pTarget->SetParentItem(pItem);
+			pTarget->SetParent(pItem->GetModel());
+			SetChildItem(pTarget);
+
+			// アイテムの当たり判定の設定
+			D3DXVECTOR3 modelSize = pTarget->GetModel()->GetMaterial()->size;
+			pTarget->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
+
+			break;
+		}
+
+		//次のオブジェクトのアドレスを代入
+		pItem = pItemNext;
+		nCntChildItem++;
+	}
+}
+
+//=============================================================================
+// 親モデルの設定
+// Author : 唐﨑結斗
+// 概要 : 親モデルの設定
+//=============================================================================
+void CItemObj::SetParent(CModel3D * pParent)
+{
+	m_pParent = pParent;
+
+	// 当たり判定
+	CCollision_Rectangle3D *pCollision = GetCollision();
+	pCollision->SetUseFlag(false);
+}
+
+//=============================================================================
+// 親モデルの設定
+// Author : 唐﨑結斗
+// 概要 : 親モデルの設定
+//=============================================================================
+void CItemObj::SetParent()
+{
+	if (m_pParentItem != nullptr)
+	{// 親がアイテムの場合
+		SetParentItem();
+	}
+
+	// 親の設定の解除
+	m_pParent = nullptr;
+
+	// 当たり判定
+	CCollision_Rectangle3D *pCollision = GetCollision();
+	pCollision->SetUseFlag(true);
+}
+
+//=============================================================================
+// 積み重ね
+// Author : 唐﨑結斗
+// 概要 : 当たったアイテムを積み重ねる処理
+//=============================================================================
+void CItemObj::Stack()
+{
+	// アイテムどうしの当たり判定
+	CCollision_Rectangle3D *pCollision = GetCollision();
+	pCollision->Collision(CObject::OBJTYPE_ITEM, false);
+
+	// 当たったオブジェクトのリストを取得
+	std::vector<CObject*> apCollidedObj = pCollision->GetCollidedObj();
+
+	if (apCollidedObj.size() > 0)
+	{// 当たったオブジェクトとの処理
+		for (int nCntObj = 0; nCntObj < apCollidedObj.size(); nCntObj++)
+		{// 当たったアイテムの設定
+			CItemObj *pTargetItem = (CItemObj*)apCollidedObj.at(nCntObj);
+
+			// 親の設定
+			CItemObj *pItem = this;
+			int nCntChildItem = 0;
+
+			while (1)
+			{//pObjがnullじゃないなら
+			 //次のオブジェクトを保存
+				CItemObj *pItemNext = (CItemObj*)pItem->GetChildItem();
+
+				if (pItem->GetChildItem() == nullptr)
+				{// 親子関係の設定
+					pTargetItem->SetParentItem(pItem);
+					pTargetItem->SetParent(pItem->GetModel());
+					pItem->SetChildItem(pTargetItem);
+
+					// アイテムの当たり判定の設定
+					D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMaterial()->size;
+					pTargetItem->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
+
+					break;
+				}
+
+				//次のオブジェクトのアドレスを代入
+				pItem = pItemNext;
+				nCntChildItem++;
+			}
+		}
+	}
 }
