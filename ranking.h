@@ -42,7 +42,7 @@ public:
 	// セッター
 	//----------------
 	static void SetNewTime(int nTime) { m_nTime = nTime; }							//新しい時間を設定
-	void SetPos(D3DXVECTOR3 pos) override {}									//位置の設定
+	void SetPos(D3DXVECTOR3 pos) override {}										//位置の設定
 
 	//----------------
 	// ゲッター
