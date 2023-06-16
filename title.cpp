@@ -44,6 +44,7 @@ HRESULT CTitle::Init()
 	{
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 		m_pBg = CBg::Create(pos, CBg::BGTYPE_TITLE);
+		m_pBg->SetTexture(CTexture::TEXTURE_TITLE);
 	}
 
 	//BGM‚ÌÄ¶
