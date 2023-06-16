@@ -119,6 +119,7 @@ private:
 	D3DXCOLOR col;
 	bool m_bCrate;				// ƒrƒ‹‚ªŒš‚Á‚½‚©
 	bool m_bText;
+	static bool m_bWarp;		// ƒ[ƒv‚·‚éó‘Ô‚©‚Ç‚¤‚©
 };
 
 #endif
