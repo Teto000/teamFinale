@@ -47,7 +47,7 @@ public:
 	//------------------
 	// Ã“Iƒƒ“ƒo•Ï”
 	//------------------
-	static CButtonPushGame* Create(D3DXVECTOR3 pos);
+	static CButtonPushGame* Create(D3DXVECTOR3 pos);	//¶¬
 
 private:
 	//------------------

@@ -77,13 +77,10 @@ CPlayer::CPlayer()
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
 	m_nNumber = 0;			// プレイヤー番号
 	m_bMiniGame = false;	// ミニゲーム中かどうか
-	m_pMyItem = nullptr;
-	m_bCrate = false;
-	m_bText = false;
+	m_pMyItem = nullptr;	// アイテム所持情報
+	m_bCrate = false;		// ビルが建ったかどうか
 	m_pLine = nullptr;		// ライン情報
-	lineCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);	// ラインの色
-	m_flash = CLEAR_IN;		// フラッシュ状態
-	col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	lineCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);// ラインの色
 }
 
 //=============================================================================
@@ -116,15 +113,13 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	m_pMove->SetMoving(NOM_SPEED, MAX_SPEED, MIN_SPEED, NOM_FRICTION);
 	m_nParentParts = 3;
 
-#ifdef _DEBUG
-	// ライン情報
+	// ラインの生成
 	m_pLine = new CLine*[4];
 
 	for (int nCntLine = 0; nCntLine < 4; nCntLine++)
 	{
 		m_pLine[nCntLine] = CLine::Create();
 	}
-#endif // _DEBUG
 
 	return E_NOTIMPL;
 }
@@ -146,7 +141,7 @@ void CPlayer::Uninit()
 	// 親クラスの終了
 	CMotionModel3D::Uninit();
 
-#ifdef _DEBUG
+	// ラインの終了処理
 	if (m_pLine != nullptr)
 	{
 		for (int nCntLine = 0; nCntLine < 4; nCntLine++)
@@ -158,7 +153,6 @@ void CPlayer::Uninit()
 		delete[] m_pLine;
 		m_pLine = nullptr;
 	}
-#endif // _DEBUG
 
 	// オブジェクト3Dの解放
 	Release();
@@ -203,6 +197,7 @@ void CPlayer::Update()
 	// 回転
 	Rotate();
 
+	// アイテムを所持していたら
 	if (m_pMyItem != nullptr)
 	{
 		const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -222,41 +217,6 @@ void CPlayer::Update()
 	{
 		if (m_pMyItem != nullptr)
 		{// アイテムを取得している
-			//アイテムを置く指示
-			if (!m_bText)
-			{
-				m_pObj2D = CObject2D::Create(D3DXVECTOR3(640.0f, 200.0f, 0.0f));
-				m_pObj2D->SetColor(col);
-				m_pObj2D->SetTexture(CTexture::TEXTURE_ITEM);
-				m_pObj2D->SetSize(250.0f, 150.0f);
-				m_bText = true;
-			}
-
-			if (m_flash == CLEAR_IN)
-			{//透明状態
-				col.a -= 0.03f;	//ポリゴンを透明にしていく
-
-				if (col.a <= 0.0f)
-				{
-					col.a = 0.0f;
-					m_flash = CLEAR_OUT;	//透明じゃない状態
-				}
-			}
-			else if (m_flash == CLEAR_OUT)
-			{//透明じゃない状態
-				col.a += 0.03f;	//ポリゴンを不透明にしていく
-
-				if (col.a >= 1.0f)
-				{
-					col.a = 1.0f;
-					m_flash = CLEAR_IN;	//透明状態に
-
-					m_pObj2D->SetColor(col);
-				}
-			}
-
-			m_pObj2D->SetColor(col);
-
 			if (CInputKeyboard::Trigger(DIK_F)
 				&& !m_bCrate)
 			{//アイテムを置くと建物が生成される
@@ -270,17 +230,8 @@ void CPlayer::Update()
 			}
 		}
 	}
-	else
-	{
-		//オブジェクトがあったら削除
-		if (m_pObj2D != nullptr)
-		{
-			m_pObj2D->Uninit();
-			m_pObj2D = nullptr;
-			m_bText = false;
-		}
-	}
 
+	// Playerの位置のデバッグ表示
 	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
 
 	if (CInputKeyboard::Trigger(DIK_F))
@@ -343,6 +294,11 @@ void CPlayer::Draw()
 	CMotionModel3D::Draw();
 }
 
+//=============================================================================
+// ゲーム中の設定処理
+// Author : 梶田大夢
+// 概要 : ゲーム中かどうかの設定を行う
+//=============================================================================
 void CPlayer::SetMiniGame(bool bMiniGame)
 {
 	m_bMiniGame = bMiniGame;
@@ -632,9 +588,10 @@ void CPlayer::Collision()
 			{// 衝突判定が行われた。
 				if (CInputKeyboard::Trigger(DIK_X))
 				{
+					// ミニゲーム中じゃないなら
 					if (!m_bMiniGame)
 					{
-						//ミニゲームの生成
+						//ミニゲームの生成&ミニゲーム中に設定する
 						CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
 						m_bMiniGame = true;
 					}

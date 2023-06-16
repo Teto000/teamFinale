@@ -180,12 +180,6 @@ void CGame::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
 
-	if (CInputKeyboard::Trigger(DIK_T))
-	{//Tキーを押したら
-		//ミニゲームの生成
-		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-	}
-
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
 		//ミニゲームの生成
