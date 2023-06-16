@@ -25,6 +25,9 @@
 #include "mini_game_basis.h"
 #include "collision_rectangle3D.h"
 #include "debug_proc.h"
+#include "application.h"
+#include "fade.h"
+#include "line.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -74,6 +77,12 @@ CPlayer::CPlayer()
 	m_nNumber = 0;			// プレイヤー番号
 	m_bMiniGame = false;	// ミニゲーム中かどうか
 	m_pMyItem = nullptr;
+	m_bCrate = false;
+	m_bText = false;
+	m_pLine = nullptr;		// ライン情報
+	lineCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);	// ラインの色
+	m_flash = CLEAR_IN;		// フラッシュ状態
+	col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 //=============================================================================
@@ -106,6 +115,16 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	m_pMove->SetMoving(NOM_SPEED, MAX_SPEED, MIN_SPEED, NOM_FRICTION);
 	m_nParentParts = 3;
 
+#ifdef _DEBUG
+	// ライン情報
+	m_pLine = new CLine*[4];
+
+	for (int nCntLine = 0; nCntLine < 4; nCntLine++)
+	{
+		m_pLine[nCntLine] = CLine::Create();
+	}
+#endif // _DEBUG
+
 	return E_NOTIMPL;
 }
 
@@ -125,6 +144,20 @@ void CPlayer::Uninit()
 
 	// 親クラスの終了
 	CMotionModel3D::Uninit();
+
+#ifdef _DEBUG
+	if (m_pLine != nullptr)
+	{
+		for (int nCntLine = 0; nCntLine < 4; nCntLine++)
+		{
+			m_pLine[nCntLine]->Uninit();
+			m_pLine[nCntLine] = nullptr;
+		}
+
+		delete[] m_pLine;
+		m_pLine = nullptr;
+	}
+#endif // _DEBUG
 
 	// オブジェクト3Dの解放
 	Release();
@@ -168,6 +201,86 @@ void CPlayer::Update()
 
 	// 回転
 	Rotate();
+
+	if (m_pMyItem != nullptr)
+	{
+		const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		// ラインの設定
+		m_pLine[0]->SetLine(D3DXVECTOR3(0.0f,0.0f,0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, 0.0f), lineCol);
+		m_pLine[1]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, -150.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
+		m_pLine[2]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-200.0f, 10.0f, -150.0f), lineCol);
+		m_pLine[3]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-50.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
+	}
+
+	//Playerが一定の位置にいる時
+	if (pos.x > -200.0f
+		&&pos.x < -50.0f
+		&&pos.z < 0.0f
+		&&pos.z > -150.0f)
+	{
+		if (m_pMyItem != nullptr)
+		{// アイテムを取得している
+			//アイテムを置く指示
+			if (!m_bText)
+			{
+				m_pObj2D = CObject2D::Create(D3DXVECTOR3(640.0f, 200.0f, 0.0f));
+				m_pObj2D->SetColor(col);
+				m_pObj2D->SetTexture(CTexture::TEXTURE_ITEM);
+				m_pObj2D->SetSize(250.0f, 150.0f);
+				m_bText = true;
+			}
+
+			if (m_flash == CLEAR_IN)
+			{//透明状態
+				col.a -= 0.03f;	//ポリゴンを透明にしていく
+
+				if (col.a <= 0.0f)
+				{
+					col.a = 0.0f;
+					m_flash = CLEAR_OUT;	//透明じゃない状態
+				}
+			}
+			else if (m_flash == CLEAR_OUT)
+			{//透明じゃない状態
+				col.a += 0.03f;	//ポリゴンを不透明にしていく
+
+				if (col.a >= 1.0f)
+				{
+					col.a = 1.0f;
+					m_flash = CLEAR_IN;	//透明状態に
+
+					m_pObj2D->SetColor(col);
+				}
+			}
+
+			m_pObj2D->SetColor(col);
+
+			if (CInputKeyboard::Trigger(DIK_F)
+				&& !m_bCrate)
+			{//アイテムを置くと建物が生成される
+				CObjectX *m_pObj = CObjectX::Create();
+				m_pObj->SetType(10);
+				m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
+				m_bCrate = true;
+
+				//リザルト画面に移行
+				CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+			}
+		}
+	}
+	else
+	{
+		//オブジェクトがあったら削除
+		if (m_pObj2D != nullptr)
+		{
+			m_pObj2D->Uninit();
+			m_pObj2D = nullptr;
+			m_bText = false;
+		}
+	}
+
+	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
 
 	if (CInputKeyboard::Trigger(DIK_F))
 	{// アイテムの保持の解除

@@ -53,6 +53,7 @@ public:
 		TEXTURE_BUTTON,			//ボタン連打
 		TEXTURE_GAUGE,			//ゲージ
 		TEXTURE_JOYPAD,			//ジョイパッド
+		TEXTURE_ITEM,			//アイテム指示
 	};
 
 	//--------------------------------------------------------------------
