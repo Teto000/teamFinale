@@ -634,11 +634,14 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 	{// 衝突判定が行われた。
 		if (CInputKeyboard::Trigger(DIK_X))
 		{
+			int randData;
+			randData = rand() % 1;
+
 			// ミニゲーム中じゃないなら
 			if (!m_bMiniGame)
 			{
 				//ミニゲームの生成&ミニゲーム中に設定する
-				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
 				m_bMiniGame = true;
 			}
 		}
