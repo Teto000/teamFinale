@@ -61,7 +61,7 @@ HRESULT CResult::Init()
 void CResult::Uninit()
 {
 	//BGM‚Ì’âŽ~
-	CSound::StopSound();
+	//CSound::StopSound();
 }
 
 //===========================

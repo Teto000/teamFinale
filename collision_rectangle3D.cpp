@@ -145,11 +145,11 @@ void CCollision_Rectangle3D::Draw()
 	{
 #ifdef _DEBUG
 		lineCol = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+
+		// ラインの更新
+		SetLine();
 #endif // _DEBUG
 	}
-
-	// ラインの更新
-	SetLine();
 }
 
 //=============================================================================
