@@ -209,6 +209,9 @@ void CRenderer::Draw()
 		//ƒJƒƒ‰‚ÌÝ’è
 		m_pCamera->SetCamera(m_pD3DDevice);
 		break;
+
+	default:
+		break;
 	}
 
 	if (m_pCamera != nullptr)

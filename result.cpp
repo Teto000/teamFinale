@@ -18,13 +18,15 @@
 #include "bg.h"
 #include "fade.h"
 #include "ranking.h"
+#include "debug_proc.h"
 
 //===========================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //===========================
 CResult::CResult()
 {
-
+	m_pBg = nullptr;	//”wŒi
+	m_pRanking = nullptr;
 }
 
 //===========================
@@ -32,7 +34,7 @@ CResult::CResult()
 //===========================
 CResult::~CResult()
 {
-	m_pBg = nullptr;	//”wŒi
+	
 }
 
 //===========================
@@ -44,6 +46,7 @@ HRESULT CResult::Init()
 		//”wŒi‚Ì¶¬
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 		m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
 	}
 
 	//BGM‚ÌÄ¶
@@ -61,7 +64,7 @@ HRESULT CResult::Init()
 void CResult::Uninit()
 {
 	//BGM‚Ì’â~
-	CSound::StopSound();
+	//CSound::StopSound();
 }
 
 //===========================
@@ -83,4 +86,6 @@ void CResult::Update()
 		//SE‚ÌÄ¶
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
 	}
+
+	CDebugProc::Print("ƒŠƒUƒ‹ƒg‰æ–Ê");
 }
