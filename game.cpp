@@ -176,6 +176,7 @@ void CGame::Update()
 	// ジョイパッドでの操作
 	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
 
+#ifdef _DEBUG
 	//-----------------------
 	// 画面遷移
 	//-----------------------
@@ -189,7 +190,6 @@ void CGame::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
 
-#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
 	 //ミニゲームの生成

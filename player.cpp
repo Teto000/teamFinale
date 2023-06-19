@@ -656,6 +656,9 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 		{//アイテムを置いたら
 			//東屋を直す
 			pObject->SetType(18);
+
+			//リザルト画面に移行
+			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 		}
 	}
 }
