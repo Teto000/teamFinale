@@ -114,6 +114,19 @@ HRESULT CGame::Init()
 	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
 
 	//-----------------------------------
+	// オブジェクトの生成(東屋)
+	//-----------------------------------
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(18);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_PAVILION);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+
+	m_pObjectX[4] = CItemObj::Create();
+	m_pObjectX[4]->SetType(19);
+	m_pObjectX[4]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	m_pObjectX[4]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+
+	//-----------------------------------
 	// オブジェクトの生成(ビル)
 	//-----------------------------------
 	{

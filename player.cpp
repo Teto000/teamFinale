@@ -209,27 +209,27 @@ void CPlayer::Update()
 		m_pLine[3]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-50.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
 	}
 
-	//Playerが一定の位置にいる時
-	if (pos.x > -200.0f
-		&&pos.x < -50.0f
-		&&pos.z < 0.0f
-		&&pos.z > -150.0f)
-	{
-		if (m_pMyItem != nullptr)
-		{// アイテムを取得している
-			if (CInputKeyboard::Trigger(DIK_F)
-				&& !m_bCrate)
-			{//アイテムを置くと建物が生成される
-				CObjectX *m_pObj = CObjectX::Create();
-				m_pObj->SetType(10);
-				m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
-				m_bCrate = true;
+	////Playerが一定の位置にいる時
+	//if (pos.x > -200.0f
+	//	&&pos.x < -50.0f
+	//	&&pos.z < 0.0f
+	//	&&pos.z > -150.0f)
+	//{
+	//	if (m_pMyItem != nullptr)
+	//	{// アイテムを取得している
+	//		if (CInputKeyboard::Trigger(DIK_F)
+	//			&& !m_bCrate)
+	//		{//アイテムを置くと建物が生成される
+	//			CObjectX *m_pObj = CObjectX::Create();
+	//			m_pObj->SetType(10);
+	//			m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
+	//			m_bCrate = true;
 
-				//リザルト画面に移行
-				CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-			}
-		}
-	}
+	//			//リザルト画面に移行
+	//			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	//		}
+	//	}
+	//}
 
 	// Playerの位置のデバッグ表示
 	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
@@ -577,27 +577,6 @@ void CPlayer::Collision()
 		 // ゲーム画面なら
 		 //----------------------------
 		case CApplication::MODE_GAME:
-			pObject = CApplication::GetGame()->GetObjectX(0);
-			targetPos = pObject->GetPosition();
-
-			//--------------------------------
-			// 当たり判定
-			//--------------------------------
-			if (CUtility::Collision(pos, posOld, size
-				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
-			{// 衝突判定が行われた。
-				if (CInputKeyboard::Trigger(DIK_X))
-				{
-					// ミニゲーム中じゃないなら
-					if (!m_bMiniGame)
-					{
-						//ミニゲームの生成&ミニゲーム中に設定する
-						CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-						m_bMiniGame = true;
-					}
-				}
-			}
-
 			//-------------------------------------------
 			// オブジェクトの種類ごとの当たり判定
 			//-------------------------------------------
@@ -607,6 +586,25 @@ void CPlayer::Collision()
 			 //オブジェクトの位置を取得
 				pObject = CApplication::GetGame()->GetObjectX(i);
 				targetPos = pObject->GetPosition();
+
+				//--------------------------------
+				// 東屋との当たり判定
+				//--------------------------------
+				if (CUtility::Collision(pos, posOld, size
+					, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+					&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
+				{// 衝突判定が行われた。
+					if (CInputKeyboard::Trigger(DIK_X))
+					{
+						// ミニゲーム中じゃないなら
+						if (!m_bMiniGame)
+						{
+							//ミニゲームの生成&ミニゲーム中に設定する
+							CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+							m_bMiniGame = true;
+						}
+					}
+				}
 
 			//--------------------------------
 			// アイテムとの当たり判定
