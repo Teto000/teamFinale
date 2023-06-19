@@ -84,6 +84,11 @@ private:
 	D3DXVECTOR3 Warp(D3DXVECTOR3 pos);		// ワープ
 	void Collision();		// 当たり判定
 
+	/* ↓ オブジェクトごとの当たり判定 ↓ */
+	void Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject);	// 東屋
+	void Coll_Item(D3DXVECTOR3 size, CObjectX* pObject);		// アイテム
+	void Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject);		// 時計
+
 	//--------------------------------------------------------------------
 	// メンバ変数
 	//--------------------------------------------------------------------

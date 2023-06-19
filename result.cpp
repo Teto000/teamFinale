@@ -18,13 +18,15 @@
 #include "bg.h"
 #include "fade.h"
 #include "ranking.h"
+#include "debug_proc.h"
 
 //===========================
 // コンストラクタ
 //===========================
 CResult::CResult()
 {
-
+	m_pBg = nullptr;	//背景
+	m_pRanking = nullptr;
 }
 
 //===========================
@@ -32,7 +34,7 @@ CResult::CResult()
 //===========================
 CResult::~CResult()
 {
-	m_pBg = nullptr;	//背景
+	
 }
 
 //===========================
@@ -44,6 +46,7 @@ HRESULT CResult::Init()
 		//背景の生成
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 		m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
 	}
 
 	//BGMの再生
@@ -83,4 +86,6 @@ void CResult::Update()
 		//SEの再生
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
 	}
+
+	CDebugProc::Print("リザルト画面");
 }

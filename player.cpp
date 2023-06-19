@@ -234,6 +234,9 @@ void CPlayer::Update()
 	// Playerの位置のデバッグ表示
 	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
 
+	//当たり判定
+	Collision();
+
 	if (CInputKeyboard::Trigger(DIK_F))
 	{// アイテムの保持の解除
 		Drop();
@@ -268,9 +271,6 @@ void CPlayer::Update()
 			}
 		}
 	}
-
-	//当たり判定
-	Collision();
 
 	if (pMotion != nullptr
 		&& !pMotion->GetMotion())
@@ -559,13 +559,10 @@ void CPlayer::Collision()
 	// オブジェクトとの当たり判定
 	//-----------------------------------
 	{
-		//プレイヤーの位置を取得
-		D3DXVECTOR3 pos = GetPos();
-		D3DXVECTOR3 posOld = GetPosOld();
-		D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
+		//変数宣言
+		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);	//プレイヤーの大きさ
 		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
-		CObjectX *pObject = nullptr;
+		CObjectX *pObject = nullptr;			//オブジェクト
 
 		//--------------------------------
 		// オブジェクトの位置を取得
@@ -577,94 +574,29 @@ void CPlayer::Collision()
 		 // ゲーム画面なら
 		 //----------------------------
 		case CApplication::MODE_GAME:
-			//-------------------------------------------
-			// オブジェクトの種類ごとの当たり判定
-			//-------------------------------------------
 			for (int i = 0; i < CGame::GetMaxObject(); i++)
 			{//オブジェクト数分回す
-
-			 //オブジェクトの位置を取得
+				//オブジェクトを取得
 				pObject = CApplication::GetGame()->GetObjectX(i);
-				targetPos = pObject->GetPosition();
 
-				//--------------------------------
-				// 東屋との当たり判定
-				//--------------------------------
-				if (CUtility::Collision(pos, posOld, size
-					, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-					&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
-				{// 衝突判定が行われた。
-					if (CInputKeyboard::Trigger(DIK_X))
-					{
-						int randData;
-						randData = rand() % 1;
-
-						// ミニゲーム中じゃないなら
-						if (!m_bMiniGame)
-						{
-							//ミニゲームの生成&ミニゲーム中に設定する
-							CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
-							m_bMiniGame = true;
-						}
-					}
-				}
-
-			//--------------------------------
-			// アイテムとの当たり判定
-			//--------------------------------
-			if (CUtility::Collision(pos, posOld, size
-				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-				&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
-			{// 衝突判定が行われた。
-				if (CInputKeyboard::Trigger(DIK_H))
-				{// アイテムを取得する
-					Retention((CItemObj*)pObject);
-				}
-			}
-		//--------------------------------
-		// アイテムとの当たり判定
-		//--------------------------------
-		if (CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
-		{// 衝突判定が行われた。
-			if (CInputKeyboard::Trigger(DIK_H))
-			{
-				if (m_pMyItem != nullptr)
-				{
-					m_pMyItem->Stack((CItemObj*)pObject);
-				}
-				else
-				{// アイテムを取得する
-					Retention((CItemObj*)pObject);
-				}
-			}
-		}
-
-				//--------------------------------
-				// 時計との当たり判定
-				//--------------------------------
-				if (CUtility::Collision(pos, posOld, size
-					, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-					&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
-				{// 衝突判定が行われた。
-				 //ワープ
-					newPos = Warp(pos);
-				}
+				/* ↓ オブジェクトの種類ごとの当たり判定 ↓ */
+				Coll_Pavilion(size, pObject);	//東屋
+				Coll_Item(size, pObject);;		//アイテム
+				Coll_Clock(size, pObject);		//時計
 			}
 			break;
 
-		//----------------------------
-		// ステージ選択画面なら
-		//----------------------------
+			//----------------------------
+			// ステージ選択画面なら
+			//----------------------------
 		case CApplication::MODE_STAGESELECT:
 			pObject = CApplication::GetStage()->GetObjectX();
 			targetPos = pObject->GetPosition();
-			
+
 			//--------------------------------
 			// 当たり判定
 			//--------------------------------
-			if (CUtility::Collision(pos, posOld, size
+			if (CUtility::Collision(GetPos(), GetPosOld(), size
 				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
 			{// 衝突判定が行われた。
 				CStageSelect::SetViewMap(true);		//マップを表示する状態
@@ -680,20 +612,115 @@ void CPlayer::Collision()
 		default:
 			break;
 		}
+	}
+}
 
-		//位置の更新
-		SetPos(pos);
+//=============================================================================
+// 東屋との当たり判定
+// Author : Sato Teruto
+// 概要 : 東屋との当たり判定処理をまとめた関数
+//=============================================================================
+void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
 
-		if (m_bWarp)
-		{//ワープする状態なら
-			//位置を更新
-			for (int i = 0; i < CGame::GetMaxPlayer(); i++)
+	//--------------------------------
+	// 東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_X))
+		{
+			// ミニゲーム中じゃないなら
+			if (!m_bMiniGame)
 			{
-				CGame::GetPlayer(i)->SetPos(newPos);
+				//ミニゲームの生成&ミニゲーム中に設定する
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+				m_bMiniGame = true;
 			}
-
-			m_bWarp = false;	//ワープしない状態
 		}
+	}
+
+	//--------------------------------
+	// 壊れた東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
+		&& m_pMyItem != nullptr)
+	{// 衝突判定が行われた & アイテムを持っているなら
+		if (CInputKeyboard::Trigger(DIK_F))
+		{//アイテムを置いたら
+			//東屋を直す
+			pObject->SetType(18);
+		}
+	}
+}
+
+//=============================================================================
+// アイテムとの当たり判定
+// Author : Sato Teruto
+// 概要 : アイテムとの当たり判定処理をまとめた関数
+//=============================================================================
+void  CPlayer::Coll_Item(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_H))
+		{
+			if (m_pMyItem != nullptr)
+			{
+				m_pMyItem->Stack((CItemObj*)pObject);
+			}
+			else
+			{// アイテムを取得する
+				Retention((CItemObj*)pObject);
+			}
+		}
+	}
+}
+
+//=============================================================================
+// 時計との当たり判定
+// Author : Sato Teruto
+// 概要 : 時計との当たり判定処理をまとめた関数
+//=============================================================================
+void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//変数宣言
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 posOld = GetPosOld();
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+	D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
+
+	if (CUtility::Collision(pos, posOld, size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
+	{// 衝突判定が行われた。
+		//ワープ
+		newPos = Warp(pos);
+	}
+
+	//位置の更新
+	SetPos(pos);
+
+	if (m_bWarp)
+	{//ワープする状態なら
+		//位置を更新
+		for (int i = 0; i < CGame::GetMaxPlayer(); i++)
+		{
+			CGame::GetPlayer(i)->SetPos(newPos);
+		}
+
+		m_bWarp = false;	//ワープしない状態
 	}
 }
 

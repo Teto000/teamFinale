@@ -67,12 +67,11 @@ public:
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;												//位置の取得
-	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f,0.0f,0.0f); }		//位置の取得
-	D3DXVECTOR3 GetTargetPos();														//相手の位置の取得
-	float GetWidth() override;														//幅の取得
-	float GetHeight() override;														//高さの取得
-	CObject* GetCollision(CObject::EObjType TirgetType);							//当たり判定の取得
+	D3DXVECTOR3 GetPosition() override	{ return m_pos; }							//位置の取得
+	D3DXVECTOR3 GetPosOld() override	{ return D3DXVECTOR3(0.0f,0.0f,0.0f); }		//位置の取得
+	D3DXVECTOR3 GetTargetPos()		    { return m_TargetPos; }						//相手の位置の取得
+	float GetWidth() override			{ return m_fWidth; }						//幅の取得
+	float GetHeight() override			{return m_fHeight; }						//高さの取得
 
 protected:
 	//----------------
