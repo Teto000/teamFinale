@@ -47,18 +47,18 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
-	MiniGameType GetGameType() { return m_nType; }
+	int GetGameType() { return m_nType; }
 
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CMiniGameBasis* Create(D3DXVECTOR3 pos, MiniGameType nType);
+	static CMiniGameBasis* Create(D3DXVECTOR3 pos, int nType);
 
 private:
 	//------------------
 	// メンバ変数
 	//------------------
-	MiniGameType m_nType;	//ミニゲームの種類
+	int m_nType;		//ミニゲームの種類
 	bool m_bDraw;			//描画フラグ
 };
 

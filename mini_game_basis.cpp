@@ -54,21 +54,24 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 	//タイプごとに生成するものを決める
 	switch (m_nType)
 	{
-	case TYPE_BUTTUNPUSH:
+	case 0:
 	{//ボタンプッシュゲーム
+		m_nType = TYPE_BUTTUNPUSH;
 		CButtonPushGame::Create(pos);
 	}
 
 	break;
 
-	case TYPE_BUTTONMASH:
+	case 1:
 	{//ボタン連打ゲーム
+		m_nType = TYPE_BUTTONMASH;
 		CButtonMash::Create(pos);
 	}
 	break;
 
-	case TYPE_STICKROTATE:
+	case 2:
 	{//スティック回転ゲーム
+		m_nType = TYPE_STICKROTATE;
 		CStickRotate::Create(pos);
 	}
 	break;
@@ -131,7 +134,7 @@ void CMiniGameBasis::Draw()
 // 生成
 // 引数：位置、値、桁数
 //=======================
-CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, MiniGameType nType)
+CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, int nType)
 {
 	CMiniGameBasis *pGameBasis = nullptr;
 

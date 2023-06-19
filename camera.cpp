@@ -97,7 +97,7 @@ void CCamera::Uninit(void)
 void CCamera::Update(void)
 {
 	//‰ñ“]
-	Turn();
+	//Turn();
 
 	//’Ç]ˆ—
 	Follow();

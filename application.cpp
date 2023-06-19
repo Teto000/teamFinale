@@ -9,6 +9,7 @@
 // インクルード
 //------------------------
 #include <assert.h>
+#include <time.h>
 #include "application.h"
 #include "renderer.h"
 #include "object3d.h"
@@ -68,6 +69,9 @@ CApplication::~CApplication()
 //===========================
 HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 {
+	//ランダム
+	srand((unsigned int)time(NULL));
+
 	//----------------------------
 	// レンダリングの生成と初期化
 	//----------------------------
