@@ -524,27 +524,24 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	// キーを押したときの処理
 	//-----------------------------
-	if (CInputKeyboard::Trigger(DIK_0) && !m_bWarp)
-	{//0キーを押したとき & ワープしない状態なら
-		if (!m_bFuture)
-		{//未来にいるなら
-			pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
+	if (!m_bFuture)
+	{//未来にいるなら
+		pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
 
-			//カメラの位置の設定
-			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
-			pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
-		}
-		else
-		{//過去にいるなら
-			pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
-			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
-			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-		}
-
-		m_bFuture = !m_bFuture;		//現在の時代を切り替え
-
-		m_bWarp = true;				//ワープする状態にする
+		//カメラの位置の設定
+		pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
+		pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 	}
+	else
+	{//過去にいるなら
+		pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
+		pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+		pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
+	}
+
+	m_bFuture = !m_bFuture;		//現在の時代を切り替え
+
+	m_bWarp = true;				//ワープする状態にする
 
 	return pos;
 }
@@ -632,7 +629,7 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
 	{// 衝突判定が行われた。
-		if (CInputKeyboard::Trigger(DIK_X))
+		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{
 			int randData;
 			randData = rand() % 1;
@@ -708,8 +705,11 @@ void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
 		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 		&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
 	{// 衝突判定が行われた。
-		//ワープ
-		newPos = Warp(pos);
+		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bWarp)
+		{//0キーを押したとき & ワープしない状態なら
+			//ワープ
+			newPos = Warp(pos);
+		}
 	}
 
 	//位置の更新
