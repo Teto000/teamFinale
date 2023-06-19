@@ -189,9 +189,17 @@ void CGame::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
 
+#ifdef _DEBUG
+	if (CInputKeyboard::Trigger(DIK_L))
+	{//Lキーを押したら
+	 //ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
+	}
+
 	if (CInputKeyboard::Trigger(DIK_M))
 	{//Mキーを押したら
-		//ミニゲームの生成
+	 //ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
 	}
+#endif // DEBUG
 }
