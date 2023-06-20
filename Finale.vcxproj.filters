@@ -113,6 +113,9 @@
     <ClCompile Include="time.cpp">
       <Filter>Main\Object\2D\Number</Filter>
     </ClCompile>
+    <ClCompile Include="bg.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
     <ClCompile Include="sky.cpp">
       <Filter>Main\Object\X\Mesh</Filter>
     </ClCompile>
@@ -167,8 +170,8 @@
     <ClCompile Include="mg_stickrotate.cpp">
       <Filter>Main\MiniGame</Filter>
     </ClCompile>
-    <ClCompile Include="bg.cpp">
-      <Filter>Main\Object\2D</Filter>
+    <ClCompile Include="game_center.cpp">
+      <Filter>Main\Object\X</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +244,9 @@
     <ClInclude Include="time.h">
       <Filter>Main\Object\2D\Number</Filter>
     </ClInclude>
+    <ClInclude Include="bg.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
     <ClInclude Include="sky.h">
       <Filter>Main\Object\X\Mesh</Filter>
     </ClInclude>
@@ -289,8 +295,8 @@
     <ClInclude Include="mg_buttonmash.h">
       <Filter>Main\MiniGame</Filter>
     </ClInclude>
-    <ClInclude Include="bg.h">
-      <Filter>Main\Object\2D</Filter>
+    <ClInclude Include="game_center.h">
+      <Filter>Main\Object\X</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

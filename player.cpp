@@ -28,6 +28,7 @@
 #include "application.h"
 #include "fade.h"
 #include "line.h"
+#include "game_center.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -264,6 +265,17 @@ void CPlayer::Update()
 				{// アイテムを取得する
 					Retention((CItemObj*)pCollidedObj);
 					break;
+				}
+			}
+			else if (pCollidedObj->GetObjType() == CObject::OBJTYPE_MINIGAME)
+			{// ゲームセンターに触れている
+				CGameCenter *pGameCenter = (CGameCenter*)pCollidedObj;
+
+				if (CInputKeyboard::Trigger(DIK_X)
+					&& !pGameCenter->GetGame())
+				{
+					pGameCenter->SetPlayer(this);
+					pGameCenter->SetGame(true);
 				}
 			}
 		}
@@ -578,22 +590,26 @@ void CPlayer::Collision()
 		 //----------------------------
 		case CApplication::MODE_GAME:
 			pObject = CApplication::GetGame()->GetObjectX(0);
-			targetPos = pObject->GetPosition();
 
-			//--------------------------------
-			// 当たり判定
-			//--------------------------------
-			if (CUtility::Collision(pos, posOld, size
-				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
-			{// 衝突判定が行われた。
-				if (CInputKeyboard::Trigger(DIK_X))
-				{
-					// ミニゲーム中じゃないなら
-					if (!m_bMiniGame)
+			if (pObject != nullptr)
+			{
+				targetPos = pObject->GetPosition();
+
+				//--------------------------------
+				// 当たり判定
+				//--------------------------------
+				if (CUtility::Collision(pos, posOld, size
+					, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+				{// 衝突判定が行われた。
+					if (CInputKeyboard::Trigger(DIK_X))
 					{
-						//ミニゲームの生成&ミニゲーム中に設定する
-						CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-						m_bMiniGame = true;
+						// ミニゲーム中じゃないなら
+						if (!m_bMiniGame)
+						{
+							//ミニゲームの生成&ミニゲーム中に設定する
+							CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
+							m_bMiniGame = true;
+						}
 					}
 				}
 			}
@@ -606,49 +622,53 @@ void CPlayer::Collision()
 
 			 //オブジェクトの位置を取得
 				pObject = CApplication::GetGame()->GetObjectX(i);
-				targetPos = pObject->GetPosition();
 
-			//--------------------------------
-			// アイテムとの当たり判定
-			//--------------------------------
-			if (CUtility::Collision(pos, posOld, size
-				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-				&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
-			{// 衝突判定が行われた。
-				if (CInputKeyboard::Trigger(DIK_H))
-				{// アイテムを取得する
-					Retention((CItemObj*)pObject);
-				}
-			}
-		//--------------------------------
-		// アイテムとの当たり判定
-		//--------------------------------
-		if (CUtility::Collision(pos, posOld, size
-			, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-			&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
-		{// 衝突判定が行われた。
-			if (CInputKeyboard::Trigger(DIK_H))
-			{
-				if (m_pMyItem != nullptr)
+				if (pObject != nullptr)
 				{
-					m_pMyItem->Stack((CItemObj*)pObject);
-				}
-				else
-				{// アイテムを取得する
-					Retention((CItemObj*)pObject);
-				}
-			}
-		}
+					targetPos = pObject->GetPosition();
 
-				//--------------------------------
-				// 時計との当たり判定
-				//--------------------------------
-				if (CUtility::Collision(pos, posOld, size
-					, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-					&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
-				{// 衝突判定が行われた。
-				 //ワープ
-					newPos = Warp(pos);
+					//--------------------------------
+					// アイテムとの当たり判定
+					//--------------------------------
+					if (CUtility::Collision(pos, posOld, size
+						, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+						&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
+					{// 衝突判定が行われた。
+						if (CInputKeyboard::Trigger(DIK_H))
+						{// アイテムを取得する
+							Retention((CItemObj*)pObject);
+						}
+					}
+					//--------------------------------
+					// アイテムとの当たり判定
+					//--------------------------------
+					if (CUtility::Collision(pos, posOld, size
+						, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+						&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
+					{// 衝突判定が行われた。
+						if (CInputKeyboard::Trigger(DIK_H))
+						{
+							if (m_pMyItem != nullptr)
+							{
+								m_pMyItem->Stack((CItemObj*)pObject);
+							}
+							else
+							{// アイテムを取得する
+								Retention((CItemObj*)pObject);
+							}
+						}
+					}
+
+					//--------------------------------
+					// 時計との当たり判定
+					//--------------------------------
+					if (CUtility::Collision(pos, posOld, size
+						, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+						&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
+					{// 衝突判定が行われた。
+					 //ワープ
+						newPos = Warp(pos);
+					}
 				}
 			}
 			break;
