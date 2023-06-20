@@ -104,15 +104,28 @@ HRESULT CGame::Init()
 	//-----------------------------------
 	// オブジェクトの生成(時計)
 	//-----------------------------------
+	m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(17);
+	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[1]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
 
+	//-----------------------------------
+	// オブジェクトの生成(東屋)
+	//-----------------------------------
 	m_pObjectX[2] = CItemObj::Create();
-	m_pObjectX[2]->SetType(17);
-	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+	m_pObjectX[2]->SetType(18);
+	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION);
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(19);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 
 	// ゲームセンターの設定
 	CGameCenter *pGameCenter = CGameCenter::Create();
@@ -177,6 +190,7 @@ void CGame::Update()
 	// ジョイパッドでの操作
 	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
 
+#ifdef _DEBUG
 	//-----------------------
 	// 画面遷移
 	//-----------------------
@@ -192,13 +206,14 @@ void CGame::Update()
 
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
-		//ミニゲームの生成
+	 //ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
 	}
 
 	if (CInputKeyboard::Trigger(DIK_M))
 	{//Mキーを押したら
-		//ミニゲームの生成
+	 //ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
 	}
+#endif // DEBUG
 }

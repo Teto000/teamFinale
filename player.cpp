@@ -210,30 +210,33 @@ void CPlayer::Update()
 		m_pLine[3]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-50.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
 	}
 
-	//Playerが一定の位置にいる時
-	if (pos.x > -200.0f
-		&&pos.x < -50.0f
-		&&pos.z < 0.0f
-		&&pos.z > -150.0f)
-	{
-		if (m_pMyItem != nullptr)
-		{// アイテムを取得している
-			if (CInputKeyboard::Trigger(DIK_F)
-				&& !m_bCrate)
-			{//アイテムを置くと建物が生成される
-				CObjectX *m_pObj = CObjectX::Create();
-				m_pObj->SetType(10);
-				m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
-				m_bCrate = true;
+	////Playerが一定の位置にいる時
+	//if (pos.x > -200.0f
+	//	&&pos.x < -50.0f
+	//	&&pos.z < 0.0f
+	//	&&pos.z > -150.0f)
+	//{
+	//	if (m_pMyItem != nullptr)
+	//	{// アイテムを取得している
+	//		if (CInputKeyboard::Trigger(DIK_F)
+	//			&& !m_bCrate)
+	//		{//アイテムを置くと建物が生成される
+	//			CObjectX *m_pObj = CObjectX::Create();
+	//			m_pObj->SetType(10);
+	//			m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
+	//			m_bCrate = true;
 
-				//リザルト画面に移行
-				CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-			}
-		}
-	}
+	//			//リザルト画面に移行
+	//			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	//		}
+	//	}
+	//}
 
 	// Playerの位置のデバッグ表示
 	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
+
+	//当たり判定
+	Collision();
 
 	if (CInputKeyboard::Trigger(DIK_F))
 	{// アイテムの保持の解除
@@ -280,9 +283,6 @@ void CPlayer::Update()
 			}
 		}
 	}
-
-	//当たり判定
-	Collision();
 
 	if (pMotion != nullptr
 		&& !pMotion->GetMotion())
@@ -536,27 +536,24 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	// キーを押したときの処理
 	//-----------------------------
-	if (CInputKeyboard::Trigger(DIK_0) && !m_bWarp)
-	{//0キーを押したとき & ワープしない状態なら
-		if (!m_bFuture)
-		{//未来にいるなら
-			pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
+	if (!m_bFuture)
+	{//未来にいるなら
+		pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
 
-			//カメラの位置の設定
-			pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
-			pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
-		}
-		else
-		{//過去にいるなら
-			pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
-			pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
-			pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-		}
-
-		m_bFuture = !m_bFuture;		//現在の時代を切り替え
-
-		m_bWarp = true;				//ワープする状態にする
+		//カメラの位置の設定
+		pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
+		pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 	}
+	else
+	{//過去にいるなら
+		pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
+		pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+		pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
+	}
+
+	m_bFuture = !m_bFuture;		//現在の時代を切り替え
+
+	m_bWarp = true;				//ワープする状態にする
 
 	return pos;
 }
@@ -571,13 +568,10 @@ void CPlayer::Collision()
 	// オブジェクトとの当たり判定
 	//-----------------------------------
 	{
-		//プレイヤーの位置を取得
-		D3DXVECTOR3 pos = GetPos();
-		D3DXVECTOR3 posOld = GetPosOld();
-		D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);
+		//変数宣言
+		D3DXVECTOR3 size(20.0f, 20.0f, 20.0f);	//プレイヤーの大きさ
 		D3DXVECTOR3 targetPos(0.0f, 0.0f, 0.0f);
-		CObjectX *pObject = nullptr;
+		CObjectX *pObject = nullptr;			//オブジェクト
 
 		//--------------------------------
 		// オブジェクトの位置を取得
@@ -589,12 +583,83 @@ void CPlayer::Collision()
 		 // ゲーム画面なら
 		 //----------------------------
 		case CApplication::MODE_GAME:
+			for (int i = 0; i < CGame::GetMaxObject(); i++)
+			{//オブジェクト数分回す
+				//オブジェクトを取得
+				pObject = CApplication::GetGame()->GetObjectX(i);
+
+				/* ↓ オブジェクトの種類ごとの当たり判定 ↓ */
+				Coll_Pavilion(size, pObject);	//東屋
+				Coll_Item(size, pObject);;		//アイテム
+				Coll_Clock(size, pObject);		//時計
+			}
+			break;
+
+			//----------------------------
+			// ステージ選択画面なら
+			//----------------------------
+		case CApplication::MODE_STAGESELECT:
+			pObject = CApplication::GetStage()->GetObjectX();
+			targetPos = pObject->GetPosition();
 			pObject = CApplication::GetGame()->GetObjectX(0);
 
 			if (pObject != nullptr)
 			{
 				targetPos = pObject->GetPosition();
 
+			//--------------------------------
+			// 当たり判定
+			//--------------------------------
+			if (CUtility::Collision(GetPos(), GetPosOld(), size
+				, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f)))
+			{// 衝突判定が行われた。
+				CStageSelect::SetViewMap(true);		//マップを表示する状態
+				CStageSelect::SetStart(true);		//画面遷移出来る状態
+			}
+			else
+			{
+				CStageSelect::SetViewMap(false);	//マップを表示しない状態
+				CStageSelect::SetStart(false);		//画面遷移出来ない状態
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+//=============================================================================
+// 東屋との当たり判定
+// Author : Sato Teruto
+// 概要 : 東屋との当たり判定処理をまとめた関数
+//=============================================================================
+void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+
+	//--------------------------------
+	// 東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_SPACE))
+		{
+			int randData;
+			randData = rand() % 1;
+
+			// ミニゲーム中じゃないなら
+			if (!m_bMiniGame)
+			{
+				//ミニゲームの生成&ミニゲーム中に設定する
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
+				m_bMiniGame = true;
+			}
+		}
+	}
 				//--------------------------------
 				// 当たり判定
 				//--------------------------------
@@ -614,6 +679,52 @@ void CPlayer::Collision()
 				}
 			}
 
+	//--------------------------------
+	// 壊れた東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
+		&& m_pMyItem != nullptr)
+	{// 衝突判定が行われた & アイテムを持っているなら
+		if (CInputKeyboard::Trigger(DIK_F))
+		{//アイテムを置いたら
+			//東屋を直す
+			pObject->SetType(18);
+
+			//リザルト画面に移行
+			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		}
+	}
+}
+
+//=============================================================================
+// アイテムとの当たり判定
+// Author : Sato Teruto
+// 概要 : アイテムとの当たり判定処理をまとめた関数
+//=============================================================================
+void  CPlayer::Coll_Item(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_ITEM)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_H))
+		{
+			if (m_pMyItem != nullptr)
+			{
+				m_pMyItem->Stack((CItemObj*)pObject);
+			}
+			else
+			{// アイテムを取得する
+				Retention((CItemObj*)pObject);
+			}
+		}
+	}
+}
 			//-------------------------------------------
 			// オブジェクトの種類ごとの当たり判定
 			//-------------------------------------------
@@ -699,20 +810,42 @@ void CPlayer::Collision()
 		default:
 			break;
 		}
+//=============================================================================
+// 時計との当たり判定
+// Author : Sato Teruto
+// 概要 : 時計との当たり判定処理をまとめた関数
+//=============================================================================
+void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//変数宣言
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 posOld = GetPosOld();
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+	D3DXVECTOR3 newPos(0.0f, 0.0f, 0.0f);
 
-		//位置の更新
-		SetPos(pos);
-
-		if (m_bWarp)
-		{//ワープする状態なら
-			//位置を更新
-			for (int i = 0; i < CGame::GetMaxPlayer(); i++)
-			{
-				CGame::GetPlayer(i)->SetPos(newPos);
-			}
-
-			m_bWarp = false;	//ワープしない状態
+	if (CUtility::Collision(pos, posOld, size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bWarp)
+		{//0キーを押したとき & ワープしない状態なら
+			//ワープ
+			newPos = Warp(pos);
 		}
+	}
+
+	//位置の更新
+	SetPos(pos);
+
+	if (m_bWarp)
+	{//ワープする状態なら
+		//位置を更新
+		for (int i = 0; i < CGame::GetMaxPlayer(); i++)
+		{
+			CGame::GetPlayer(i)->SetPos(newPos);
+		}
+
+		m_bWarp = false;	//ワープしない状態
 	}
 }
 

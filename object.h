@@ -46,6 +46,8 @@ public:
 		OBJTYPE_MINIGAME,	//ミニゲーム
 		OBJTYPE_ITEM,		//アイテム
 		OBJTYPE_CLOCK,		//時計
+		OBJTYPE_PAVILION,	//東屋
+		OBJTYPE_PAVILION_BREAK,	//壊れ東屋
 		OBJTYPE_MAX,
 	};
 

@@ -9,6 +9,7 @@
 // インクルード
 //------------------------
 #include <assert.h>
+#include <time.h>
 #include "application.h"
 #include "renderer.h"
 #include "object3d.h"
@@ -68,6 +69,9 @@ CApplication::~CApplication()
 //===========================
 HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 {
+	//ランダム
+	srand((unsigned int)time(NULL));
+
 	//----------------------------
 	// レンダリングの生成と初期化
 	//----------------------------
@@ -109,8 +113,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// モードの設定
 	//----------------------------
 	m_pFade = new CFade;
-	SetMode(MODE_GAME);
-	m_pFade->Init(MODE_GAME);
+	SetMode(MODE_TITLE);
+	m_pFade->Init(MODE_TITLE);
 
 	//----------------------------
 	// デバッグ用文字の生成

@@ -101,7 +101,7 @@ void CMiniGameBasis::Draw()
 // 生成
 // 引数：位置、値、桁数
 //=======================
-CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, MiniGameType nType)
+CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, int nType)
 {
 	CMiniGameBasis *pGameBasis = nullptr;
 

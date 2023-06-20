@@ -62,7 +62,7 @@ public:
 	//------------------
 	// Ã“Iƒƒ“ƒo•Ï”
 	//------------------
-	static CMiniGameBasis* Create(D3DXVECTOR3 pos, MiniGameType nType);
+	static CMiniGameBasis* Create(D3DXVECTOR3 pos, int nType);
 
 private:
 	//------------------

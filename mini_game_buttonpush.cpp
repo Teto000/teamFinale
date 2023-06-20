@@ -29,7 +29,10 @@
 //=======================
 CButtonPushGame::CButtonPushGame()
 {
-
+	m_nCount = 0;			//カウント
+	m_nCntPlayTime = 0;		//操作出来るまでの時間を数える
+	m_bStop = false;		//止まるかどうか
+	m_bEdge = false;		//端にたどり着いたかどうか
 }
 
 //=======================
@@ -73,7 +76,7 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 	pObj2D[1]->SetColor(m_col[1]);
 
 	//ボタンポリゴン
-	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
+	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(250.0f, 350.0f, 0.0f));
 	pObj2D[2]->SetSize(25.0f, 300.0f);
 	pObj2D[2]->SetTexture(CTexture::TEXTURE_NONE);
 	pObj2D[2]->SetColor(m_col[2]);
@@ -86,7 +89,7 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 //=======================
 void CButtonPushGame::Uninit()
 {
-	
+	m_nCntPlayTime = 0;
 }
 
 //=======================
@@ -98,6 +101,9 @@ void CButtonPushGame::Update()
 	if (pObj2D[0] != nullptr
 		&& pObj2D[1] != nullptr)
 	{
+		//操作可能までの時間を数える
+		m_nCntPlayTime++;
+
 		if (!m_bStop)
 		{
 			//位置の取得
@@ -141,9 +147,10 @@ void CButtonPushGame::Update()
 			pos += m_move;
 			pObj2D[2]->SetPos(pos);
 
-			if (CInputKeyboard::Trigger(DIK_SPACE))
-			{//SPACEキーが押された時
-			 //バーが真ん中の時
+			if (CInputKeyboard::Trigger(DIK_SPACE)
+				&& m_nCntPlayTime > nMaxPlayTime)
+			{//SPACEキーが押された時 & 操作可能時間に達していたら
+				//バーが真ん中の時
 				if (pos.x >= 615.0f
 					&& pos.x <= 665.0f)
 				{

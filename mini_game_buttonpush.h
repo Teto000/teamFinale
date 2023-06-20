@@ -51,6 +51,11 @@ public:
 
 private:
 	//------------------
+	// 定数
+	//------------------
+	static const int nMaxPlayTime = 20;	//操作できるまでに必要な時間	
+
+	//------------------
 	// メンバ変数
 	//------------------
 	CObject2D *pObj2D[MAX_OBJECT];
@@ -58,6 +63,7 @@ private:
 	D3DXVECTOR3 m_move;		//移動
 	CLEAR m_flash;			//フラッシュ状態
 	int m_nCount;			//カウント
+	int m_nCntPlayTime;		//操作出来るまでの時間を数える
 	bool m_bStop;			//止まるかどうか
 	bool m_bEdge;			//端にたどり着いたかどうか
 };
