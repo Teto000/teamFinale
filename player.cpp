@@ -38,6 +38,16 @@
 #define MAX_SPEED (10.0f)		// 最高速度
 #define NOM_FRICTION (0.1f)		// 摩擦係数
 
+//*****************************************************************************
+// 静的変数の設定
+//*****************************************************************************
+const CObject::UPDATE_FUNC CPlayer::m_UpdateFunc[] =
+{
+	static_cast<CObject::UPDATE_FUNC>(&Update_Idel),
+	static_cast<CObject::UPDATE_FUNC>(&Update_Walk),
+	static_cast<CObject::UPDATE_FUNC>(&Update_Jump),
+};
+
 //=============================================================================
 // インスタンス生成
 // Author : 唐﨑結斗
@@ -82,6 +92,8 @@ CPlayer::CPlayer()
 	m_bCrate = false;		// ビルが建ったかどうか
 	m_pLine = nullptr;		// ライン情報
 	lineCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);// ラインの色
+
+	static_assert(sizeof(m_UpdateFunc) / sizeof(m_UpdateFunc[0]) == STATE_MAX, "");
 }
 
 //=============================================================================
@@ -166,82 +178,18 @@ void CPlayer::Uninit()
 //=============================================================================
 void CPlayer::Update()
 {
-	// モーション情報の取得
-	CMotion *pMotion = CMotionModel3D::GetMotion();
+	// モーションのバックアップ
+	m_EActionOld = m_EAction;
 
-	// 位置の取得
-	D3DXVECTOR3 pos = GetPos();
+	int state = GetState();
 
-	// 過去位置の更新
-	SetPosOld(pos);
+	assert((state >= 0) && (state < STATE_MAX));
 
-	//----------------------------
-	// 移動
-	//----------------------------
-	switch (m_nNumber)
-	{
-	case 0:
-		pos += Move(DIK_W, DIK_S, DIK_A, DIK_D);
-		break;
-
-	case 1:
-		pos += Move(DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT);
-		break;
-
-	default:
-		break;
-	}
-
-	// 位置の設定
-	SetPos(pos);
-
-	// 回転
-	Rotate();
-
-	// アイテムを所持していたら
-	if (m_pMyItem != nullptr)
-	{
-		const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-		// ラインの設定
-		m_pLine[0]->SetLine(D3DXVECTOR3(0.0f,0.0f,0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, 0.0f), lineCol);
-		m_pLine[1]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, -150.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
-		m_pLine[2]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-200.0f, 10.0f, -150.0f), lineCol);
-		m_pLine[3]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-50.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
-	}
-
-	////Playerが一定の位置にいる時
-	//if (pos.x > -200.0f
-	//	&&pos.x < -50.0f
-	//	&&pos.z < 0.0f
-	//	&&pos.z > -150.0f)
-	//{
-	//	if (m_pMyItem != nullptr)
-	//	{// アイテムを取得している
-	//		if (CInputKeyboard::Trigger(DIK_F)
-	//			&& !m_bCrate)
-	//		{//アイテムを置くと建物が生成される
-	//			CObjectX *m_pObj = CObjectX::Create();
-	//			m_pObj->SetType(10);
-	//			m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
-	//			m_bCrate = true;
-
-	//			//リザルト画面に移行
-	//			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-	//		}
-	//	}
-	//}
-
-	// Playerの位置のデバッグ表示
-	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
+	// 更新処理
+	(this->*(m_UpdateFunc[state]))();
 
 	//当たり判定
 	Collision();
-
-	if (CInputKeyboard::Trigger(DIK_F))
-	{// アイテムの保持の解除
-		Drop();
-	}
 
 	// 当たり判定の取得
 	CCollision_Rectangle3D *pCollision = GetCollision();
@@ -284,10 +232,12 @@ void CPlayer::Update()
 		}
 	}
 
+	// モーション情報の取得
+	CMotion *pMotion = CMotionModel3D::GetMotion();
+
 	if (pMotion != nullptr
-		&& !pMotion->GetMotion())
+		&& m_EAction != m_EActionOld)
 	{// ニュートラルモーションの設定
-		m_EAction = NEUTRAL_ACTION;
 		pMotion->SetNumMotion(m_EAction);
 	}
 
@@ -434,12 +384,7 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 		// 移動方向の正規化
 		m_rotDest.y = CUtility::GetNorRot(m_rotDest.y);
 
-		if (pMotion != nullptr
-			&& m_EAction == NEUTRAL_ACTION)
-		{// 移動
-			m_EAction = MOVE_ACTION;
-			pMotion->SetNumMotion(m_EAction);
-		}
+		m_EAction = MOVE_ACTION;
 	}
 
 	// 移動情報の計算
@@ -449,12 +394,9 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 	D3DXVECTOR3 moveing = m_pMove->GetMove();
 	float fLength = m_pMove->GetMoveLength();
 
-	if (fLength <= 0.0f
-		&& pMotion != nullptr
-		&& m_EAction == MOVE_ACTION)
+	if (fLength <= 0.0f)
 	{
 		m_EAction = NEUTRAL_ACTION;
-		pMotion->SetNumMotion(m_EAction);
 	}
 
 	// 向きの取得
@@ -763,4 +705,109 @@ void CPlayer::Drop()
 
 		m_pMyItem = nullptr;
 	}
+}
+
+void CPlayer::Update_Idel()
+{
+	// アイテムを所持していたら
+	if (m_pMyItem != nullptr)
+	{
+		const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		// ラインの設定
+		m_pLine[0]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, 0.0f), lineCol);
+		m_pLine[1]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, -150.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
+		m_pLine[2]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-200.0f, 10.0f, 0.0f), D3DXVECTOR3(-200.0f, 10.0f, -150.0f), lineCol);
+		m_pLine[3]->SetLine(D3DXVECTOR3(0.0f, 0.0f, 0.0f), rot, D3DXVECTOR3(-50.0f, 10.0f, 0.0f), D3DXVECTOR3(-50.0f, 10.0f, -150.0f), lineCol);
+	}
+
+	////Playerが一定の位置にいる時
+	//if (pos.x > -200.0f
+	//	&&pos.x < -50.0f
+	//	&&pos.z < 0.0f
+	//	&&pos.z > -150.0f)
+	//{
+	//	if (m_pMyItem != nullptr)
+	//	{// アイテムを取得している
+	//		if (CInputKeyboard::Trigger(DIK_F)
+	//			&& !m_bCrate)
+	//		{//アイテムを置くと建物が生成される
+	//			CObjectX *m_pObj = CObjectX::Create();
+	//			m_pObj->SetType(10);
+	//			m_pObj->SetPos(D3DXVECTOR3(-600.0f, 0.0f, 300.0f));
+	//			m_bCrate = true;
+
+	//			//リザルト画面に移行
+	//			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	//		}
+	//	}
+	//}
+
+	if (CInputKeyboard::Trigger(DIK_F))
+	{// アイテムの保持の解除
+		Drop();
+	}
+
+	m_EAction = NEUTRAL_ACTION;
+
+	if ((CInputKeyboard::Press(DIK_W)
+		|| CInputKeyboard::Press(DIK_S)
+		|| CInputKeyboard::Press(DIK_A)
+		|| CInputKeyboard::Press(DIK_D))
+		|| (CInputKeyboard::Press(DIK_UP)
+		|| CInputKeyboard::Press(DIK_DOWN)
+		|| CInputKeyboard::Press(DIK_LEFT)
+		|| CInputKeyboard::Press(DIK_RIGHT)))
+	{// 移動キーが押された
+		SetState(STATE_WALK);
+	}
+}
+
+void CPlayer::Update_Walk()
+{
+	// 位置の取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// 過去位置の更新
+	SetPosOld(pos);
+
+	//----------------------------
+	// 移動
+	//----------------------------
+	switch (m_nNumber)
+	{
+	case 0:
+		pos += Move(DIK_W, DIK_S, DIK_A, DIK_D);
+		break;
+
+	case 1:
+		pos += Move(DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT);
+		break;
+
+	default:
+		break;
+	}
+
+	// 位置の設定
+	SetPos(pos);
+
+	// 回転
+	Rotate();
+
+	// 移動量の算出
+	float fLength = m_pMove->GetMoveLength();
+
+	if (fLength <= 0.0f)
+	{
+		SetState(STATE_IDEl);
+	}
+
+#ifdef _DEBUG
+	// Playerの位置のデバッグ表示
+	CDebugProc::Print("pos：%f,%f,%f", pos.x, pos.y, pos.z);
+#endif // _DEBUG
+}
+
+void CPlayer::Update_Jump()
+{
 }

@@ -36,6 +36,11 @@ public:
 	static CPlayer *Create();			// プレイヤーの生成
 
 	//--------------------------------------------------------------------
+	// 静的メンバ変数
+	//--------------------------------------------------------------------
+	static const UPDATE_FUNC m_UpdateFunc[];
+
+	//--------------------------------------------------------------------
 	// プレイヤーのアクションの列挙型
 	//--------------------------------------------------------------------
 	enum ACTION_TYPE
@@ -47,6 +52,18 @@ public:
 		ATTACK_JUMP,			// ジャンプ
 		ATTACK_LANDING,			// 着地 
 		MAX_ACTION,				// 最大数
+	};
+
+	//--------------------------------------------------------------------
+	// プレイヤーの状態の列挙型
+	//--------------------------------------------------------------------
+	enum EState
+	{
+		STATE_IDEl = 0,
+		STATE_WALK,
+		STATE_JUMP,
+		STATE_MAX,
+		STATE_INVALID,
 	};
 
 	//--------------------------------------------------------------------
@@ -65,14 +82,19 @@ public:
 	void Retention(CItemObj *pItem);			// アイテム保持
 	void Drop();								// アイテムの保持解除
 
-	// セッター
-	void SetNumber(int nNum) { m_nNumber = nNum; }	// プレイヤー番号の設定
-	void SetMiniGame(bool bMiniGame);				// ミニゲーム中かどうかの設定
+	// 更新
+	void Update_Idel();
+	void Update_Walk();
+	void Update_Jump();
 
+	// セッター
+	void SetNumber(int nNum) { m_nNumber = nNum; }				// プレイヤー番号の設定
+	void SetMiniGame(bool bMiniGame);							// ミニゲーム中かどうかの設定
+	
 	// ゲッター
-	CItemObj* GetMyItem() { return m_pMyItem; }			// 取得アイテムのゲッター
-	int GetParentParts() { return m_nParentParts; }		// 親パーツのゲッター
-	bool GetMiniGame() { return m_bMiniGame; }			// ミニゲーム中かどうかの取得
+	CItemObj* GetMyItem() { return m_pMyItem; }					// 取得アイテムのゲッター
+	int GetParentParts() { return m_nParentParts; }				// 親パーツのゲッター
+	bool GetMiniGame() { return m_bMiniGame; }					// ミニゲーム中かどうかの取得
 
 private:
 	//--------------------------------------------------------------------
@@ -95,6 +117,7 @@ private:
 	CMove *m_pMove;				// 移動情報
 	CItemObj *m_pMyItem;		// 所持アイテム
 	ACTION_TYPE m_EAction;		// アクションタイプ
+	ACTION_TYPE m_EActionOld;	// アクションタイプのバックアップ
 	D3DXVECTOR3 m_rotDest;		// 目的の向き
 	int m_nNumMotion;			// 現在のモーション番号
 	int m_nCntRimit;			// 過去に残れる時間を数える
