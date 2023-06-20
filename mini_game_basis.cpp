@@ -140,8 +140,8 @@ CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, int nType)
 
 	if (pGameBasis != nullptr)
 	{//NULLチェック
-	 //メンバ変数に代入
-		pGameBasis->m_nType = nType;
+		//メンバ変数に代入
+		pGameBasis->m_nType = (MiniGameType)nType;
 
 		//初期化
 		pGameBasis->Init(D3DXVECTOR3(pos));

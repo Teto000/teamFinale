@@ -54,7 +54,7 @@ private:
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
-	static const int nMaxObject = 4;	//オブジェクトの最大数
+	static const int nMaxObject = 3;	//オブジェクトの最大数
 	static const int nMaxObjBG = 4;		//背景オブジェクトの最大数
 
 	//-------------------
