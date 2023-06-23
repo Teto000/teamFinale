@@ -82,7 +82,24 @@ public:
 	static CSound*			GetSound()		{ return m_pSound; }		//サウンドの取得
 	static CLight*			GetLight()		{ return m_pLight; }		//ライトの取得
 
+	//------------------
+	// セッター
+	//------------------
+	//ステージごとのスコアを加算
+	static void AddStageScore(int nNum, int nValue) { m_nStageScore[nNum] += nValue; }
+
+	//------------------
+	// ゲッター
+	//------------------
+	//ステージごとのスコアを取得
+	static int GetStageScore(int nNum) { return m_nStageScore[nNum]; }
+
 private:
+	//------------------
+	// 定数
+	//------------------
+	static const int nMaxStage = 1;		//ステージの最大数
+
 	//------------------
 	// 静的メンバ変数
 	//------------------
@@ -100,6 +117,8 @@ private:
 	static CSound*			m_pSound;		//サウンド
 	static CLight*			m_pLight;		//ライト
 	static CDebugProc*		m_pDebugproc;	//デバッグ用文字
+
+	static int m_nStageScore[nMaxStage];	//ステージごとのスコアを保存
 };
 
 #endif // !_APPLICATION_H_

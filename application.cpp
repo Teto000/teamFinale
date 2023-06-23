@@ -48,6 +48,9 @@ CSound*			CApplication::m_pSound = nullptr;		//サウンド
 CLight*			CApplication::m_pLight = nullptr;		//ライト
 CDebugProc*		CApplication::m_pDebugproc = nullptr;	//デバッグ用文字
 
+/* ↓ 変数　↓ */
+int CApplication::m_nStageScore[nMaxStage] = {};		//ステージごとのスコアを保存
+
 //===========================
 // コンストラクタ
 //===========================

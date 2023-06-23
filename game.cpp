@@ -28,6 +28,7 @@
 #include "itemObj.h"
 #include "collision.h"
 #include "collision_rectangle3D.h"
+#include "game_center.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -96,6 +97,10 @@ HRESULT CGame::Init()
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
 
+	/*m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(1);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
+
 	//-----------------------------------
 	// オブジェクトの生成(時計)
 	//-----------------------------------
@@ -112,15 +117,31 @@ HRESULT CGame::Init()
 	//-----------------------------------
 	// オブジェクトの生成(東屋)
 	//-----------------------------------
-	m_pObjectX[2] = CItemObj::Create();
-	m_pObjectX[2]->SetType(18);
-	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	//綺麗な東屋
+	CGameCenter *pPavilion = CGameCenter::Create();
+	pPavilion->SetType(18);
+	pPavilion->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pPavilion->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	CCollision_Rectangle3D *pCollPavilion = pPavilion->GetCollision();
+	pCollPavilion->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollPavilion->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
 
-	m_pObjectX[3] = CItemObj::Create();
-	m_pObjectX[3]->SetType(19);
-	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
-	m_pObjectX[3]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	//壊れた東屋
+	m_pObjectX[2] = CItemObj::Create();
+	m_pObjectX[2]->SetType(19);
+	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+
+	//-----------------------------------
+	// ゲームセンターの設定
+	//-----------------------------------
+	CGameCenter *pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(1);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	CCollision_Rectangle3D *pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
 
 	//-----------------------------------
 	// オブジェクトの生成(噴水)

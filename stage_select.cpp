@@ -133,9 +133,12 @@ void CStageSelect::Update()
 		//画像を拡大する(表示)
 		m_pObject2D->SetSize(300.0f, 300.0f);
 
+		//スコアを取得
+		int nScore = CApplication::GetStageScore(0);	//ステージ番号に対応したスコアを取得
+
 		//数字を描画する
 		m_pNumber->SetDraw(true);
-		m_pNumber->SetTime(10);
+		m_pNumber->SetTime(nScore);
 	}
 	else
 	{

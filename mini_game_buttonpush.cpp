@@ -22,6 +22,7 @@
 #include "itemObj.h"
 #include "player.h"
 #include "collision_rectangle3D.h"
+#include "game_center.h"
 
 //=======================
 // コンストラクタ
@@ -98,7 +99,7 @@ void CButtonPushGame::Update()
 {
 	//オブジェクトがあるなら
 	if (pObj2D[0] != nullptr
-		&&pObj2D[1] != nullptr)
+		&& pObj2D[1] != nullptr)
 	{
 		//操作可能までの時間を数える
 		m_nCntPlayTime++;
@@ -162,32 +163,36 @@ void CButtonPushGame::Update()
 
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CApplication::GetGame();
-					CPlayer *pPlayer[2] = {};
-					CItemObj *pPlayerItem = {};
+					CGameCenter *pParent = GetParent();
+					CPlayer *pPlayer = pParent->GetPlayer();
+					CItemObj *pPlayerItem = pPlayer->GetMyItem();
 
-					for (int nCnt = 0; nCnt < pGame->GetMaxPlayer(); nCnt++)
+					if (pPlayerItem == nullptr)
+					{// アイテムを取得していない
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetType(0);
+
+						// 当たり判定の設定
+						CCollision_Rectangle3D *pCollision = pItem->GetCollision();
+						pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
+						pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+						pCollision->SetUseFlag(false);
+
+						pPlayer->Retention(pItem);
+					}
+					else if (pPlayerItem != nullptr)
 					{
-						//プレイヤー情報の取得
-						pPlayer[nCnt] = pGame->GetPlayer(nCnt);
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetType(0);
+						pPlayerItem->Stack(pItem);
+					}
 
-						if (pPlayerItem == nullptr)
-						{// アイテムを取得していない
-							pPlayerItem = CItemObj::Create();
-							pPlayerItem->SetType(0);
-
-							// 当たり判定の設定
-							CCollision_Rectangle3D *pCollision = pPlayerItem->GetCollision();
-							pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
-							pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
-							pCollision->SetUseFlag(false);
-						}
-
-						//プレイヤーがミニゲームを終了する時
-						if (pPlayer[nCnt]->GetMiniGame() == true)
-						{
-							pPlayer[nCnt]->SetMiniGame(false);	
-							pPlayer[nCnt]->Retention(pPlayerItem);		// プレイヤーのアイテムの設定
-						}
+					//プレイヤーがミニゲームを終了する時
+					if (GetGame())
+					{
+						SetGame(false);
+						GetParent()->SetGame(false);
+						pPlayer = nullptr;
 					}
 				}
 				else
