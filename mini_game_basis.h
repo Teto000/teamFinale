@@ -12,6 +12,11 @@
 //-------------------------------
 #include "object2d.h"
 
+//-------------------------------
+// 前方宣言
+//-------------------------------
+class CGameCenter;
+
 //================================
 // ミニゲーム基盤クラス
 //================================
@@ -21,6 +26,7 @@ public:
 
 	enum MiniGameType		//ミニゲームの種類
 	{
+		TYPE_NULL = -1,
 		TYPE_BUTTUNPUSH = 0,
 		TYPE_BUTTONMASH,
 		TYPE_STICKROTATE,
@@ -43,11 +49,15 @@ public:
 	//------------------
 	void SetScaling(float fWidth, float fHeight);		//拡縮
 	void SetEnable(bool bEnable) { m_bDraw = bEnable; }	//描画するかどうか
+	void SetParent(CGameCenter *pParent) { m_pParent = pParent; }
+	void SetGame(bool bGame) { m_bGame = bGame; }
 
 	//------------------
 	// ゲッター
 	//------------------
-	int GetGameType() { return m_nType; }
+	MiniGameType GetGameType() { return m_nType; }
+	CGameCenter *GetParent() { return m_pParent; }
+	bool GetGame() { return m_bGame; }
 
 	//------------------
 	// 静的メンバ変数
@@ -58,8 +68,10 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	int m_nType;		//ミニゲームの種類
-	bool m_bDraw;			//描画フラグ
+	MiniGameType m_nType;		// ミニゲームの種類
+	CGameCenter *m_pParent;		// 親オブジェクト
+	bool m_bDraw;				// 描画フラグ
+	bool m_bGame;				// ゲーム中か否か
 };
 
 #endif

@@ -51,39 +51,6 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 	//テクスチャの設定
 	CObject2D::SetTexture(CTexture::TEXTURE_NONE);
 
-	//タイプごとに生成するものを決める
-	switch (m_nType)
-	{
-	case 0:
-	{//ボタンプッシュゲーム
-		m_nType = TYPE_BUTTUNPUSH;
-		CButtonPushGame::Create(pos);
-	}
-
-	break;
-
-	case 1:
-	{//ボタン連打ゲーム
-		m_nType = TYPE_BUTTONMASH;
-		CButtonMash::Create(pos);
-	}
-	break;
-
-	case 2:
-	{//スティック回転ゲーム
-		m_nType = TYPE_STICKROTATE;
-		CStickRotate::Create(pos);
-	}
-	break;
-
-	default:
-	{
-	}
-
-	break;
-		
-	}
-
 	return S_OK;
 }
 
@@ -141,12 +108,40 @@ CMiniGameBasis *CMiniGameBasis::Create(D3DXVECTOR3 pos, int nType)
 	//----------------------------------
 	// ポリゴンの生成と初期化
 	//----------------------------------
-	pGameBasis = new CMiniGameBasis;	//生成
+	//タイプごとに生成するものを決める
+	switch (nType)
+	{
+	case TYPE_BUTTUNPUSH:
+	{//ボタンプッシュゲーム
+		pGameBasis = new CButtonPushGame;	//生成
+	}
+
+	break;
+
+	case TYPE_BUTTONMASH:
+	{//ボタン連打ゲーム
+		pGameBasis = new CButtonMash;	//生成
+	}
+	break;
+
+	case TYPE_STICKROTATE:
+	{//スティック回転ゲーム
+		pGameBasis = new CStickRotate;	//生成
+	}
+	break;
+
+	default:
+	{
+	}
+
+	break;
+
+	}
 
 	if (pGameBasis != nullptr)
 	{//NULLチェック
-	 //メンバ変数に代入
-		pGameBasis->m_nType = nType;
+		//メンバ変数に代入
+		pGameBasis->m_nType = (MiniGameType)nType;
 
 		//初期化
 		pGameBasis->Init(D3DXVECTOR3(pos));

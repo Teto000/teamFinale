@@ -38,7 +38,7 @@ public:
 	// 静的メンバ関数
 	//-----------------------
 	//押し戻された位置を返す当たり判定処理
-	static bool Collision(D3DXVECTOR3 &pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
+	static bool Collision(D3DXVECTOR3 pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size,
 									D3DXVECTOR3 targetPos, D3DXVECTOR3 targetSize);
 
 	//角度の正規化
