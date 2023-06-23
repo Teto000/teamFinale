@@ -614,7 +614,7 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
             //東屋を直す
             pObject->SetType(18);
 
-			//ステージにスコアを加算
+			//ステージにスコアを加算(0番目のステージに100加算)
 			CApplication::AddStageScore(0, 100);
 
 			//リザルト画面に移行

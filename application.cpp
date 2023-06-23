@@ -50,6 +50,7 @@ CDebugProc*		CApplication::m_pDebugproc = nullptr;	//デバッグ用文字
 
 /* ↓ 変数　↓ */
 int CApplication::m_nStageScore[nMaxStage] = {};		//ステージごとのスコアを保存
+int CApplication::m_nMaxScore[nMaxStage] = {};			//スコアの最大値を保存
 
 //===========================
 // コンストラクタ

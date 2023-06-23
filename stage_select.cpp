@@ -134,7 +134,7 @@ void CStageSelect::Update()
 		m_pObject2D->SetSize(300.0f, 300.0f);
 
 		//スコアを取得
-		int nScore = CApplication::GetStageScore(0);	//ステージ番号に対応したスコアを取得
+		int nScore = CApplication::GetMaxScore(0);	//ステージ番号に対応したスコアの最大値を取得
 
 		//数字を描画する
 		m_pNumber->SetDraw(true);

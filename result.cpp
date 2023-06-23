@@ -49,6 +49,24 @@ HRESULT CResult::Init()
 		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
 	}
 
+	//-------------------------------------
+	// スコアが更新されたら値を保存
+	//-------------------------------------
+	for (int i = 0; i < CApplication::GetMaxStage(); i++)
+	{//ステージの最大数分回す
+		int nScore = CApplication::GetStageScore(i);	//今回のスコア
+		int nMaxScore = CApplication::GetMaxScore(i);	//最大のスコア
+
+		if (nScore >= nMaxScore)
+		{//スコアが更新されたら
+			//今回のスコアを最大にする
+			CApplication::SetMaxScore(i, nScore);
+		}
+
+		//今回のスコアの値をリセット
+		CApplication::ResetStageScore(i);
+	}
+
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_RESULT);
 
