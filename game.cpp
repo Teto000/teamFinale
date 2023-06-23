@@ -123,6 +123,19 @@ HRESULT CGame::Init()
 	m_pObjectX[3]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 
 	//-----------------------------------
+	// オブジェクトの生成(噴水)
+	//-----------------------------------
+	m_pObjectX[4] = CItemObj::Create();
+	m_pObjectX[4]->SetType(20);
+	m_pObjectX[4]->SetObjType(CObject::OBJTYPE_FOUNTAIN);
+	m_pObjectX[4]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+
+	m_pObjectX[5] = CItemObj::Create();
+	m_pObjectX[5]->SetType(21);
+	m_pObjectX[5]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
+	m_pObjectX[5]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
+
+	//-----------------------------------
 	// オブジェクトの生成(ビル)
 	//-----------------------------------
 	{
