@@ -21,6 +21,7 @@
 #include "player.h"
 #include "object2D.h"
 #include "time.h"
+#include "sky.h"
 
 //----------------------------------
 // 静的メンバ変数宣言
@@ -39,6 +40,7 @@ CStageSelect::CStageSelect()
 	m_pPlayer = nullptr;	//プレイヤー
 	m_pObject2D = nullptr;	//オブジェクト2D
 	m_pNumber = nullptr;	//数字
+	m_pSky = nullptr;		//空
 }
 
 //=================================
@@ -62,6 +64,11 @@ HRESULT CStageSelect::Init()
 	// 地面の生成
 	//------------------------
 	m_pMeshField = CMeshField::Create();
+
+	//------------------------
+	// 空の生成
+	//------------------------
+	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//------------------------
 	// プレイヤーの生成

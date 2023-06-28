@@ -118,8 +118,8 @@ void CGameCenter::SetGame(bool bGame)
 {
 	m_bGame = bGame;
 
-	if (m_bGame)
-	{
+	if (m_bGame && m_EMiniGameType != CMiniGameBasis::TYPE_NULL)
+	{//ƒQ[ƒ€’† & ƒ~ƒjƒQ[ƒ€‚ªnull‚¶‚á‚È‚¢‚È‚ç
 		m_pMiniGameBasis = CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), m_EMiniGameType);
 		m_pMiniGameBasis->SetParent(this);
 		m_pMiniGameBasis->SetGame(true);
