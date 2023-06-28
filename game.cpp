@@ -155,15 +155,20 @@ HRESULT CGame::Init()
 	//-----------------------------------
 	// オブジェクトの生成(噴水)
 	//-----------------------------------
-	m_pObjectX[3] = CItemObj::Create();
-	m_pObjectX[3]->SetType(20);
-	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN);
-	m_pObjectX[3]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+	//綺麗な噴水
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(20);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
 
-	m_pObjectX[4] = CItemObj::Create();
-	m_pObjectX[4]->SetType(21);
-	m_pObjectX[4]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
-	m_pObjectX[4]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
+	//壊れた噴水
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(21);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
 
 	//-----------------------------------
 	// オブジェクトの生成(ビル)
