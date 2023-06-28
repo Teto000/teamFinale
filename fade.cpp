@@ -79,6 +79,13 @@ void CFade::Update()
 			if (m_col.a <= 0.0f)
 			{
 				m_col.a = 0.0f;
+
+				if (m_pObject != nullptr)
+				{
+					m_pObject->Release();
+					m_pObject = nullptr;
+				}
+
 				m_fade = FADE_NONE;	//‰½‚à‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É
 			}
 		}
@@ -118,8 +125,12 @@ void CFade::Update()
 			}
 		}
 	}
-	m_pObject->SetColor(m_col);
-	m_pObject->Update();		//Œã‚ë‚É’u‚©‚È‚¢‚Æ¶¬‚³‚ê‚½ˆêu‚¾‚¯“§–¾‚Ì‚Ü‚Ü‚É‚È‚Á‚Ä‚µ‚Ü‚¤
+
+	if (m_pObject != nullptr)
+	{
+		m_pObject->SetColor(m_col);
+		m_pObject->Update();		//Œã‚ë‚É’u‚©‚È‚¢‚Æ¶¬‚³‚ê‚½ˆêu‚¾‚¯“§–¾‚Ì‚Ü‚Ü‚É‚È‚Á‚Ä‚µ‚Ü‚¤
+	}
 }
 
 //===========================
@@ -127,7 +138,10 @@ void CFade::Update()
 //===========================
 void CFade::Draw()
 {
-	m_pObject->Draw();
+	if (m_pObject != nullptr)
+	{
+		m_pObject->Draw();
+	}
 }
 
 //===========================
