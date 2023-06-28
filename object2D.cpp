@@ -38,6 +38,7 @@ CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 	m_fHeight = 0.0f;	//‚‚³
 	m_fRot = 0.0f;		//‰ñ“]Šp“x
 	m_fScal = 0.0f;		//‘å‚«‚³
+	m_NumTex = CTexture::TEXTURE_NONE;
 }
 
 //===========================
@@ -490,36 +491,4 @@ D3DXVECTOR3 CObject2D::MoveCircle(D3DXVECTOR3 CenterPos, float fAngle, float fLe
 	m_pos.y = CenterPos.y + fDistY;
 
 	return m_pos;
-}
-
-//===========================
-// ˆÊ’u‚Ìæ“¾
-//===========================
-D3DXVECTOR3 CObject2D::GetPosition()
-{
-	return m_pos;
-}
-
-//===========================
-// ‘Šè‚ÌˆÊ’u‚Ìæ“¾
-//===========================
-D3DXVECTOR3 CObject2D::GetTargetPos()
-{
-	return m_TargetPos;
-}
-
-//===========================
-// •‚Ìæ“¾
-//===========================
-float CObject2D::GetWidth()
-{
-	return m_fWidth;
-}
-
-//===========================
-// ‚‚³‚Ìæ“¾
-//===========================
-float CObject2D::GetHeight()
-{
-	return m_fHeight;
 }

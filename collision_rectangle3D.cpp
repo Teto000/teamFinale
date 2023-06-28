@@ -141,15 +141,16 @@ void CCollision_Rectangle3D::Update()
 //=============================================================================
 void CCollision_Rectangle3D::Draw()
 {
+#ifdef _DEBUG
 	if (!GetUseFlag())
 	{
-#ifdef _DEBUG
 		lineCol = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-#endif // _DEBUG
 	}
 
 	// ÉâÉCÉìÇÃçXêV
 	SetLine();
+
+#endif // _DEBUG
 }
 
 //=============================================================================

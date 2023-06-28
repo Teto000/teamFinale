@@ -21,6 +21,7 @@
 #include "player.h"
 #include "object2D.h"
 #include "time.h"
+#include "sky.h"
 
 //----------------------------------
 // 静的メンバ変数宣言
@@ -39,6 +40,7 @@ CStageSelect::CStageSelect()
 	m_pPlayer = nullptr;	//プレイヤー
 	m_pObject2D = nullptr;	//オブジェクト2D
 	m_pNumber = nullptr;	//数字
+	m_pSky = nullptr;		//空
 }
 
 //=================================
@@ -62,6 +64,11 @@ HRESULT CStageSelect::Init()
 	// 地面の生成
 	//------------------------
 	m_pMeshField = CMeshField::Create();
+
+	//------------------------
+	// 空の生成
+	//------------------------
+	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//------------------------
 	// プレイヤーの生成
@@ -133,9 +140,12 @@ void CStageSelect::Update()
 		//画像を拡大する(表示)
 		m_pObject2D->SetSize(300.0f, 300.0f);
 
+		//スコアを取得
+		int nScore = CApplication::GetMaxScore(0);	//ステージ番号に対応したスコアの最大値を取得
+
 		//数字を描画する
 		m_pNumber->SetDraw(true);
-		m_pNumber->SetTime(10);
+		m_pNumber->SetTime(nScore);
 	}
 	else
 	{

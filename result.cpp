@@ -18,13 +18,15 @@
 #include "bg.h"
 #include "fade.h"
 #include "ranking.h"
+#include "debug_proc.h"
 
 //===========================
 // コンストラクタ
 //===========================
 CResult::CResult()
 {
-
+	m_pBg = nullptr;	//背景
+	m_pRanking = nullptr;
 }
 
 //===========================
@@ -32,7 +34,7 @@ CResult::CResult()
 //===========================
 CResult::~CResult()
 {
-	m_pBg = nullptr;	//背景
+	
 }
 
 //===========================
@@ -44,6 +46,25 @@ HRESULT CResult::Init()
 		//背景の生成
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 		m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
+	}
+
+	//-------------------------------------
+	// スコアが更新されたら値を保存
+	//-------------------------------------
+	for (int i = 0; i < CApplication::GetMaxStage(); i++)
+	{//ステージの最大数分回す
+		int nScore = CApplication::GetStageScore(i);	//今回のスコア
+		int nMaxScore = CApplication::GetMaxScore(i);	//最大のスコア
+
+		if (nScore >= nMaxScore)
+		{//スコアが更新されたら
+			//今回のスコアを最大にする
+			CApplication::SetMaxScore(i, nScore);
+		}
+
+		//今回のスコアの値をリセット
+		CApplication::ResetStageScore(i);
 	}
 
 	//BGMの再生
@@ -61,7 +82,7 @@ HRESULT CResult::Init()
 void CResult::Uninit()
 {
 	//BGMの停止
-	CSound::StopSound();
+	//CSound::StopSound();
 }
 
 //===========================
@@ -83,4 +104,6 @@ void CResult::Update()
 		//SEの再生
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
 	}
+
+	CDebugProc::Print("リザルト画面");
 }

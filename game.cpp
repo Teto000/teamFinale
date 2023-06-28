@@ -28,6 +28,7 @@
 #include "itemObj.h"
 #include "collision.h"
 #include "collision_rectangle3D.h"
+#include "game_center.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -96,22 +97,73 @@ HRESULT CGame::Init()
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
 
-	m_pObjectX[0] = CItemObj::Create();
+	/*m_pObjectX[0] = CItemObj::Create();
 	m_pObjectX[0]->SetType(1);
-	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
 
 	//-----------------------------------
 	// オブジェクトの生成(時計)
 	//-----------------------------------
+	m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(17);
+	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[1]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
 
+	//-----------------------------------
+	// ゲームセンターの設定
+	//-----------------------------------
+	CGameCenter* pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(1);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	CCollision_Rectangle3D* pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+
+	//-----------------------------------
+	// オブジェクトの生成(東屋)
+	//-----------------------------------
+	//綺麗な東屋
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(18);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
+
+	//壊れた東屋
 	m_pObjectX[2] = CItemObj::Create();
-	m_pObjectX[2]->SetType(17);
-	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+	m_pObjectX[2]->SetType(19);
+	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+
+	/*pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(19);
+	pGameCenter->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_NULL);
+	pGameCenter->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));*/
+
+	//-----------------------------------
+	// オブジェクトの生成(噴水)
+	//-----------------------------------
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(20);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+
+	m_pObjectX[4] = CItemObj::Create();
+	m_pObjectX[4]->SetType(21);
+	m_pObjectX[4]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
+	m_pObjectX[4]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
 
 	//-----------------------------------
 	// オブジェクトの生成(ビル)
@@ -167,6 +219,7 @@ void CGame::Update()
 	// ジョイパッドでの操作
 	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
 
+#ifdef _DEBUG
 	//-----------------------
 	// 画面遷移
 	//-----------------------
@@ -180,21 +233,16 @@ void CGame::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
 
-	if (CInputKeyboard::Trigger(DIK_T))
-	{//Tキーを押したら
-		//ミニゲームの生成
-		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTUNPUSH);
-	}
-
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
-		//ミニゲームの生成
+	 //ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
 	}
 
 	if (CInputKeyboard::Trigger(DIK_M))
 	{//Mキーを押したら
-		//ミニゲームの生成
+	 //ミニゲームの生成
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
 	}
+#endif // DEBUG
 }

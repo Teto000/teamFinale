@@ -44,26 +44,7 @@ HRESULT CBg::Init(D3DXVECTOR3 pos)
 	if (m_pObject2D != nullptr)
 	{
 		m_pObject2D->Init(m_pos);
-
-		//-------------------------
-		// 種類ごとの処理
-		//-------------------------
-		switch (m_type)
-		{
-		//タイトル画面の背景
-		case BGTYPE_TITLE:
-			m_pObject2D->SetTexture(CTexture::TEXTURE_TITLE);
-			break;
-
-		//リザルト画面の背景
-		case BGTYPE_RESULT:
-			m_pObject2D->SetTexture(CTexture::TEXTURE_RESULT);
-			break;
-
-		default:
-			break;
-		}
-
+		m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);
 		m_pObject2D->SetSize(m_fWidth, m_fHeight);
 	}
 
@@ -117,4 +98,12 @@ CBg* CBg::Create(D3DXVECTOR3 pos, BGTYPE type)
 	}
 
 	return pBg;
+}
+
+//========================
+// テクスチャの設定
+//========================
+void CBg::SetTexture(CTexture::NUM_TEXTURE tex)
+{
+	m_pObject2D->SetTexture(tex);
 }

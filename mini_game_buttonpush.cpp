@@ -22,13 +22,17 @@
 #include "itemObj.h"
 #include "player.h"
 #include "collision_rectangle3D.h"
+#include "game_center.h"
 
 //=======================
 // コンストラクタ
 //=======================
 CButtonPushGame::CButtonPushGame()
 {
-
+	m_nCount = 0;			//カウント
+	m_nCntPlayTime = 0;		//操作出来るまでの時間を数える
+	m_bStop = false;		//止まるかどうか
+	m_bEdge = false;		//端にたどり着いたかどうか
 }
 
 //=======================
@@ -72,7 +76,7 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 	pObj2D[1]->SetColor(m_col[1]);
 
 	//ボタンポリゴン
-	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
+	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(250.0f, 350.0f, 0.0f));
 	pObj2D[2]->SetSize(25.0f, 300.0f);
 	pObj2D[2]->SetTexture(CTexture::TEXTURE_NONE);
 	pObj2D[2]->SetColor(m_col[2]);
@@ -85,7 +89,7 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 //=======================
 void CButtonPushGame::Uninit()
 {
-	
+	m_nCntPlayTime = 0;
 }
 
 //=======================
@@ -95,8 +99,11 @@ void CButtonPushGame::Update()
 {
 	//オブジェクトがあるなら
 	if (pObj2D[0] != nullptr
-		&&pObj2D[1] != nullptr)
+		&& pObj2D[1] != nullptr)
 	{
+		//操作可能までの時間を数える
+		m_nCntPlayTime++;
+
 		if (!m_bStop)
 		{
 			//位置の取得
@@ -140,9 +147,10 @@ void CButtonPushGame::Update()
 			pos += m_move;
 			pObj2D[2]->SetPos(pos);
 
-			if (CInputKeyboard::Trigger(DIK_SPACE))
-			{//SPACEキーが押された時
-			 //バーが真ん中の時
+			if (CInputKeyboard::Trigger(DIK_SPACE)
+				&& m_nCntPlayTime > nMaxPlayTime)
+			{//SPACEキーが押された時 & 操作可能時間に達していたら
+				//バーが真ん中の時
 				if (pos.x >= 615.0f
 					&& pos.x <= 665.0f)
 				{
@@ -155,32 +163,36 @@ void CButtonPushGame::Update()
 
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CApplication::GetGame();
-					CPlayer *pPlayer[2] = {};
-					CItemObj *pPlayerItem = {};
+					CGameCenter *pParent = GetParent();
+					CPlayer *pPlayer = pParent->GetPlayer();
+					CItemObj *pPlayerItem = pPlayer->GetMyItem();
 
-					for (int nCnt = 0; nCnt < pGame->GetMaxPlayer(); nCnt++)
+					if (pPlayerItem == nullptr)
+					{// アイテムを取得していない
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetType(0);
+
+						// 当たり判定の設定
+						CCollision_Rectangle3D *pCollision = pItem->GetCollision();
+						pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
+						pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+						pCollision->SetUseFlag(false);
+
+						pPlayer->Retention(pItem);
+					}
+					else if (pPlayerItem != nullptr)
 					{
-						//プレイヤー情報の取得
-						pPlayer[nCnt] = pGame->GetPlayer(nCnt);
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetType(0);
+						pPlayerItem->Stack(pItem);
+					}
 
-						if (pPlayerItem == nullptr)
-						{// アイテムを取得していない
-							pPlayerItem = CItemObj::Create();
-							pPlayerItem->SetType(0);
-
-							// 当たり判定の設定
-							CCollision_Rectangle3D *pCollision = pPlayerItem->GetCollision();
-							pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
-							pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
-							pCollision->SetUseFlag(false);
-						}
-
-						//プレイヤーがミニゲームを終了する時
-						if (pPlayer[nCnt]->GetMiniGame() == true)
-						{
-							pPlayer[nCnt]->SetMiniGame(false);	
-							pPlayer[nCnt]->Retention(pPlayerItem);		// プレイヤーのアイテムの設定
-						}
+					//プレイヤーがミニゲームを終了する時
+					if (GetGame())
+					{
+						SetGame(false);
+						GetParent()->SetGame(false);
+						pPlayer = nullptr;
 					}
 				}
 				else

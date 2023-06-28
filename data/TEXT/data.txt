@@ -1,5 +1,5 @@
 // ÉÇÉfÉãÇÃç≈ëÂêî
-MAX_TYPE = 18
+MAX_TYPE = 22
 
 
 //***************************
@@ -23,6 +23,10 @@ MODEL_FILENAME = data/MODEL/bill004.x					# [14]
 MODEL_FILENAME = data/MODEL/bill005.x					# [15]
 MODEL_FILENAME = data/MODEL/bill006.x					# [16]
 MODEL_FILENAME = data/MODEL/clock/clock.x				# [17]
+MODEL_FILENAME = data/MODEL/pavilion/pavilion.x			# [18]
+MODEL_FILENAME = data/MODEL/pavilion/pavilion_break.x	# [19]
+MODEL_FILENAME = data/MODEL/fountain/fountain.x			# [20]
+MODEL_FILENAME = data/MODEL/fountain/fountain_break.x	# [21]
 
 
 

@@ -46,6 +46,10 @@ public:
 		OBJTYPE_MINIGAME,	//ミニゲーム
 		OBJTYPE_ITEM,		//アイテム
 		OBJTYPE_CLOCK,		//時計
+		OBJTYPE_PAVILION,	//東屋
+		OBJTYPE_PAVILION_BREAK,	//壊れ東屋
+		OBJTYPE_FOUNTAIN,	//噴水
+		OBJTYPE_FOUNTAIN_BREAK,	//壊れ噴水
 		OBJTYPE_MAX,
 	};
 
@@ -87,6 +91,18 @@ public:
 private:
 	void Death(CObject* pObj);
 
+protected:
+	//--------------------------------------------------------------------
+	// 定義
+	//--------------------------------------------------------------------
+	typedef void (CObject::*UPDATE_FUNC)();
+
+	// セッター
+	void SetState(const int nState) { m_nState = nState; }
+
+	//ゲッター
+	int GetState() const { return m_nState; }
+
 private:
 	//----------------
 	// 定数
@@ -100,6 +116,7 @@ private:
 	CObject* m_pNext;			//1つ後のオブジェクト
 	CCollision *m_pCollision;	// 当たり判定
 	EObjType m_ObjType;			//オブジェクトの種類
+	int m_nState;				// 状態
 	bool m_bDeath;				//死亡フラグ
 
 	//----------------

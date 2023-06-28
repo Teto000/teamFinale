@@ -170,6 +170,9 @@
     <ClCompile Include="mg_stickrotate.cpp">
       <Filter>Main\MiniGame</Filter>
     </ClCompile>
+    <ClCompile Include="game_center.cpp">
+      <Filter>Main\Object\X</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -291,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="mg_buttonmash.h">
       <Filter>Main\MiniGame</Filter>
+    </ClInclude>
+    <ClInclude Include="game_center.h">
+      <Filter>Main\Object\X</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
