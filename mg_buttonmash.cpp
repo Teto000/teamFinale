@@ -100,14 +100,14 @@ void CButtonMash::Update()
 
 		if ((m_nCounterAnim % 10) == 0)
 		{//10フレーム経過
-		 //テクスチャのアニメーション
+			//テクスチャのアニメーション
 			pObj2D[1]->SetSplitTex(1.0f, 1.0f, 2.0f, (float)m_nPatternAnim);
 
 			//パターンNo.を更新する
 			m_nPatternAnim++;
 		}
 
-		if (CInputKeyboard::Trigger(DIK_J))
+		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{//Jキーを押したときに
 			//連打カウントを1増やす
 			m_nMashCounter++;
