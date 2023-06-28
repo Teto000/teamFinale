@@ -113,12 +113,14 @@ void CFade::Update()
 				}*/
 
 				CApplication::SetMode(m_modeNext);
+
 				m_pObject = new CObject2D(3);
 
 				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 
 				m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
+				m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);	//黒いポリゴン(不透明)にしておく
 				m_pObject->SetColor(m_col);
 
 				m_pObject->SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定

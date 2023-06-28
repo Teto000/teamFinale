@@ -43,18 +43,12 @@ CResult::~CResult()
 // ‰Šú‰»
 //===========================
 HRESULT CResult::Init()
-{
-	CCamera::Create((DWORD)0.0f, (DWORD)0.0f
-		, (DWORD)SCREEN_WIDTH
-		, (DWORD)SCREEN_HEIGHT); 
-	
-	CMeshField::Create(); 
-	
+{	
 	{
-		////”wŒi‚Ì¶¬
-		//D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
-		//m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
-		//m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
+		//”wŒi‚Ì¶¬
+		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
+		m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
 	}
 
 	//-------------------------------------
