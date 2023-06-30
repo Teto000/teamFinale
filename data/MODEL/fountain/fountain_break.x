@@ -861,7 +861,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\26349747_koke.png";
+    "data/TEXTURE/Game/fountain_koke.png";
    }
   }
   Material {
@@ -870,7 +870,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\26349747_koke.png";
+    "data/TEXTURE/Game/fountain_koke.png";
    }
   }
   Material {
@@ -879,7 +879,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\26349747_s.png";
+    "data/TEXTURE/Game/fountain_koke_s.png";
    }
   }
   Material {
@@ -888,7 +888,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\26349747_s.png";
+    "data/TEXTURE/Game/fountain_koke_s.png";
    }
   }
   Material {
