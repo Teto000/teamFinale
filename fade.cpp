@@ -79,6 +79,13 @@ void CFade::Update()
 			if (m_col.a <= 0.0f)
 			{
 				m_col.a = 0.0f;
+
+				if (m_pObject != nullptr)
+				{
+					m_pObject->Release();
+					m_pObject = nullptr;
+				}
+
 				m_fade = FADE_NONE;	//何もしていない状態に
 			}
 		}
@@ -106,20 +113,26 @@ void CFade::Update()
 				}*/
 
 				CApplication::SetMode(m_modeNext);
+
 				m_pObject = new CObject2D(3);
 
 				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 
 				m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
+				m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);	//黒いポリゴン(不透明)にしておく
 				m_pObject->SetColor(m_col);
 
 				m_pObject->SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定
 			}
 		}
 	}
-	m_pObject->SetColor(m_col);
-	m_pObject->Update();		//後ろに置かないと生成された一瞬だけ透明のままになってしまう
+
+	if (m_pObject != nullptr)
+	{
+		m_pObject->SetColor(m_col);
+		m_pObject->Update();		//後ろに置かないと生成された一瞬だけ透明のままになってしまう
+	}
 }
 
 //===========================
@@ -127,7 +140,10 @@ void CFade::Update()
 //===========================
 void CFade::Draw()
 {
-	m_pObject->Draw();
+	if (m_pObject != nullptr)
+	{
+		m_pObject->Draw();
+	}
 }
 
 //===========================

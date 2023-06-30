@@ -19,6 +19,8 @@
 #include "fade.h"
 #include "ranking.h"
 #include "debug_proc.h"
+#include "camera.h"
+#include "meshfield.h"
 
 //===========================
 // コンストラクタ
@@ -41,7 +43,7 @@ CResult::~CResult()
 // 初期化
 //===========================
 HRESULT CResult::Init()
-{
+{	
 	{
 		//背景の生成
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
@@ -99,7 +101,7 @@ void CResult::Update()
 	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
 	{
 		//タイトル画面に移行
-		CApplication::GetFade()->SetFade(CApplication::MODE_TITLE);
+		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
 
 		//SEの再生
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
