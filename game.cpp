@@ -115,16 +115,27 @@ HRESULT CGame::Init()
 	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
 
 	//-----------------------------------
+	// ゲームセンターの設定
+	//-----------------------------------
+	CGameCenter* pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(1);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	CCollision_Rectangle3D* pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+
+	//-----------------------------------
 	// オブジェクトの生成(東屋)
 	//-----------------------------------
 	//綺麗な東屋
-	CGameCenter *pPavilion = CGameCenter::Create();
-	pPavilion->SetType(18);
-	pPavilion->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pPavilion->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
-	CCollision_Rectangle3D *pCollPavilion = pPavilion->GetCollision();
-	pCollPavilion->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollPavilion->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(18);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
 
 	//壊れた東屋
 	m_pObjectX[2] = CItemObj::Create();
@@ -132,16 +143,32 @@ HRESULT CGame::Init()
 	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
 	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 
-	//-----------------------------------
-	// ゲームセンターの設定
-	//-----------------------------------
-	CGameCenter *pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(1);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
-	CCollision_Rectangle3D *pCollision = pGameCenter->GetCollision();
+	/*pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(19);
+	pGameCenter->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_NULL);
+	pGameCenter->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));*/
+
+	//-----------------------------------
+	// オブジェクトの生成(噴水)
+	//-----------------------------------
+	//綺麗な噴水
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(20);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
+
+	//壊れた噴水
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(21);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
 
 	//-----------------------------------
 	// オブジェクトの生成(ビル)

@@ -4,8 +4,8 @@ Format Text Ver 1.0
 Scene {
 	pos -9.7968 -5.9617 3840.0000
 	lookat 0.0000 0.0000 0.0000
-	head -103.2127
-	pich 0.5992
+	head -103.6027
+	pich 0.3992
 	bank 0.0000
 	ortho 0
 	zoom2 1.9531
@@ -18,8 +18,8 @@ Scene {
 	}
 }
 Material 2 {
-	"mat2" col(0.506 0.510 0.502 1.000) dif(0.760) amb(0.630) emi(0.430) spc(0.410) power(4.00) tex("TEXTURE\1833730_s.jpg")
-	"mat3" col(1.000 1.000 1.000 1.000) dif(0.780) amb(0.600) emi(0.140) spc(0.060) power(5.00) tex("TEXTURE\26349747_s.jpg")
+	"mat2" col(0.506 0.510 0.502 1.000) dif(0.760) amb(0.630) emi(0.430) spc(0.410) power(4.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_stone.jpg")
+	"mat3" col(1.000 1.000 1.000 1.000) dif(0.780) amb(0.600) emi(0.140) spc(0.060) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_stone_s.jpg")
 }
 Object "obj1" {
 	visible 15

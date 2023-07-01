@@ -211,6 +211,7 @@ void CRenderer::Draw()
 		break;
 
 	default:
+		m_pCamera = nullptr;
 		break;
 	}
 
@@ -255,6 +256,8 @@ void CRenderer::Draw()
 
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+
+	D3DVIEWPORT9 viewport;
 }
 
 #ifdef _DEBUG
@@ -264,13 +267,6 @@ void CRenderer::Draw()
 void CRenderer::DrawFPS()
 {
 	int nCntFPS = GetFPS();	//FPSを取得
-
-	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	TCHAR str[256];
-
-	wsprintf(str, _T("FPS : %d\n"), nCntFPS);
-
-	// テキスト描画
-	//m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	CDebugProc::Print("FPS : %d\n", nCntFPS);
 }
 #endif // _DEBUG

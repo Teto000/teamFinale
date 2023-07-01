@@ -21,6 +21,7 @@ class CObjectX;		//オブジェクトX
 class CPlayer;		//プレイヤー
 class CObject2D;	//オブジェクト2D
 class CTime;		//数字
+class CSky;			//空
 
 //==================================
 // タイトルクラスの定義
@@ -61,6 +62,7 @@ private:
 	CPlayer*	m_pPlayer;		//プレイヤー
 	CObject2D*	m_pObject2D;	//オブジェクト2D
 	CTime*		m_pNumber;		//数字
+	CSky*		m_pSky;			//空
 
 	//-------------------------
 	// 静的メンバ変数

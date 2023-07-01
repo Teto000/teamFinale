@@ -85,9 +85,11 @@ bool CPlayer::m_bWarp = false;		// ワープする状態かどうか
 CPlayer::CPlayer()
 {
 	m_pMove = nullptr;
+	m_nCntGetTime = 0;		// アイテムを取得できる時間を数える
 	m_nCntRimit = 0;		// 過去に残れる時間を数える
 	m_nNumber = 0;			// プレイヤー番号
 	m_bMiniGame = false;	// ミニゲーム中かどうか
+	m_bGetItem = false;		// アイテムを取得できる状態
 	m_pMyItem = nullptr;	// アイテム所持情報
 	m_bCrate = false;		// ビルが建ったかどうか
 	m_pLine = nullptr;		// ライン情報
@@ -205,7 +207,7 @@ void CPlayer::Update()
 			CObject *pCollidedObj = apCollidedObj.at(nCntObj);
 
 			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
-				&& CInputKeyboard::Trigger(DIK_H))
+				&& CInputKeyboard::Trigger(DIK_SPACE))
 			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
 				if (m_pMyItem != nullptr)
 				{
@@ -247,6 +249,20 @@ void CPlayer::Update()
 		pMotion->SetNumMotion(m_EAction);
 	}
 
+	//--------------------------------
+	// アイテム取得のリキャスト
+	//--------------------------------
+	if (!m_bGetItem)
+	{//アイテムが取得できない状態なら
+		m_nCntGetTime++;	//アイテムを取得するまでの時間を数える
+
+		if (m_nCntGetTime >= nMaxGetTime)
+		{//一定時間に達したら
+			m_bGetItem = true;
+			m_nCntGetTime = 0;
+		}
+	}
+
 	// 親クラスの更新
 	CMotionModel3D::Update();
 }
@@ -282,8 +298,8 @@ void CPlayer::Retention(CItemObj * pItem)
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if (m_pMyItem == nullptr)
-	{// アイテムを所持していない
+	if (m_pMyItem == nullptr && m_bGetItem)
+	{// アイテムを所持していない & アイテムを取得できる状態なら
 		CModel3D *pParts = (CModel3D*)pMotion->GetParts(m_nParentParts);
 		m_pMyItem = pItem;
 		m_pMyItem->SetParent(pParts);
@@ -615,15 +631,18 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
         && pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
         && m_pMyItem != nullptr)
     {// 衝突判定が行われた & アイテムを持っているなら
-        if (CInputKeyboard::Trigger(DIK_F))
+        if (CInputKeyboard::Trigger(DIK_SPACE))
         {//アイテムを置いたら
             //東屋を直す
             pObject->SetType(18);
 
-            //リザルト画面に移行
-            CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-        }
-    }
+			//ステージにスコアを加算(0番目のステージに100加算)
+			CApplication::AddStageScore(0, 100);
+
+			//リザルト画面に移行
+			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		}
+	}
 }
 
 //=============================================================================
@@ -710,6 +729,7 @@ void CPlayer::Drop()
 		pItemCollision->SetUseFlag(true);
 
 		m_pMyItem = nullptr;
+		m_bGetItem = false;		//アイテムを取得できない状態
 	}
 }
 
@@ -749,7 +769,7 @@ void CPlayer::Update_Idel()
 	//	}
 	//}
 
-	if (CInputKeyboard::Trigger(DIK_F))
+	if (CInputKeyboard::Trigger(DIK_SPACE))
 	{// アイテムの保持の解除
 		Drop();
 	}

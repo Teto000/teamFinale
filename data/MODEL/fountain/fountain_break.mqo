@@ -18,10 +18,10 @@ Scene {
 	}
 }
 Material 4 {
-	"mat5" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\26349747_koke.png") proj_type(1) proj_pos(0.000 54.797 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 0.000 0.000)
-	"mat6" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\26349747_koke.png") proj_type(1) proj_pos(0.000 0.000 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 -84.500 -0.000)
-	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\26349747_s.png") proj_type(1) proj_pos(-97.040 0.000 -38.208) proj_scale(287.875 396.125 287.875) proj_angle(-71.462 -88.234 -31.679)
-	"mat4" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("TEXTURE\26349747_s.png") proj_type(1) proj_pos(0.000 0.000 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 0.000 0.000)
+	"mat5" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_koke.png") proj_type(1) proj_pos(0.000 54.797 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 0.000 0.000)
+	"mat6" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_koke.png") proj_type(1) proj_pos(0.000 0.000 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 -84.500 -0.000)
+	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_koke_s.png") proj_type(1) proj_pos(-97.040 0.000 -38.208) proj_scale(287.875 396.125 287.875) proj_angle(-71.462 -88.234 -31.679)
+	"mat4" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\fountain_koke_s.png") proj_type(1) proj_pos(0.000 0.000 0.000) proj_scale(100.000 100.000 100.000) proj_angle(0.000 0.000 0.000)
 }
 Object "obj1" {
 	visible 15
