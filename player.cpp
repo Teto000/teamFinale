@@ -238,6 +238,12 @@ void CPlayer::Update()
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
 	if (pMotion != nullptr
+		&& !pMotion->GetMotion())
+	{
+		m_EAction = NEUTRAL_ACTION;
+	}
+
+	if (pMotion != nullptr
 		&& m_EAction != m_EActionOld)
 	{// ニュートラルモーションの設定
 		pMotion->SetNumMotion(m_EAction);
