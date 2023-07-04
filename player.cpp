@@ -762,7 +762,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 	//---------------------
 	float fLeft = origin.x - fValue;
 	float fRight = origin.x + fValue;
-	float fFlont = origin.z - fValue;
+	float fFlont = origin.z - 150.0f;
 	float fBack = origin.z + fValue;
 
 	//---------------------
