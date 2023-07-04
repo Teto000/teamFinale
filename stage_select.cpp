@@ -58,7 +58,8 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// カメラの生成
 	//------------------------
-	m_pCamera = CCamera::Create(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f,
+								(DWORD)SCREEN_WIDTH, (DWORD)SCREEN_HEIGHT);
 
 	//------------------------
 	// 地面の生成
@@ -85,11 +86,13 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// 画像の生成
 	//------------------------
-	D3DXVECTOR3 pos((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 0.0f);	//位置
-	m_pObject2D = CObject2D::Create(pos);							//生成
-	m_pObject2D->SetSize(0.0f, 0.0f);								//大きさ
-	m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);				//テクスチャ
-	m_pObject2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));		//色
+	{
+		D3DXVECTOR3 pos((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 0.0f);	//位置
+		m_pObject2D = CObject2D::Create(pos);							//生成
+		m_pObject2D->SetSize(0.0f, 0.0f);								//大きさ
+		m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);				//テクスチャ
+		m_pObject2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));		//色
+	}
 
 	//------------------------
 	// 数字の生成

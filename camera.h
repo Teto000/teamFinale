@@ -47,6 +47,7 @@ public:
 	// ゲッター
 	//------------------
 	D3DXVECTOR3 GetPosV()		{ return m_posV; }		//視点を取得
+	D3DXVECTOR3 GetInitPosV()	{ return m_initPosV; }	//視点の初期値を取得
 	D3DXVECTOR3 GetPosR()		{ return m_posR; }		//注視点を取得
 	D3DXVECTOR3 GetRot()		{ return m_rot; }		//角度を取得
 	D3DVIEWPORT9 GetViewport()  { return m_viewport; }	//ビューポートの取得	
@@ -65,6 +66,7 @@ private:
 	// メンバ変数
 	//------------------
 	D3DXVECTOR3 m_posV;			//現在の視点
+	D3DXVECTOR3 m_initPosV;		//視点の初期値
 	D3DXVECTOR3 m_posR;			//現在の注視点
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_worldPosV;	//ワールド座標(視点)
