@@ -30,6 +30,7 @@ const float CCamera::m_fSpeed = 0.02f;
 CCamera::CCamera()
 {
 	m_posV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_initPosV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//視点の初期値
 	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -69,7 +70,8 @@ void CCamera::Init(void)
 	//---------------------------------
 	// 視点・注視点・上方向を設定する
 	//---------------------------------
-	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);
+	m_posV = D3DXVECTOR3(0.0f, 500.0f, -300.0f);
+	m_initPosV = m_posV;
 	m_posR = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

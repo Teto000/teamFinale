@@ -65,6 +65,9 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	// 変数宣言
+	CCollision_Rectangle3D *pCollision = nullptr;
+
 	//初期値の設定
 	m_bFinish = false;	//ゲームが終了していない状態
 
@@ -92,7 +95,7 @@ HRESULT CGame::Init()
 		m_pPlayer[i]->SetMotion("data/MOTION/motion.txt");
 		m_pPlayer[i]->SetNumber(i);		//プレイヤー番号の設定
 
-		CCollision_Rectangle3D *pCollision = m_pPlayer[i]->GetCollision();
+		pCollision = m_pPlayer[i]->GetCollision();
 		pCollision->SetSize(D3DXVECTOR3(20.0f, 50.0f, 20.0f));
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
@@ -108,11 +111,17 @@ HRESULT CGame::Init()
 	m_pObjectX[0]->SetType(17);
 	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
 	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+	pCollision = m_pObjectX[0]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
 
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
 	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+	pCollision = m_pObjectX[1]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
 
 	//-----------------------------------
 	// ゲームセンターの設定
@@ -121,7 +130,7 @@ HRESULT CGame::Init()
 	pGameCenter->SetType(1);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
 	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
-	CCollision_Rectangle3D* pCollision = pGameCenter->GetCollision();
+	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
 

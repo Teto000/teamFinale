@@ -604,7 +604,7 @@ Mesh {
  4;289,290,277,286;;
  
  MeshMaterialList {
-  3;
+  4;
   176;
   0,
   0,
@@ -788,7 +788,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\N845_mokumetex_TP_V4.jpg";
+    "data/TEXTURE/Game/wood2.jpg";
    }
   }
   Material {
@@ -797,7 +797,16 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "TEXTURE\\G142_mokumecyou_TP_V4.jpg";
+    "data/TEXTURE/Game/wood.jpg";
+   }
+  }
+  Material {
+   0.800000;0.800000;0.800000;1.000000;;
+   5.000000;
+   0.000000;0.000000;0.000000;;
+   0.000000;0.000000;0.000000;;
+   TextureFilename {
+    "data/TEXTURE/Game/stone.jpg";
    }
   }
   Material {

@@ -74,7 +74,7 @@ CPlayer * CPlayer::Create()
 //=============================================================================
 // 静的メンバ変数宣言
 //=============================================================================
-bool CPlayer::m_bFuture = false;	// 未来にいるかどうか
+bool CPlayer::m_bPast = false;		// 過去にいるかどうか
 bool CPlayer::m_bWarp = false;		// ワープする状態かどうか
 
 //=============================================================================
@@ -238,6 +238,12 @@ void CPlayer::Update()
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
 	if (pMotion != nullptr
+		&& !pMotion->GetMotion())
+	{
+		m_EAction = NEUTRAL_ACTION;
+	}
+
+	if (pMotion != nullptr
 		&& m_EAction != m_EActionOld)
 	{// ニュートラルモーションの設定
 		pMotion->SetNumMotion(m_EAction);
@@ -356,12 +362,12 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 		}
 		else if (CInputKeyboard::Press(nLeftKey))
 		{// [A]キーが押された時
-		 // 移動方向の更新
+			// 移動方向の更新
 			m_rotDest.y = D3DX_PI * -0.5f;
 		}
 		else if (CInputKeyboard::Press(nRightKey))
 		{// [D]キーが押された時
-		 // 移動方向の更新
+			// 移動方向の更新
 			m_rotDest.y = D3DX_PI * 0.5f;
 		}
 
@@ -463,6 +469,7 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	// 変数宣言
 	//-----------------------------
 	CCamera* pCamera = CApplication::GetGame()->GetCamera();
+	D3DXVECTOR3 initPosV = pCamera->GetInitPosV();	//視点の初期値を取得
 	/*int nTimeRimit = 300;		//過去に残れる時間の限界
 
 	//-----------------------------
@@ -494,22 +501,22 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	// キーを押したときの処理
 	//-----------------------------
-	if (!m_bFuture)
+	if (!m_bPast)
 	{//未来にいるなら
 		pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
 
 		//カメラの位置の設定
-		pCamera->SetPosV(D3DXVECTOR3(1000.0f, 200.0f, -400.0f));
+		pCamera->SetPosV(D3DXVECTOR3(1000.0f, initPosV.y, initPosV.z));
 		pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 	}
 	else
 	{//過去にいるなら
 		pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
-		pCamera->SetPosV(D3DXVECTOR3(0.0f, 200.0f, -400.0f));
+		pCamera->SetPosV(D3DXVECTOR3(0.0f, initPosV.y, initPosV.z));
 		pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 	}
 
-	m_bFuture = !m_bFuture;		//現在の時代を切り替え
+	m_bPast = !m_bPast;		//現在の時代を切り替え
 
 	m_bWarp = true;				//ワープする状態にする
 
@@ -713,7 +720,7 @@ void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
 //=============================================================================
 void CPlayer::Drop()
 {
-	if (m_pMyItem != nullptr)
+	if (m_pMyItem != nullptr && !m_bMiniGame)
 	{
 		// 親設定の放棄
 		m_pMyItem->SetParent();
@@ -725,6 +732,65 @@ void CPlayer::Drop()
 		m_pMyItem = nullptr;
 		m_bGetItem = false;		//アイテムを取得できない状態
 	}
+}
+
+//=============================================================================
+// 移動の限界を設定
+// Author : Teruto Sato
+// 概要 : アイテムの保持を解除する
+//=============================================================================
+void CPlayer::LimitMove(D3DXVECTOR3 pos)
+{
+	D3DXVECTOR3 origin(0.0f, 0.0f, 0.0f);	//中心の位置
+	float fValue = 2000.0f;					//中心から限界までの距離
+
+	//--------------------------
+	// モードごとの限界を設定
+	//--------------------------
+	if (CApplication::GetMode() == CApplication::MODE_GAME)
+	{//ゲーム画面なら
+		fValue = 300.0f;
+
+		if (m_bPast)
+		{//過去にいるなら
+			origin.x = 1000.0f;
+		}
+	}
+
+	//---------------------
+	// 限界値を計算
+	//---------------------
+	float fLeft = origin.x - fValue;
+	float fRight = origin.x + fValue;
+	float fFlont = origin.z - 150.0f;
+	float fBack = origin.z + fValue;
+
+	//---------------------
+	// X軸の限界
+	//---------------------
+	if (pos.x <= fLeft)
+	{
+		pos.x = fLeft;
+	}
+	else if (pos.x >= fRight)
+	{
+		pos.x = fRight;
+	}
+
+	//---------------------
+	// Z軸の限界
+	//---------------------
+	if (pos.z <= fFlont)
+	{
+		pos.z = fFlont;
+	}
+	else if (pos.z >= fBack)
+	{
+		pos.z = fBack;
+	}
+
+	//位置の設定
+	SetPos(pos);
 }
 
 void CPlayer::Update_Idel()
@@ -810,6 +876,8 @@ void CPlayer::Update_Walk()
 
 	// 位置の設定
 	SetPos(pos);
+
+	LimitMove(pos);
 
 	// 回転
 	Rotate();
