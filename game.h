@@ -54,13 +54,12 @@ private:
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
-	static const int nMaxObject = 4;	//オブジェクトの最大数
-	static const int nMaxObjBG = 4;		//背景オブジェクトの最大数
+	static const int nMaxObject = 28;	//オブジェクトの最大数
 
 	//-------------------
-	// メンバ変数
+	// プライベート関数
 	//-------------------
-	CObjectX*	m_pObj[nMaxObjBG];	//背景オブジェクト
+	void CreateObj();	//オブジェクトの生成
 
 	//-------------------
 	// 静的メンバ変数

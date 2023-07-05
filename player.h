@@ -107,9 +107,10 @@ private:
 	//--------------------------------------------------------------------
 	D3DXVECTOR3 Move(int nUpKey, int nDownKey
 					, int nLeftKey, int nRightKey);		// 移動
-	void Rotate();			// 回転
+	void Rotate();							// 回転
 	D3DXVECTOR3 Warp(D3DXVECTOR3 pos);		// ワープ
-	void Collision();		// 当たり判定
+	void Collision();						// 当たり判定
+	void LimitMove(D3DXVECTOR3 pos);		// 移動の限界
 
 	/* ↓ オブジェクトごとの当たり判定 ↓ */
 	void Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject);	// 東屋
@@ -135,7 +136,7 @@ private:
 	//--------------------------------------------------------------------
 	// 静的メンバ変数
 	//--------------------------------------------------------------------
-	static bool m_bFuture;		// 未来にいるかどうか
+	static bool m_bPast;		// 過去にいるかどうか
 	CLine **m_pLine;			// ラインの情報
 	D3DXCOLOR lineCol;			// ラインの色
 	bool m_bCrate;				// ビルが建ったか

@@ -46,10 +46,7 @@ CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 //===========================
 CGame::CGame()
 {
-	for (int i = 0; i < nMaxObjBG; i++)
-	{
-		m_pObj[i];
-	}
+
 }
 
 //===========================
@@ -65,6 +62,9 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	// 変数宣言
+	CCollision_Rectangle3D *pCollision = nullptr;
+
 	//初期値の設定
 	m_bFinish = false;	//ゲームが終了していない状態
 
@@ -92,96 +92,13 @@ HRESULT CGame::Init()
 		m_pPlayer[i]->SetMotion("data/MOTION/motion.txt");
 		m_pPlayer[i]->SetNumber(i);		//プレイヤー番号の設定
 
-		CCollision_Rectangle3D *pCollision = m_pPlayer[i]->GetCollision();
+		pCollision = m_pPlayer[i]->GetCollision();
 		pCollision->SetSize(D3DXVECTOR3(20.0f, 50.0f, 20.0f));
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
 
-	/*m_pObjectX[0] = CItemObj::Create();
-	m_pObjectX[0]->SetType(1);
-	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
-
-	//-----------------------------------
-	// オブジェクトの生成(時計)
-	//-----------------------------------
-	m_pObjectX[0] = CItemObj::Create();
-	m_pObjectX[0]->SetType(17);
-	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
-
-	m_pObjectX[1] = CItemObj::Create();
-	m_pObjectX[1]->SetType(17);
-	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
-
-	//-----------------------------------
-	// ゲームセンターの設定
-	//-----------------------------------
-	CGameCenter* pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(1);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
-	CCollision_Rectangle3D* pCollision = pGameCenter->GetCollision();
-	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
-
-	//-----------------------------------
-	// オブジェクトの生成(東屋)
-	//-----------------------------------
-	//綺麗な東屋
-	pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(18);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
-	pCollision = pGameCenter->GetCollision();
-	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
-
-	//壊れた東屋
-	m_pObjectX[2] = CItemObj::Create();
-	m_pObjectX[2]->SetType(19);
-	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
-
-	/*pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(19);
-	pGameCenter->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_NULL);
-	pGameCenter->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
-	pCollision = pGameCenter->GetCollision();
-	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));*/
-
-	//-----------------------------------
-	// オブジェクトの生成(噴水)
-	//-----------------------------------
-	//綺麗な噴水
-	pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(20);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
-	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
-	pCollision = pGameCenter->GetCollision();
-	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
-	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
-
-	//壊れた噴水
-	m_pObjectX[3] = CItemObj::Create();
-	m_pObjectX[3]->SetType(21);
-	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
-	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
-
-	//-----------------------------------
-	// オブジェクトの生成(ビル)
-	//-----------------------------------
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			//ビル*4
-			m_pObj[i] = CObjectX::Create();
-			m_pObj[i]->SetType(10);
-			m_pObj[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
-		}
-	}
+	//オブジェクトの生成関数
+	CreateObj();
 
 	//BGMの再生
 	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
@@ -250,4 +167,123 @@ void CGame::Update()
 		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
 	}
 #endif // DEBUG
+}
+
+//===========================
+// オブジェクトの生成関数
+//===========================
+void CGame::CreateObj()
+{
+	// 変数宣言
+	CCollision_Rectangle3D *pCollision = nullptr;
+
+	/*m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(1);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
+
+	//-----------------------------------
+	// オブジェクトの生成(時計)
+	//-----------------------------------
+	m_pObjectX[0] = CItemObj::Create();
+	m_pObjectX[0]->SetType(17);
+	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+	pCollision = m_pObjectX[0]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
+
+	m_pObjectX[1] = CItemObj::Create();
+	m_pObjectX[1]->SetType(17);
+	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+	pCollision = m_pObjectX[1]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
+
+	//-----------------------------------
+	// ゲームセンターの設定
+	//-----------------------------------
+	CGameCenter* pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(1);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+
+	//-----------------------------------
+	// オブジェクトの生成(東屋)
+	//-----------------------------------
+	//綺麗な東屋
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(18);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
+
+	//壊れた東屋
+	m_pObjectX[2] = CItemObj::Create();
+	m_pObjectX[2]->SetType(19);
+	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+
+	/*pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(19);
+	pGameCenter->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_NULL);
+	pGameCenter->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));*/
+
+	//-----------------------------------
+	// オブジェクトの生成(噴水)
+	//-----------------------------------
+	//綺麗な噴水
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(20);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
+	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
+
+	//壊れた噴水
+	m_pObjectX[3] = CItemObj::Create();
+	m_pObjectX[3]->SetType(21);
+	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
+
+	//-----------------------------------
+	// 木の生成
+	//-----------------------------------
+	for (int i = 4; i < 9; i++)
+	{
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-350.0f, 0.0f, 260.0f - (100.0f * (i - 4))));
+	}
+
+	for (int i = 9; i < 14; i++)
+	{
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(350.0f, 0.0f, 260.0f - (100.0f * (i - 9))));
+	}
+
+	for (int i = 14; i < 21; i++)
+	{
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 14)), 0.0f, 350.0f));
+	}
+
+	for (int i = 21; i < 28; i++)
+	{
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 21)), 0.0f, -250.0f));
+	}
 }
