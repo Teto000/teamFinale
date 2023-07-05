@@ -70,7 +70,7 @@ void CCamera::Init(void)
 	//---------------------------------
 	// 視点・注視点・上方向を設定する
 	//---------------------------------
-	m_posV = D3DXVECTOR3(0.0f, 800.0f, -300.0f);
+	m_posV = D3DXVECTOR3(0.0f, 300.0f, -300.0f);
 	m_initPosV = m_posV;
 	m_posR = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
