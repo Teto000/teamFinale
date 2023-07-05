@@ -465,11 +465,6 @@ void CPlayer::Rotate()
 //=============================================================================
 D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 {
-	//-----------------------------
-	// 変数宣言
-	//-----------------------------
-	CCamera* pCamera = CApplication::GetGame()->GetCamera();
-	D3DXVECTOR3 initPosV = pCamera->GetInitPosV();	//視点の初期値を取得
 	/*int nTimeRimit = 300;		//過去に残れる時間の限界
 
 	//-----------------------------
@@ -504,16 +499,10 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	if (!m_bPast)
 	{//未来にいるなら
 		pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
-
-		//カメラの位置の設定
-		pCamera->SetPosV(D3DXVECTOR3(1000.0f, initPosV.y, initPosV.z));
-		pCamera->SetPosR(D3DXVECTOR3(1000.0f, 50.0f, 0.0f));
 	}
 	else
 	{//過去にいるなら
 		pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
-		pCamera->SetPosV(D3DXVECTOR3(0.0f, initPosV.y, initPosV.z));
-		pCamera->SetPosR(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 	}
 
 	m_bPast = !m_bPast;		//現在の時代を切り替え
@@ -749,7 +738,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 	//--------------------------
 	if (CApplication::GetMode() == CApplication::MODE_GAME)
 	{//ゲーム画面なら
-		fValue = 300.0f;
+		//fValue = 400.0f;
 
 		if (m_bPast)
 		{//過去にいるなら
@@ -762,7 +751,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 	//---------------------
 	float fLeft = origin.x - fValue;
 	float fRight = origin.x + fValue;
-	float fFlont = origin.z - 150.0f;
+	float fFlont = origin.z - fValue;
 	float fBack = origin.z + fValue;
 
 	//---------------------

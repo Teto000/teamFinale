@@ -46,10 +46,7 @@ CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 //===========================
 CGame::CGame()
 {
-	for (int i = 0; i < nMaxObjBG; i++)
-	{
-		m_pObj[i];
-	}
+
 }
 
 //===========================
@@ -99,6 +96,86 @@ HRESULT CGame::Init()
 		pCollision->SetSize(D3DXVECTOR3(20.0f, 50.0f, 20.0f));
 		pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	}
+
+	//オブジェクトの生成関数
+	CreateObj();
+
+	//BGMの再生
+	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
+
+	return S_OK;
+}
+
+//===========================
+// 終了
+//===========================
+void CGame::Uninit()
+{
+	//BGMの停止
+	//CSound::StopSound();
+
+	//---------------------
+	// カメラの終了
+	//---------------------
+	if (m_pCamera != nullptr)
+	{
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = nullptr;
+	}
+}
+
+//===========================
+// 更新
+//===========================
+void CGame::Update()
+{
+	//----------------------------
+	// カメラの更新
+	//----------------------------
+	if (m_pCamera != nullptr)
+	{
+		m_pCamera->Update();
+	}
+
+	// ジョイパッドでの操作
+	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
+
+#ifdef _DEBUG
+	//-----------------------
+	// 画面遷移
+	//-----------------------
+	if (!m_bFinish
+		&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
+	{
+		//ゲーム終了フラグを立てる
+		m_bFinish = true;
+
+		//リザルト画面に移行
+		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	}
+
+	if (CInputKeyboard::Trigger(DIK_L))
+	{//Lキーを押したら
+	 //ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
+	}
+
+	if (CInputKeyboard::Trigger(DIK_M))
+	{//Mキーを押したら
+	 //ミニゲームの生成
+		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
+	}
+#endif // DEBUG
+}
+
+//===========================
+// オブジェクトの生成関数
+//===========================
+void CGame::CreateObj()
+{
+	// 変数宣言
+	CCollision_Rectangle3D *pCollision = nullptr;
 
 	/*m_pObjectX[0] = CItemObj::Create();
 	m_pObjectX[0]->SetType(1);
@@ -180,83 +257,33 @@ HRESULT CGame::Init()
 	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
 
 	//-----------------------------------
-	// オブジェクトの生成(ビル)
+	// 木の生成
 	//-----------------------------------
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			//ビル*4
-			m_pObj[i] = CObjectX::Create();
-			m_pObj[i]->SetType(10);
-			m_pObj[i]->SetPos(D3DXVECTOR3(-600.0f + (i * 400.0f), 0.0f, 800.0f));
-		}
+	for (int i = 4; i < 9; i++)
+	{//左の木
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-450.0f, 0.0f, 260.0f - (100.0f * (i - 4))));
 	}
 
-	//BGMの再生
-	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
-
-	return S_OK;
-}
-
-//===========================
-// 終了
-//===========================
-void CGame::Uninit()
-{
-	//BGMの停止
-	//CSound::StopSound();
-
-	//---------------------
-	// カメラの終了
-	//---------------------
-	if (m_pCamera != nullptr)
-	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
-	}
-}
-
-//===========================
-// 更新
-//===========================
-void CGame::Update()
-{
-	//----------------------------
-	// カメラの更新
-	//----------------------------
-	if (m_pCamera != nullptr)
-	{
-		m_pCamera->Update();
+	for (int i = 9; i < 14; i++)
+	{//右の木
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(450.0f, 0.0f, 260.0f - (100.0f * (i - 9))));
 	}
 
-	// ジョイパッドでの操作
-	CInputJoypad* joypad = CApplication::GetInput()->GetJoypad();
-
-#ifdef _DEBUG
-	//-----------------------
-	// 画面遷移
-	//-----------------------
-	if (!m_bFinish
-		&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
-	{
-		//ゲーム終了フラグを立てる
-		m_bFinish = true;
-
-		//リザルト画面に移行
-		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	for (int i = 14; i < 21; i++)
+	{//上の木
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 14)), 0.0f, 450.0f));
 	}
 
-	if (CInputKeyboard::Trigger(DIK_L))
-	{//Lキーを押したら
-	 //ミニゲームの生成
-		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_BUTTONMASH);
+	for (int i = 21; i < 28; i++)
+	{//下の木
+		m_pObjectX[i] = CItemObj::Create();
+		m_pObjectX[i]->SetType(22);
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 21)), 0.0f, -450.0f));
 	}
-
-	if (CInputKeyboard::Trigger(DIK_M))
-	{//Mキーを押したら
-	 //ミニゲームの生成
-		CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), CMiniGameBasis::TYPE_STICKROTATE);
-	}
-#endif // DEBUG
 }

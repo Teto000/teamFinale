@@ -18,8 +18,8 @@ Scene {
 	}
 }
 Material 2 {
-	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\Wood\leaf.jpg")
-	"mat2" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\teamFinale\data\TEXTURE\Game\Wood\wood.png")
+	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\授業\05_就活のフィナーレ\Finale\data\TEXTURE\Game\Wood\leaf.jpg")
+	"mat2" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\授業\05_就活のフィナーレ\Finale\data\TEXTURE\Game\Wood\wood.png")
 }
 Object "obj1" {
 	visible 15
