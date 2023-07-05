@@ -4,8 +4,8 @@ Format Text Ver 1.0
 Scene {
 	pos 3.7190 -539.3922 6144.0000
 	lookat 0.0000 0.0000 0.0000
-	head -12.5305
-	pich 0.0392
+	head -15.5705
+	pich 0.0192
 	bank -0.0300
 	ortho 0
 	zoom2 1.2207
@@ -90,7 +90,7 @@ Object "obj1" {
 	}
 }
 Object "obj5" {
-	visible 15
+	visible 0
 	locking 0
 	shading 1
 	facet 59.5
