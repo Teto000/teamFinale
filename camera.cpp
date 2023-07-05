@@ -8,6 +8,7 @@
 //----------------------
 // インクルード
 //----------------------
+#include <cmath>
 #include "camera.h"
 #include "input.h"
 #include "input_keyboard.h"
@@ -308,6 +309,10 @@ void CCamera::Follow()
 		//その中間を見る
 		target.x = vec.x / 2;
 		target.z = vec.z / 2;
+
+		//カメラの高さを調整
+		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x))
+			+ (fabsf(pos1.z) + fabsf(pos2.z));
 		break;
 
 	//ステージ選択画面なら
