@@ -260,30 +260,30 @@ void CGame::CreateObj()
 	// ñÿÇÃê∂ê¨
 	//-----------------------------------
 	for (int i = 4; i < 9; i++)
-	{
+	{//ç∂ÇÃñÿ
 		m_pObjectX[i] = CItemObj::Create();
 		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-350.0f, 0.0f, 260.0f - (100.0f * (i - 4))));
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-450.0f, 0.0f, 260.0f - (100.0f * (i - 4))));
 	}
 
 	for (int i = 9; i < 14; i++)
-	{
+	{//âEÇÃñÿ
 		m_pObjectX[i] = CItemObj::Create();
 		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(350.0f, 0.0f, 260.0f - (100.0f * (i - 9))));
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(450.0f, 0.0f, 260.0f - (100.0f * (i - 9))));
 	}
 
 	for (int i = 14; i < 21; i++)
-	{
+	{//è„ÇÃñÿ
 		m_pObjectX[i] = CItemObj::Create();
 		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 14)), 0.0f, 350.0f));
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 14)), 0.0f, 450.0f));
 	}
 
 	for (int i = 21; i < 28; i++)
-	{
+	{//â∫ÇÃñÿ
 		m_pObjectX[i] = CItemObj::Create();
 		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 21)), 0.0f, -250.0f));
+		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 21)), 0.0f, -450.0f));
 	}
 }
