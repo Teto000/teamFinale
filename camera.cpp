@@ -311,8 +311,14 @@ void CCamera::Follow()
 		target.z = vec.z / 2;
 
 		//カメラの高さを調整
-		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x))
-			+ (fabsf(pos1.z) + fabsf(pos2.z));
+		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x) / 2)
+			+ (fabsf(pos1.z) + fabsf(pos2.z) / 2);
+
+		//高さの最低値を設定
+		if (m_posV.y <= 100.0f)
+		{
+			m_posV.y = 100.0f;
+		}
 		break;
 
 	//ステージ選択画面なら
