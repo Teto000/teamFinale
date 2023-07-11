@@ -90,15 +90,14 @@ HRESULT CStageSelect::Init()
 		D3DXVECTOR3 pos((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 0.0f);	//位置
 		m_pObject2D = CObject2D::Create(pos);							//生成
 		m_pObject2D->SetSize(0.0f, 0.0f);								//大きさ
-		m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);				//テクスチャ
-		m_pObject2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));		//色
+		m_pObject2D->SetTexture(CTexture::TEXTURE_STATE1);				//テクスチャ
 	}
 
 	//------------------------
 	// 数字の生成
 	//------------------------
 	{
-		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, 400.0f, 0.0f);
+		D3DXVECTOR3 pos(560.0f, 460.0f, 0.0f);
 		m_pNumber = CTime::Create(pos);
 	}
 
