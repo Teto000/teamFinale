@@ -303,14 +303,11 @@ void CCamera::Follow()
 		pos1 = CApplication::GetGame()->GetPlayer(0)->GetPos();
 		pos2 = CApplication::GetGame()->GetPlayer(1)->GetPos();
 
-		//--------------------------------------
-		// プレイヤーが1人でも過去にいるか
-		// ※staticのGetだから0でよさそう
-		//--------------------------------------
 		if (CGame::GetPlayer(0)->GetPast())
 		{//プレイヤーが過去にいるなら
-			pos1.x -= 1000.0f;
-			pos2.x -= 1000.0f;
+			//プレイヤーの位置を整える
+			pos1.x -= CGame::GetPastPosX();
+			pos2.x -= CGame::GetPastPosX();
 		}
 
 		//プレイヤー間の距離を求める
@@ -322,7 +319,8 @@ void CCamera::Follow()
 
 		if (CGame::GetPlayer(0)->GetPast())
 		{//プレイヤーが過去にいるなら
-			target.x += 1000.0f;
+			//追従位置の基準をずらす
+			target.x += CGame::GetPastPosX();
 		}
 
 		//カメラの高さを調整

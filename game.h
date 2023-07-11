@@ -47,6 +47,7 @@ public:
 	static CCamera*	GetCamera() { return m_pCamera; }		//カメラの取得
 	static const int GetMaxPlayer() { return nMaxPlayer; }	//プレイヤーの最大数を取得
 	static const int GetMaxObject() { return nMaxObject; }	//オブジェクトの最大数を取得
+	static const float GetPastPosX() { return fPastPosX; }	//過去移動時のX座標の変化量を取得
 	static bool GetFinish() { return m_bFinish; }			//ゲーム終了状態を取得
 
 private:
@@ -55,6 +56,7 @@ private:
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
 	static const int nMaxObject = 28;	//オブジェクトの最大数
+	static const float fPastPosX;		//過去のX座標
 
 	//-------------------
 	// プライベート関数

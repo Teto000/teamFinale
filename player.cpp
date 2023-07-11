@@ -498,7 +498,7 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	if (!m_bPast)
 	{//未来にいるなら
-		pos = D3DXVECTOR3(1000.0f, pos.y, 0.0f);	//プレイヤーの位置を変更
+		pos = D3DXVECTOR3(CGame::GetPastPosX(), pos.y, 0.0f);	//プレイヤーの位置を変更
 	}
 	else
 	{//過去にいるなら
@@ -742,7 +742,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 
 		if (m_bPast)
 		{//過去にいるなら
-			origin.x = 1000.0f;
+			origin.x = CGame::GetPastPosX();
 		}
 	}
 
