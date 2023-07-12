@@ -36,11 +36,16 @@ CStageSelect::CStageSelect()
 {
 	m_pCamera = nullptr;	//カメラ
 	m_pMeshField = nullptr;	//メッシュフィールド(地面)
-	m_pObjectX = nullptr;	//オブジェクトX
 	m_pPlayer = nullptr;	//プレイヤー
 	m_pObject2D = nullptr;	//オブジェクト2D
 	m_pNumber = nullptr;	//数字
 	m_pSky = nullptr;		//空
+
+	//オブジェクトX
+	for (int i = 0; i < nMaxStage; i++)
+	{
+		m_pObjectX[i] = nullptr;
+	}
 }
 
 //=================================
@@ -80,8 +85,12 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// オブジェクトの生成(旗)
 	//------------------------
-	m_pObjectX = CObjectX::Create();
-	m_pObjectX->SetType(1);
+	m_pObjectX[0] = CObjectX::Create();
+	m_pObjectX[0]->SetType(1);
+
+	m_pObjectX[1] = CObjectX::Create();
+	m_pObjectX[1]->SetType(1);
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 
 	//------------------------
 	// 画像の生成

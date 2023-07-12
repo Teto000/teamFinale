@@ -246,7 +246,7 @@ void CGame::CreateObj()
 	pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(20);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
-	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 500.0f));
+	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 400.0f));
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));

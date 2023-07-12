@@ -553,11 +553,18 @@ void CPlayer::Collision()
 			// ステージ選択画面なら
 			//----------------------------
 		case CApplication::MODE_STAGESELECT:
-			pObject = CApplication::GetStage()->GetObjectX();
-			targetPos = pObject->GetPosition();
+			for (int i = 0; i < CStageSelect::GetMaxStage(); i++)
+			{//ステージの最大数分回す
+				pObject = CApplication::GetStage()->GetObjectX(i);
 
-			if (pObject != nullptr)
-			{
+				if (pObject == nullptr)
+				{//オブジェクトがnullなら
+					return;
+				}
+
+				//相手の位置を取得
+				targetPos = pObject->GetPosition();
+
 				//--------------------------------
 				// 当たり判定
 				//--------------------------------
@@ -588,47 +595,47 @@ void CPlayer::Collision()
 //=============================================================================
 void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 {
-    //相手の位置を取得
-    D3DXVECTOR3 targetPos = pObject->GetPosition();
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
 
-    //--------------------------------
-    // 東屋との当たり判定
-    //--------------------------------
-    if (CUtility::Collision(GetPos(), GetPosOld(), size
-        , targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-        && pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
-    {// 衝突判定が行われた。
-        if (CInputKeyboard::Trigger(DIK_SPACE))
-        {
-            int randData;
-            randData = rand() % 1;
-
-            // ミニゲーム中じゃないなら
-            if (!m_bMiniGame)
-            {
-                //ミニゲームの生成&ミニゲーム中に設定する
-                CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
-                m_bMiniGame = true;
-            }
-        }
-    }
-
-    //--------------------------------
-    // 壊れた東屋との当たり判定
-    //--------------------------------
-    if (CUtility::Collision(GetPos(), GetPosOld(), size
-        , targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-        && pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
-        && m_pMyItem != nullptr)
-    {// 衝突判定が行われた & アイテムを持っているなら
-        if (CInputKeyboard::Trigger(DIK_SPACE))
-        {//アイテムを置いたら
-            //東屋を直す
-            pObject->SetType(18);
-
+	//--------------------------------
+	// 東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
+	{// 衝突判定が行われた。
+		if (CInputKeyboard::Trigger(DIK_SPACE))
+		{
+			int randData;
+			randData = rand() % 1;
+			
+			// ミニゲーム中じゃないなら
+			if (!m_bMiniGame)
+			{
+				//ミニゲームの生成&ミニゲーム中に設定する
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
+				m_bMiniGame = true;
+			}
+		}
+	}
+	
+	//--------------------------------
+	// 壊れた東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
+		&& m_pMyItem != nullptr)
+	{// 衝突判定が行われた & アイテムを持っているなら
+		if (CInputKeyboard::Trigger(DIK_SPACE))
+		{//アイテムを置いたら
+			//東屋を直す
+			pObject->SetType(18);
+	
 			//ステージにスコアを加算(0番目のステージに100加算)
 			CApplication::AddStageScore(0, 100);
-
+	
 			//リザルト画面に移行
 			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 		}

@@ -256,8 +256,6 @@ void CRenderer::Draw()
 
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
-
-	D3DVIEWPORT9 viewport;
 }
 
 #ifdef _DEBUG
