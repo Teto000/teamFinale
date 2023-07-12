@@ -19,6 +19,7 @@
 #include "debug_proc.h"
 #include "utility.h"
 #include "player.h"
+#include "mode.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -294,14 +295,14 @@ void CCamera::Follow()
 	//----------------------------------------
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
-	switch (CApplication::GetMode())
+	switch (CMode::GetMode())
 	{//モードごとの処理
-	case CApplication::MODE_GAME:
+	case CMode::MODE_GAME:
 		//-----------------------------
 		// プレイヤー間の中心を見る
 		//-----------------------------
-		pos1 = CApplication::GetGame()->GetPlayer(0)->GetPos();
-		pos2 = CApplication::GetGame()->GetPlayer(1)->GetPos();
+		pos1 = CMode::GetGame()->GetPlayer(0)->GetPos();
+		pos2 = CMode::GetGame()->GetPlayer(1)->GetPos();
 
 		if (CGame::GetPlayer(0)->GetPast())
 		{//プレイヤーが過去にいるなら
@@ -335,8 +336,8 @@ void CCamera::Follow()
 		break;
 
 	//ステージ選択画面なら
-	case CApplication::MODE_STAGESELECT:
-		target = CApplication::GetStage()->GetPlayer()->GetPosition();
+	case CMode::MODE_STAGESELECT:
+		target = CMode::GetStage()->GetPlayer()->GetPosition();
 		break;
 
 	default:

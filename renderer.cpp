@@ -15,7 +15,7 @@
 #include "renderer.h"
 #include "main.h"
 #include "object3d.h"
-#include "application.h"
+#include "mode.h"
 #include "camera.h"
 #include "debug_proc.h"
 #include "input.h"
@@ -186,12 +186,12 @@ void CRenderer::Draw()
 	//--------------------------------------
 	// カメラの設定
 	//--------------------------------------
-	switch (CApplication::GetMode())
+	switch (CMode::GetMode())
 	{
 		//-------------------------
 		// ゲーム画面なら
 		//-------------------------
-	case CApplication::MODE_GAME:
+	case CMode::MODE_GAME:
 		//カメラの取得
 		m_pCamera = CGame::GetCamera();
 
@@ -202,9 +202,9 @@ void CRenderer::Draw()
 		//-------------------------
 		// ステージ選択画面なら
 		//-------------------------
-	case CApplication::MODE_STAGESELECT:
+	case CMode::MODE_STAGESELECT:
 		//カメラの取得
-		m_pCamera = CApplication::GetStage()->GetCamera();
+		m_pCamera = CMode::GetStage()->GetCamera();
 
 		//カメラの設定
 		m_pCamera->SetCamera(m_pD3DDevice);

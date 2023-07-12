@@ -18,29 +18,16 @@
 #include "input.h"
 #include "input_keyboard.h"
 #include "input_joypad.h"
-#include "game.h"
-#include "title.h"
-#include "result.h"
-#include "stage_select.h"
-#include "fade.h"
 #include "light.h"
 #include "debug_proc.h"
 #include "camera.h"
 #include "model3D.h"
 #include "collision.h"
+#include "mode.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-/* ↓ 画面遷移 ↓ */
-CTitle*			CApplication::m_pTitle = nullptr;		//タイトル
-CGame*			CApplication::m_pGame = nullptr;		//ゲーム
-CResult*		CApplication::m_pResult = nullptr;		//リザルト
-CStageSelect*	CApplication::m_pStageSelect = nullptr;	//ステージ選択
-CFade*			CApplication::m_pFade = nullptr;		//フェード
-CApplication::MODE	CApplication::m_mode = MODE_MAX;	//ゲームモード
-
-/* ↓ その他 ↓ */
 CRenderer*		CApplication::m_pRenderer = nullptr;	//レンダラー
 CInput*			CApplication::m_pInput = nullptr;		//インプット
 CTexture*		CApplication::m_pTexture = nullptr;		//テクスチャ
@@ -116,9 +103,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// モードの設定
 	//----------------------------
-	m_pFade = new CFade;
-	SetMode(MODE_TITLE);
-	m_pFade->Init(MODE_TITLE);
+	CMode::Init();
 
 	//----------------------------
 	// デバッグ用文字の生成
@@ -196,54 +181,9 @@ void CApplication::Uninit()
 	}
 
 	//----------------------------
-	// タイトルの終了
+	// モードの終了
 	//----------------------------
-	if (m_pTitle != nullptr)
-	{
-		m_pTitle->Uninit();
-		delete m_pTitle;
-		m_pTitle = nullptr;
-	}
-
-	//----------------------------
-	// ゲームの終了
-	//----------------------------
-	if (m_pGame != nullptr)
-	{
-		m_pGame->Uninit();
-		delete m_pGame;
-		m_pGame = nullptr;
-	}
-
-	//----------------------------
-	// リザルトの終了
-	//----------------------------
-	if (m_pResult != nullptr)
-	{
-		m_pResult->Uninit();
-		delete m_pResult;
-		m_pResult = nullptr;
-	}
-
-	//----------------------------
-	// ステージ選択の終了
-	//----------------------------
-	if (m_pStageSelect != nullptr)
-	{
-		m_pStageSelect->Uninit();
-		delete m_pStageSelect;
-		m_pStageSelect = nullptr;
-	}
-
-	//----------------------------
-	// フェードの終了
-	//----------------------------
-	if (m_pFade != nullptr)
-	{
-		m_pFade->Uninit();
-		delete m_pFade;
-		m_pFade = nullptr;
-	}
+	CMode::Uninit();
 
 	//----------------------------
 	// デバッグ用文字の終了
@@ -267,33 +207,8 @@ void CApplication::Update()
 	//レンダリングの更新
 	m_pRenderer->Update();
 
-	//---------------------------
-	// モードごとの更新
-	//---------------------------
-	switch (m_mode)
-	{
-	case MODE_TITLE:
-		m_pTitle->Update();
-		break;
-
-	case MODE_GAME:
-		m_pGame->Update();
-		break;
-
-	case MODE_RESULT:
-		m_pResult->Update();
-		break;
-
-	case MODE_STAGESELECT:
-		m_pStageSelect->Update();
-		break;
-
-	default:
-		break;
-	}
-
-	//フェードの更新
-	m_pFade->Update();
+	//モードの更新
+	CMode::Update();
 }
 
 //===========================
@@ -303,85 +218,4 @@ void CApplication::Draw()
 {
 	//レンダリングの描画
 	m_pRenderer->Draw();
-}
-
-//===========================
-// モードの設定
-//===========================
-void CApplication::SetMode(MODE mode)
-{
-	//----------------------------
-	// 現在のモードの終了処理
-	//----------------------------
-	switch (m_mode)
-	{
-	case MODE_TITLE:
-		m_pTitle->Uninit();
-		delete m_pTitle;
-		m_pTitle = nullptr;
-		break;
-
-	case MODE_GAME:
-		m_pGame->Uninit();
-		delete m_pGame;
-		m_pGame = nullptr;
-		break;
-
-	case MODE_RESULT:
-		m_pResult->Uninit();
-		delete m_pResult;
-		m_pResult = nullptr;
-		break;
-
-	case MODE_STAGESELECT:
-		m_pStageSelect->Uninit();
-		delete m_pStageSelect;
-		m_pStageSelect = nullptr;
-		break;
-
-	default:
-		break;
-	}
-
-	//オブジェクトの全解放
-	CObject::ReleaseAll(true);
-
-	// 当たり判定の終了
-	CCollision::ReleaseAll();
-
-	//モードの切り替え
-	m_mode = mode;
-
-	//----------------------------
-	// 新しいモードの生成
-	//----------------------------
-	switch (m_mode)
-	{
-	case MODE_TITLE:
-		m_pTitle = nullptr;
-		m_pTitle = new CTitle;
-		m_pTitle->Init();
-		break;
-
-	case MODE_GAME:
-		m_pGame = nullptr;
-		m_pGame = new CGame;
-		m_pGame->Init();
-		break;
-
-	case MODE_RESULT:
-		m_pResult = nullptr;
-		m_pResult = new CResult;
-		m_pResult->Init();
-		break;
-
-	case MODE_STAGESELECT:
-		m_pStageSelect = nullptr;
-		m_pStageSelect = new CStageSelect;
-		m_pStageSelect->Init();
-		break;
-
-	default:
-		break;
-	}
 }

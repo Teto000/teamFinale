@@ -13,7 +13,7 @@
 #include "input.h"
 #include "input_keyboard.h"
 #include "input_joypad.h"
-#include "application.h"
+#include "mode.h"
 #include "fade.h"
 #include "sound.h"
 #include "game.h"
@@ -76,7 +76,7 @@ void CTitle::Update()
 	if (CInputKeyboard::AllTrigger() || joypad->AllTrigger())
 	{
 		//ÉQÅ[ÉÄâÊñ Ç…à⁄çs
-		CApplication::GetFade()->SetFade(CApplication::MODE_STAGESELECT);
+		CMode::GetFade()->SetFade(CMode::MODE_STAGESELECT);
 
 		//SEÇÃçƒê∂
 		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);

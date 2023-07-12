@@ -153,7 +153,7 @@ void CGame::Update()
 		m_bFinish = true;
 
 		//ƒŠƒUƒ‹ƒg‰æ–Ê‚ÉˆÚs
-		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 	}
 
 	if (CInputKeyboard::Trigger(DIK_L))

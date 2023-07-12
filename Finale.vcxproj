@@ -178,6 +178,7 @@
     <ClCompile Include="mg_stickrotate.cpp" />
     <ClCompile Include="mini_game_basis.cpp" />
     <ClCompile Include="mini_game_buttonpush.cpp" />
+    <ClCompile Include="mode.cpp" />
     <ClCompile Include="model3D.cpp" />
     <ClCompile Include="motion.cpp" />
     <ClCompile Include="motion_model3D.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="mg_stickrotate.h" />
     <ClInclude Include="mini_game_basis.h" />
     <ClInclude Include="mini_game_buttonpush.h" />
+    <ClInclude Include="mode.h" />
     <ClInclude Include="model3D.h" />
     <ClInclude Include="motion.h" />
     <ClInclude Include="motion_model3D.h" />

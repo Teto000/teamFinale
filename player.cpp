@@ -375,16 +375,16 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 		// カメラ情報の取得
 		//-----------------------------------
 		CCamera* pCamera = nullptr;
-		switch (CApplication::GetMode())
+		switch (CMode::GetMode())
 		{//モードごとの処理
 		 //ゲーム画面なら
-		case CApplication::MODE_GAME:
+		case CMode::MODE_GAME:
 			pCamera = CGame::GetCamera();
 			break;
 
 			//ステージ選択画面なら
-		case CApplication::MODE_STAGESELECT:
-			pCamera = CApplication::GetStage()->GetCamera();
+		case CMode::MODE_STAGESELECT:
+			pCamera = CMode::GetStage()->GetCamera();
 			break;
 
 		default:
@@ -530,17 +530,17 @@ void CPlayer::Collision()
 		//--------------------------------
 		// オブジェクトの位置を取得
 		//--------------------------------
-		switch (CApplication::GetMode())
+		switch (CMode::GetMode())
 		{//モードごとの処理
 
 		 //----------------------------
 		 // ゲーム画面なら
 		 //----------------------------
-		case CApplication::MODE_GAME:
+		case CMode::MODE_GAME:
 			for (int i = 0; i < CGame::GetMaxObject(); i++)
 			{//オブジェクト数分回す
 				//オブジェクトを取得
-				pObject = CApplication::GetGame()->GetObjectX(i);
+				pObject = CMode::GetGame()->GetObjectX(i);
 
 				/* ↓ オブジェクトの種類ごとの当たり判定 ↓ */
 				Coll_Pavilion(size, pObject);	//東屋
@@ -552,10 +552,10 @@ void CPlayer::Collision()
 			//----------------------------
 			// ステージ選択画面なら
 			//----------------------------
-		case CApplication::MODE_STAGESELECT:
+		case CMode::MODE_STAGESELECT:
 			for (int i = 0; i < CStageSelect::GetMaxStage(); i++)
 			{//ステージの最大数分回す
-				pObject = CApplication::GetStage()->GetObjectX(i);
+				pObject = CMode::GetStage()->GetObjectX(0);
 
 				if (pObject == nullptr)
 				{//オブジェクトがnullなら
@@ -637,7 +637,7 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 			CApplication::AddStageScore(0, 100);
 	
 			//リザルト画面に移行
-			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+			CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 		}
 	}
 }
@@ -743,7 +743,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 	//--------------------------
 	// モードごとの限界を設定
 	//--------------------------
-	if (CApplication::GetMode() == CApplication::MODE_GAME)
+	if (CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲーム画面なら
 		fValue = 400.0f;
 
