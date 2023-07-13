@@ -555,7 +555,7 @@ void CPlayer::Collision()
 		case CMode::MODE_STAGESELECT:
 			for (int i = 0; i < CStageSelect::GetMaxStage(); i++)
 			{//ステージの最大数分回す
-				pObject = CMode::GetStage()->GetObjectX(0);
+				pObject = CMode::GetStage()->GetObjectX(i);
 
 				if (pObject == nullptr)
 				{//オブジェクトがnullなら
@@ -573,6 +573,8 @@ void CPlayer::Collision()
 				{// 衝突判定が行われた。
 					CStageSelect::SetViewMap(true);		//マップを表示する状態
 					CStageSelect::SetStart(true);		//画面遷移出来る状態
+
+					return;
 				}
 				else
 				{
