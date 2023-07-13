@@ -192,6 +192,7 @@
     <ClCompile Include="ranking.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="rubble.cpp" />
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="stage_select.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="ranking.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="rubble.h" />
     <ClInclude Include="sky.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="stage_select.h" />

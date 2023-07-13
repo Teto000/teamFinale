@@ -123,5 +123,6 @@ void CGameCenter::SetGame(bool bGame)
 		m_pMiniGameBasis = CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), m_EMiniGameType);
 		m_pMiniGameBasis->SetParent(this);
 		m_pMiniGameBasis->SetGame(true);
+		m_pMiniGameBasis->SetItemType(m_ItemType);
 	}
 }

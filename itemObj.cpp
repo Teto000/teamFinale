@@ -49,6 +49,7 @@ CItemObj * CItemObj::Create()
 CItemObj::CItemObj() : m_pParentItem(nullptr),		// 親オブジェの情報
 m_pChildItem(nullptr),								// 子供オブジェの情報
 m_pParent(nullptr),									// 親オブジェクトの情報
+m_Type(TYPE_NONE),									// アイテムの種別
 m_posOffset(D3DXVECTOR3(0.0f,0.0f,0.0f)),			// 位置の差分
 m_rotOffset(D3DXVECTOR3(0.0f, 0.0f, 0.0f))			// 向きの差分
 {
@@ -196,6 +197,34 @@ void CItemObj::Stack(CItemObj * pTarget)
 		pItem = pItemNext;
 		nCntChildItem++;
 	}
+}
+
+//=============================================================================
+// 子供の検索
+// Author : 唐﨑結斗
+// 概要 : アイテムから子供の検索を行う
+//=============================================================================
+CItemObj* CItemObj::SearchChild()
+{
+	// 親の設定
+	CItemObj *pItem = this;
+	CItemObj *pItemNext = nullptr;
+
+	while (1)
+	{
+		pItemNext = (CItemObj*)pItem->GetChildItem();
+
+		if (pItemNext != nullptr)
+		{
+			pItem = pItemNext;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return pItem;
 }
 
 //=============================================================================

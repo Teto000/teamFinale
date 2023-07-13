@@ -173,6 +173,9 @@
     <ClCompile Include="game_center.cpp">
       <Filter>Main\Object\X</Filter>
     </ClCompile>
+    <ClCompile Include="rubble.cpp">
+      <Filter>Main\Object\X</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -296,6 +299,9 @@
       <Filter>Main\MiniGame</Filter>
     </ClInclude>
     <ClInclude Include="game_center.h">
+      <Filter>Main\Object\X</Filter>
+    </ClInclude>
+    <ClInclude Include="rubble.h">
       <Filter>Main\Object\X</Filter>
     </ClInclude>
   </ItemGroup>

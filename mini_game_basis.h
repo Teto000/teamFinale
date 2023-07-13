@@ -11,6 +11,7 @@
 // インクルード
 //-------------------------------
 #include "object2d.h"
+#include "itemObj.h"
 
 //-------------------------------
 // 前方宣言
@@ -50,7 +51,9 @@ public:
 	void SetScaling(float fWidth, float fHeight);		//拡縮
 	void SetEnable(bool bEnable) { m_bDraw = bEnable; }	//描画するかどうか
 	void SetParent(CGameCenter *pParent) { m_pParent = pParent; }
+	void SetItemType(CItemObj::EItemType type) { m_ItemType = type; }
 	void SetGame(bool bGame) { m_bGame = bGame; }
+	CItemObj::EItemType GetItemType() { return m_ItemType; }
 
 	//------------------
 	// ゲッター
@@ -68,10 +71,11 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	MiniGameType m_nType;		// ミニゲームの種類
-	CGameCenter *m_pParent;		// 親オブジェクト
-	bool m_bDraw;				// 描画フラグ
-	bool m_bGame;				// ゲーム中か否か
+	MiniGameType m_nType;					// ミニゲームの種類
+	CGameCenter *m_pParent;					// 親オブジェクト
+	CItemObj::EItemType m_ItemType;
+	bool m_bDraw;							// 描画フラグ
+	bool m_bGame;							// ゲーム中か否か
 };
 
 #endif

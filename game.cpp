@@ -29,6 +29,7 @@
 #include "collision.h"
 #include "collision_rectangle3D.h"
 #include "game_center.h"
+#include "rubble.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -206,6 +207,7 @@ void CGame::CreateObj()
 	CGameCenter* pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(1);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
 	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
@@ -219,6 +221,7 @@ void CGame::CreateObj()
 	pGameCenter->SetType(18);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
 	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
@@ -249,6 +252,20 @@ void CGame::CreateObj()
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
+
+	CRubble *pRubble = CRubble::Create();
+	pRubble->SetPos(D3DXVECTOR3(200.0f, 0.0f, 200.0f));
+	pRubble->SetBuildType(CRubble::TYPE_FOUNTAIN);
+	pCollision = pRubble->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
+	pRubble->SetRequired(1);
+	std::vector<CRubble::REPAIR> repair;
+	repair.clear();
+	repair.resize(pRubble->GetRequired());
+	repair.at(0).type = CItemObj::TYPE_WOOD;
+	repair.at(0).nRequired = 4;
+	pRubble->SetRepair(repair);
 
 	//‰ó‚ê‚½•¬…
 	m_pObjectX[3] = CItemObj::Create();

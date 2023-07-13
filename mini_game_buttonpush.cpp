@@ -171,6 +171,7 @@ void CButtonPushGame::Update()
 					{// ƒAƒCƒeƒ€‚ðŽæ“¾‚µ‚Ä‚¢‚È‚¢
 						CItemObj *pItem = CItemObj::Create();
 						pItem->SetType(0);
+						pItem->SetItemType(GetItemType());
 
 						// “–‚½‚è”»’è‚ÌÝ’è
 						CCollision_Rectangle3D *pCollision = pItem->GetCollision();

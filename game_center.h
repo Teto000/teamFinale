@@ -13,6 +13,7 @@
 //*****************************************************************************
 #include "objectX.h"
 #include "mini_game_basis.h"
+#include "itemObj.h"
 
 //--------------------------------
 // 前方宣言
@@ -48,6 +49,7 @@ public:
 	void Draw() override;																// 描画
 	void SetPlayer(CPlayer *pPlayer) { m_pPlayer = pPlayer; }							// プレイヤーの設定
 	void SetGameType(CMiniGameBasis::MiniGameType type) { m_EMiniGameType = type; }		// ゲームタイプの設定
+	void SetItemType(CItemObj::EItemType type) { m_ItemType = type; }
 	void SetGame(bool bGame);															// ゲームのプレイ状況の設定
 	CPlayer *GetPlayer() { return m_pPlayer; }
 	bool GetGame() { return m_bGame; }
@@ -63,6 +65,7 @@ private:
 	CMiniGameBasis::MiniGameType m_EMiniGameType;
 	CPlayer* m_pPlayer;
 	CMiniGameBasis *m_pMiniGameBasis;
+	CItemObj::EItemType m_ItemType;
 	bool m_bGame;
 };
 
