@@ -37,7 +37,7 @@ CFade::~CFade()
 //===========================
 // 初期化
 //===========================
-HRESULT CFade::Init(CApplication::MODE modeNext)
+HRESULT CFade::Init(CMode::MODE modeNext)
 {
 	//列挙型の初期化
 	m_fade = FADE_IN;		//フェードイン状態
@@ -112,7 +112,7 @@ void CFade::Update()
 					}
 				}*/
 
-				CApplication::SetMode(m_modeNext);
+				CMode::SetMode(m_modeNext);
 
 				m_pObject = new CObject2D(3);
 
@@ -149,7 +149,7 @@ void CFade::Draw()
 //===========================
 // 設定
 //===========================
-void CFade::SetFade(CApplication::MODE modeNext)
+void CFade::SetFade(CMode::MODE modeNext)
 {
 	if (m_fade != FADE_OUT)
 	{

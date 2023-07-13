@@ -173,6 +173,9 @@
     <ClCompile Include="game_center.cpp">
       <Filter>Main\Object\X</Filter>
     </ClCompile>
+    <ClCompile Include="mode.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -297,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="game_center.h">
       <Filter>Main\Object\X</Filter>
+    </ClInclude>
+    <ClInclude Include="mode.h">
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

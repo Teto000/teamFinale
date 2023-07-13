@@ -48,21 +48,27 @@ public:
 	//-------------------------
 	// ゲッター
 	//-------------------------
-	CCamera*	GetCamera()		{ return m_pCamera; }	//カメラを取得
-	CObjectX*	GetObjectX()	{ return m_pObjectX; }	//オブジェクトの取得
-	CPlayer*	GetPlayer()		{ return m_pPlayer; }	//プレイヤーの取得
+	static const int GetMaxStage()		{ return nMaxStage; }			//ステージの最大数を取得
+	CCamera*	GetCamera()				{ return m_pCamera; }			//カメラを取得
+	CObjectX*	GetObjectX(int nNum)	{ return m_pObjectX[nNum]; }	//オブジェクトの取得
+	CPlayer*	GetPlayer()				{ return m_pPlayer; }			//プレイヤーの取得
 
 private:
 	//-------------------------
+	// 定数
+	//-------------------------
+	static const int nMaxStage = 2;		//ステージの最大数
+
+	//-------------------------
 	// メンバ変数
 	//-------------------------
-	CCamera*	m_pCamera;		//カメラ
-	CMeshField*	m_pMeshField;	//メッシュフィールド
-	CObjectX*	m_pObjectX;		//オブジェクト
-	CPlayer*	m_pPlayer;		//プレイヤー
-	CObject2D*	m_pObject2D;	//オブジェクト2D
-	CTime*		m_pNumber;		//数字
-	CSky*		m_pSky;			//空
+	CCamera*	m_pCamera;					//カメラ
+	CMeshField*	m_pMeshField;				//メッシュフィールド
+	CObjectX*	m_pObjectX[nMaxStage];		//オブジェクト
+	CPlayer*	m_pPlayer;					//プレイヤー
+	CObject2D*	m_pObject2D;				//オブジェクト2D
+	CTime*		m_pNumber;					//数字
+	CSky*		m_pSky;						//空
 
 	//-------------------------
 	// 静的メンバ変数

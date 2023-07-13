@@ -19,6 +19,7 @@
 #include "debug_proc.h"
 #include "utility.h"
 #include "player.h"
+#include "mode.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -294,14 +295,21 @@ void CCamera::Follow()
 	//----------------------------------------
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
-	switch (CApplication::GetMode())
+	switch (CMode::GetMode())
 	{//モードごとの処理
-	case CApplication::MODE_GAME:
+	case CMode::MODE_GAME:
 		//-----------------------------
 		// プレイヤー間の中心を見る
 		//-----------------------------
-		pos1 = CApplication::GetGame()->GetPlayer(0)->GetPos();
-		pos2 = CApplication::GetGame()->GetPlayer(1)->GetPos();
+		pos1 = CMode::GetGame()->GetPlayer(0)->GetPos();
+		pos2 = CMode::GetGame()->GetPlayer(1)->GetPos();
+
+		if (CGame::GetPlayer(0)->GetPast())
+		{//プレイヤーが過去にいるなら
+			//プレイヤーの位置を整える
+			pos1.x -= CGame::GetPastPosX();
+			pos2.x -= CGame::GetPastPosX();
+		}
 
 		//プレイヤー間の距離を求める
 		vec = pos1 + pos2;
@@ -310,14 +318,26 @@ void CCamera::Follow()
 		target.x = vec.x / 2;
 		target.z = vec.z / 2;
 
+		if (CGame::GetPlayer(0)->GetPast())
+		{//プレイヤーが過去にいるなら
+			//追従位置の基準をずらす
+			target.x += CGame::GetPastPosX();
+		}
+
 		//カメラの高さを調整
-		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x))
-			+ (fabsf(pos1.z) + fabsf(pos2.z));
+		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x) / 2)
+			+ (fabsf(pos1.z) + fabsf(pos2.z) / 2);
+
+		//高さの最低値を設定
+		if (m_posV.y <= 100.0f)
+		{
+			m_posV.y = 100.0f;
+		}
 		break;
 
 	//ステージ選択画面なら
-	case CApplication::MODE_STAGESELECT:
-		target = CApplication::GetStage()->GetPlayer()->GetPosition();
+	case CMode::MODE_STAGESELECT:
+		target = CMode::GetStage()->GetPlayer()->GetPosition();
 		break;
 
 	default:

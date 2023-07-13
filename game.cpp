@@ -33,6 +33,7 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
+const float CGame::fPastPosX = 2000.0f;			//過去移動時のX座標の変化量
 bool		CGame::m_bFinish = false;			//ゲーム終了フラグ
 CCamera*	CGame::m_pCamera = nullptr;			//カメラ
 CTime*		CGame::m_pTime = nullptr;			//タイマー
@@ -152,7 +153,7 @@ void CGame::Update()
 		m_bFinish = true;
 
 		//リザルト画面に移行
-		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 	}
 
 	if (CInputKeyboard::Trigger(DIK_L))
@@ -195,7 +196,7 @@ void CGame::CreateObj()
 	m_pObjectX[1] = CItemObj::Create();
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
-	m_pObjectX[1]->SetPos(D3DXVECTOR3(1000.0f, 0.0f, 200.0f));
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(fPastPosX, 0.0f, 200.0f));
 	pCollision = m_pObjectX[1]->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
@@ -218,7 +219,7 @@ void CGame::CreateObj()
 	pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(18);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 0.0f));
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
@@ -245,7 +246,7 @@ void CGame::CreateObj()
 	pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(20);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
-	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 500.0f));
+	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 400.0f));
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
