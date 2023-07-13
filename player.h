@@ -95,6 +95,7 @@ public:
 	CItemObj* GetMyItem() { return m_pMyItem; }					// 取得アイテムのゲッター
 	int GetParentParts() { return m_nParentParts; }				// 親パーツのゲッター
 	bool GetMiniGame() { return m_bMiniGame; }					// ミニゲーム中かどうかの取得
+	static bool GetPast() { return m_bPast; }					// 過去にいるかどうかの取得
 
 private:
 	//--------------------------------------------------------------------

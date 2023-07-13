@@ -162,7 +162,7 @@ void CButtonPushGame::Update()
 					}
 
 					//プレイヤーをゲーム中状態から解除する
-					CGame *pGame = CApplication::GetGame();
+					CGame *pGame = CMode::GetGame();
 					CGameCenter *pParent = GetParent();
 					CPlayer *pPlayer = pParent->GetPlayer();
 					CItemObj *pPlayerItem = pPlayer->GetMyItem();

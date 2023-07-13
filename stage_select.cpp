@@ -36,11 +36,16 @@ CStageSelect::CStageSelect()
 {
 	m_pCamera = nullptr;	//カメラ
 	m_pMeshField = nullptr;	//メッシュフィールド(地面)
-	m_pObjectX = nullptr;	//オブジェクトX
 	m_pPlayer = nullptr;	//プレイヤー
 	m_pObject2D = nullptr;	//オブジェクト2D
 	m_pNumber = nullptr;	//数字
 	m_pSky = nullptr;		//空
+
+	//オブジェクトX
+	for (int i = 0; i < nMaxStage; i++)
+	{
+		m_pObjectX[i] = nullptr;
+	}
 }
 
 //=================================
@@ -80,8 +85,12 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// オブジェクトの生成(旗)
 	//------------------------
-	m_pObjectX = CObjectX::Create();
-	m_pObjectX->SetType(1);
+	m_pObjectX[0] = CObjectX::Create();
+	m_pObjectX[0]->SetType(1);
+
+	m_pObjectX[1] = CObjectX::Create();
+	m_pObjectX[1]->SetType(1);
+	m_pObjectX[1]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
 
 	//------------------------
 	// 画像の生成
@@ -90,15 +99,14 @@ HRESULT CStageSelect::Init()
 		D3DXVECTOR3 pos((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 0.0f);	//位置
 		m_pObject2D = CObject2D::Create(pos);							//生成
 		m_pObject2D->SetSize(0.0f, 0.0f);								//大きさ
-		m_pObject2D->SetTexture(CTexture::TEXTURE_NONE);				//テクスチャ
-		m_pObject2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));		//色
+		m_pObject2D->SetTexture(CTexture::TEXTURE_STATE1);				//テクスチャ
 	}
 
 	//------------------------
 	// 数字の生成
 	//------------------------
 	{
-		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, 400.0f, 0.0f);
+		D3DXVECTOR3 pos(560.0f, 460.0f, 0.0f);
 		m_pNumber = CTime::Create(pos);
 	}
 
@@ -169,6 +177,6 @@ void CStageSelect::Update()
 		CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
 	{//ゲームを開始する状態 & キーが押されたら
 		//ゲーム画面に移行
-		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		CMode::GetFade()->SetFade(CMode::MODE_GAME);
 	}
 }

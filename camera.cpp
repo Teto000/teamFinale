@@ -8,6 +8,7 @@
 //----------------------
 // インクルード
 //----------------------
+#include <cmath>
 #include "camera.h"
 #include "input.h"
 #include "input_keyboard.h"
@@ -18,6 +19,7 @@
 #include "debug_proc.h"
 #include "utility.h"
 #include "player.h"
+#include "mode.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -70,7 +72,7 @@ void CCamera::Init(void)
 	//---------------------------------
 	// 視点・注視点・上方向を設定する
 	//---------------------------------
-	m_posV = D3DXVECTOR3(0.0f, 500.0f, -300.0f);
+	m_posV = D3DXVECTOR3(0.0f, 300.0f, -300.0f);
 	m_initPosV = m_posV;
 	m_posR = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -279,6 +281,12 @@ void CCamera::Turn()
 //========================
 void CCamera::Follow()
 {
+	//変数宣言
+	D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);	//追従する位置
+	D3DXVECTOR3 pos1(0.0f, 0.0f, 0.0f);		//プレイヤー1の位置
+	D3DXVECTOR3 pos2(0.0f, 0.0f, 0.0f);		//プレイヤー2の位置
+	D3DXVECTOR3 vec(0.0f, 0.0f, 0.0f);		//プレイヤー間の距離
+
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
@@ -287,16 +295,49 @@ void CCamera::Follow()
 	//----------------------------------------
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
-	//----------------------------------------
-	// プレイヤーの位置を取得
-	//----------------------------------------
-	D3DXVECTOR3 playerPos(0.0f, 0.0f, 0.0f);
-	switch (CApplication::GetMode())
+	switch (CMode::GetMode())
 	{//モードごとの処理
+	case CMode::MODE_GAME:
+		//-----------------------------
+		// プレイヤー間の中心を見る
+		//-----------------------------
+		pos1 = CMode::GetGame()->GetPlayer(0)->GetPos();
+		pos2 = CMode::GetGame()->GetPlayer(1)->GetPos();
 
-	 //ステージ選択画面なら
-	case CApplication::MODE_STAGESELECT:
-		playerPos = CApplication::GetStage()->GetPlayer()->GetPosition();
+		if (CGame::GetPlayer(0)->GetPast())
+		{//プレイヤーが過去にいるなら
+			//プレイヤーの位置を整える
+			pos1.x -= CGame::GetPastPosX();
+			pos2.x -= CGame::GetPastPosX();
+		}
+
+		//プレイヤー間の距離を求める
+		vec = pos1 + pos2;
+
+		//その中間を見る
+		target.x = vec.x / 2;
+		target.z = vec.z / 2;
+
+		if (CGame::GetPlayer(0)->GetPast())
+		{//プレイヤーが過去にいるなら
+			//追従位置の基準をずらす
+			target.x += CGame::GetPastPosX();
+		}
+
+		//カメラの高さを調整
+		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x) / 2)
+			+ (fabsf(pos1.z) + fabsf(pos2.z) / 2);
+
+		//高さの最低値を設定
+		if (m_posV.y <= 100.0f)
+		{
+			m_posV.y = 100.0f;
+		}
+		break;
+
+	//ステージ選択画面なら
+	case CMode::MODE_STAGESELECT:
+		target = CMode::GetStage()->GetPlayer()->GetPosition();
 		break;
 
 	default:
@@ -311,7 +352,7 @@ void CCamera::Follow()
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
 	//行列に移動を反映
-	D3DXMatrixTranslation(&mtxTrans, playerPos.x, playerPos.y, playerPos.z);
+	D3DXMatrixTranslation(&mtxTrans, target.x, target.y, target.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
 	//ワールドマトリックスの設定
