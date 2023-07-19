@@ -187,7 +187,7 @@ void CItemObj::Stack(CItemObj * pTarget)
 			SetChildItem(pTarget);
 
 			// アイテムの当たり判定の設定
-			D3DXVECTOR3 modelSize = pTarget->GetModel()->GetMaterial()->size;
+			D3DXVECTOR3 modelSize = pTarget->GetModel()->GetMyMaterial().size;
 			pTarget->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
 
 			break;
@@ -262,6 +262,48 @@ void CItemObj::SetParent()
 }
 
 //=============================================================================
+// アイテムの種別の設定
+// Author : 唐﨑結斗
+// 概要 : アイテムの種別を設定する
+//=============================================================================
+void CItemObj::SetItemType(EItemType type)
+{
+	m_Type = type;
+
+	// 当たり判定の設定
+	CCollision_Rectangle3D *pCollision = GetCollision();
+
+	switch (m_Type)
+	{
+	case CItemObj::TYPE_NONE:
+		break;
+
+	case CItemObj::TYPE_WOOD:
+		SetType(23);
+		break;
+
+	case CItemObj::TYPE_STONE:
+		SetType(24);
+		break;
+
+	case CItemObj::TYPE_METAL:
+		SetType(25);
+		break;
+
+	default:
+		break;
+	}
+
+	// 当たり判定の設定
+	pCollision->SetSize(GetModel()->GetMyMaterial().size);
+
+	D3DXVECTOR3 size = pCollision->GetSize();
+
+	pCollision->SetPos(D3DXVECTOR3(0.0f, GetModel()->GetMyMaterial().size.y / 2.0f, 0.0f));
+	pCollision->SetUseFlag(false);
+}
+
+//=============================================================================
 // 積み重ね
 // Author : 唐﨑結斗
 // 概要 : 当たったアイテムを積み重ねる処理
@@ -300,7 +342,7 @@ void CItemObj::Stack()
 					D3DXVECTOR3 collisionSize = GetCollision()->GetSize();
 					collisionSize.y += pTargetItem->GetCollision()->GetSize().y;
 					GetCollision()->SetSize(collisionSize);
-					D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMaterial()->size;
+					D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMyMaterial().size;
 					pTargetItem->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
 
 					break;

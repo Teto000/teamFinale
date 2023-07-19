@@ -61,6 +61,7 @@ public:
 	D3DXMATRIX GetMtx() { return m_mtxWorld; }
 	CModel3D *GetModel() { return m_pModel; }
 	CCollision_Rectangle3D *GetCollision() { return m_pCollision; }
+
 private:
 	//----------------
 	// ƒƒ“ƒo•Ï”

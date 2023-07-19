@@ -66,7 +66,7 @@ public:
 	void SetChildItem() { m_pChildItem = nullptr; }								 	// 子供の設定
 	void SetPosOffset(D3DXVECTOR3 posOffset) { m_posOffset = posOffset; }			// 位置の差分の設定
 	void SetRotOffset(D3DXVECTOR3 rotOffset) { m_rotOffset = rotOffset; }			// 向きの差分の設定
-	void SetItemType(EItemType type) { m_Type = type; }								// 
+	void SetItemType(EItemType type);												// 
 	CModel3D *GetParent() { return m_pParent; }										// 親情報の取得
 	CObject *GetParentItem() { return m_pParentItem; }								// 親の設定
 	CObject *GetChildItem() { return m_pChildItem; }								// 子供の設定

@@ -170,21 +170,14 @@ void CButtonPushGame::Update()
 					if (pPlayerItem == nullptr)
 					{// ƒAƒCƒeƒ€‚ðŽæ“¾‚µ‚Ä‚¢‚È‚¢
 						CItemObj *pItem = CItemObj::Create();
-						pItem->SetType(0);
 						pItem->SetItemType(GetItemType());
-
-						// “–‚½‚è”»’è‚ÌÝ’è
-						CCollision_Rectangle3D *pCollision = pItem->GetCollision();
-						pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
-						pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
-						pCollision->SetUseFlag(false);
 
 						pPlayer->Retention(pItem);
 					}
 					else if (pPlayerItem != nullptr)
 					{
 						CItemObj *pItem = CItemObj::Create();
-						pItem->SetType(0);
+						pItem->SetType(GetItemType());
 						pPlayerItem->Stack(pItem);
 					}
 
