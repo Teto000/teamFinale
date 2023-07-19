@@ -41,6 +41,7 @@ CTime*		CGame::m_pTime = nullptr;			//タイマー
 CSky*		CGame::m_pSky = nullptr;			//空
 CMeshField*	CGame::m_pMeshField = nullptr;		//地面
 CObjectX*	CGame::m_pObjectX[nMaxObject] = {};	//オブジェクト
+CObjectX*	CGame::m_pObjBG[nMaxBG];
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
 
 //===========================
@@ -274,34 +275,40 @@ void CGame::CreateObj()
 	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
 	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
 
-	//-----------------------------------
-	// 木の生成
-	//-----------------------------------
-	for (int i = 4; i < 9; i++)
-	{//左の木
-		m_pObjectX[i] = CItemObj::Create();
-		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-450.0f, 0.0f, 260.0f - (100.0f * (i - 4))));
-	}
+	//木の生成
+	CreateWood();
+}
 
-	for (int i = 9; i < 14; i++)
-	{//右の木
-		m_pObjectX[i] = CItemObj::Create();
-		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(450.0f, 0.0f, 260.0f - (100.0f * (i - 9))));
-	}
-
-	for (int i = 14; i < 21; i++)
-	{//上の木
-		m_pObjectX[i] = CItemObj::Create();
-		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 14)), 0.0f, 450.0f));
-	}
-
-	for (int i = 21; i < 28; i++)
-	{//下の木
-		m_pObjectX[i] = CItemObj::Create();
-		m_pObjectX[i]->SetType(22);
-		m_pObjectX[i]->SetPos(D3DXVECTOR3(-300.0f + (100.0f * (i - 21)), 0.0f, -450.0f));
+//================================
+// 背景オブジェクト(木)の生成
+//================================
+void CGame::CreateWood()
+{
+	for (int i = 0; i < nMaxBG; i++)
+	{
+		if (i < 12)
+		{//左の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(22);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-450.0f, 0.0f, 500.0f - (100.0f * i)));
+		}
+		else if (i < 25)
+		{//右の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(22);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(450.0f, 0.0f, 500.0f - (100.0f * (i - 13))));
+		}
+		else if (i < 38)
+		{//上の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(22);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 26)), 0.0f, 450.0f));
+		}
+		else if (i < 51)
+		{//下の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(22);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 39)), 0.0f, -450.0f));
+		}
 	}
 }

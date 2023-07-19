@@ -318,15 +318,14 @@ void CCamera::Follow()
 		target.x = vec.x / 2;
 		target.z = vec.z / 2;
 
-		if (CGame::GetPlayer(0)->GetPast())
+		if (CGame::GetPlayer(0)->GetPast() || CGame::GetPlayer(1)->GetPast())
 		{//プレイヤーが過去にいるなら
 			//追従位置の基準をずらす
 			target.x += CGame::GetPastPosX();
 		}
 
 		//カメラの高さを調整
-		m_posV.y = (fabsf(pos1.x) + fabsf(pos2.x) / 2)
-			+ (fabsf(pos1.z) + fabsf(pos2.z) / 2);
+		m_posV.y = (fabsf(vec.x) + fabsf(vec.z));
 
 		//高さの最低値を設定
 		if (m_posV.y <= 100.0f)
