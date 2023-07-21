@@ -27,9 +27,12 @@ CTime::CTime() : CObject(1)
 	m_numberPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//数字の位置
 	m_nTime = 0;				//時間
 	m_nCntMove = 0;				//移動までの時間
+	m_nFinTime = 0;				//ゲーム終了までの時間
 	m_nCntFream = 0;			//フレーム数のカウント
 	fInterval = 0.0f;			//数値の間隔
 	m_bCntTime = false;			//時間を数える状態
+
+	m_pObject = nullptr;
 
 	for (int i = 0; i < nMaxDigits; i++)
 	{
@@ -53,8 +56,11 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
-	m_nTime = 10;		//初期時間
+	m_nTime = 5;		//初期時間
 	fInterval = 50.0f;	//数値の間隔
+
+	m_pObject = CObject2D::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pObject->SetTexture(CTexture::TEXTURE_FINISH);
 
 	//------------------------------
 	// 数値の設定
@@ -105,14 +111,25 @@ void CTime::Update()
 		//----------------------
 		if (m_nCntFream >= 60)
 		{
-			m_nTime--;
+			if (m_nTime > 0)
+			{
+				m_nTime--;
+			}
+
+			//数字の設定
 			SetNumber();
 			m_nCntFream = 0;
 
 			if (m_nTime <= 0)
 			{
-				//リザルト画面に移行
-				CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+				m_pObject->SetSize(800.0f, 300.0f);
+				m_nFinTime++;
+
+				if (m_nFinTime >= 2)
+				{
+					//リザルト画面に移行
+					//CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+				}
 			}
 		}
 	}

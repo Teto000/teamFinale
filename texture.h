@@ -45,6 +45,8 @@ public:
 		/* « ƒQ[ƒ€ « */
 		TEXTURE_SKY,			//‹ó
 		TEXTURE_GROUND,			//’n–Ê
+		TEXTURE_FINISH,			//FINISH‚Ì•¶Žš
+		TEXTURE_COMPLETE,		//COMPLETE‚Ì•¶Žš
 
 		/* « ‚»‚Ì‘¼ « */
 		TEXTURE_NUMBER,			//”Žš
