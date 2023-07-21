@@ -15,6 +15,8 @@
 #include "ranking.h"
 #include "input.h"
 #include "input_keyboard.h"
+#include "mode.h"
+#include "fade.h"
 
 //=======================
 // コンストラクタ
@@ -51,7 +53,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
-	m_nTime = 300;		//初期時間
+	m_nTime = 10;		//初期時間
 	fInterval = 50.0f;	//数値の間隔
 
 	//------------------------------
@@ -89,6 +91,9 @@ void CTime::Update()
 	{//ゲームが終了しているなら
 		//タイムを保存
 		CRanking::SetNewTime(m_nTime);
+
+		//リザルト画面に移行
+		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 	}
 	else if(m_bCntTime)
 	{//時間を数える状態なら
@@ -103,6 +108,12 @@ void CTime::Update()
 			m_nTime--;
 			SetNumber();
 			m_nCntFream = 0;
+
+			if (m_nTime <= 0)
+			{
+				//リザルト画面に移行
+				CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+			}
 		}
 	}
 }
