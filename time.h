@@ -16,6 +16,7 @@
 // 前方宣言
 //-------------------------------
 class CNumber;	//数値
+class CObject2D;
 
 //================================
 // タイマークラス
@@ -73,11 +74,14 @@ private:
 	D3DXVECTOR3 m_numberPos;		//数字の位置
 	int m_nTime;					//時間
 	int m_nCntMove;					//移動までの時間
+	int m_nFinTime;					//ゲーム終了までの時間
 	int m_nCntFream;				//フレーム数のカウント
 	int m_aPosTexU[nMaxDigits];		//今の桁の数値
 	float fInterval;				//数値の間隔
 	bool m_bCntTime;				//時間を数える状態
 	CNumber* m_pNumber[nMaxDigits];	//数値
+
+	CObject2D* m_pObject;
 };
 
 #endif

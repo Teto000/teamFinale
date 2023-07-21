@@ -45,6 +45,8 @@ public:
 		/* ↓ ゲーム ↓ */
 		TEXTURE_SKY,			//空
 		TEXTURE_GROUND,			//地面
+		TEXTURE_FINISH,			//FINISHの文字
+		TEXTURE_COMPLETE,		//COMPLETEの文字
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字
@@ -57,6 +59,7 @@ public:
 
 		/* ↓ ステージセレクト ↓ */
 		TEXTURE_STATE1,			//ステージ1の画像
+		TEXTURE_STATE2,			//ステージ2の画像
 	};
 
 	//--------------------------------------------------------------------

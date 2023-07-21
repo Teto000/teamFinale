@@ -26,6 +26,7 @@
 //----------------------------------
 // 静的メンバ変数宣言
 //----------------------------------
+int CStageSelect::m_nNumStage = 0;			//現在のステージ番号
 bool CStageSelect::m_bViewMap = false;		//マップを表示する状態
 bool CStageSelect::m_bStart = false;		//ゲームを開始する状態
 
@@ -151,8 +152,21 @@ void CStageSelect::Update()
 		//画像を拡大する(表示)
 		m_pObject2D->SetSize(300.0f, 300.0f);
 
-		//スコアを取得
-		int nScore = CApplication::GetMaxScore(0);	//ステージ番号に対応したスコアの最大値を取得
+		//ステージに応じた処理
+		switch (m_nNumStage)
+		{
+		case 0:
+			m_pObject2D->SetTexture(CTexture::TEXTURE_STATE1);
+			break;
+		case 1:
+			m_pObject2D->SetTexture(CTexture::TEXTURE_STATE2);
+			break;
+		default:
+			break;
+		}
+
+		//ステージ番号に対応したスコアの最大値を取得
+		int nScore = CApplication::GetMaxScore(m_nNumStage);
 
 		//数字を描画する
 		m_pNumber->SetDraw(true);

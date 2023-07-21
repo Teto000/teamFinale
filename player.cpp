@@ -320,6 +320,12 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
+	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
+	{//ゲーム画面　かつ ゲームが終了しているなら
+		//動けなくする
+		return D3DXVECTOR3(0.0f,0.0f,0.0f);
+	}
+
 	if (!m_bMiniGame
 		&& (CInputKeyboard::Press(nUpKey)
 			|| CInputKeyboard::Press(nLeftKey)
@@ -574,6 +580,8 @@ void CPlayer::Collision()
 					CStageSelect::SetViewMap(true);		//マップを表示する状態
 					CStageSelect::SetStart(true);		//画面遷移出来る状態
 
+					CStageSelect::SetNumStage(i);		//現在のステージ番号を設定
+
 					return;
 				}
 				else
@@ -635,35 +643,6 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 			//東屋を直す
 			pObject->SetType(18);
 	
-			//ステージにスコアを加算(0番目のステージに100加算)
-			CApplication::AddStageScore(0, 100);
-		}
-	}
-}
-
-//=============================================================================
-// 噴水との当たり判定
-// Author : Sato Teruto
-// 概要 : 噴水との当たり判定処理をまとめた関数
-//=============================================================================
-void CPlayer::Coll_Fountain(D3DXVECTOR3 size, CObjectX* pObject)
-{
-	//相手の位置を取得
-	D3DXVECTOR3 targetPos = pObject->GetPosition();
-
-	//--------------------------------
-	// 壊れた東屋との当たり判定
-	//--------------------------------
-	if (CUtility::Collision(GetPos(), GetPosOld(), size
-		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
-		&& pObject->GetObjType() == CObject::OBJTYPE_FOUNTAIN_BREAK
-		&& m_pMyItem != nullptr)
-	{// 衝突判定が行われた & アイテムを持っているなら
-		if (CInputKeyboard::Trigger(DIK_SPACE))
-		{//アイテムを置いたら
-			//噴水を直す
-			pObject->SetType(20);
-
 			//ステージにスコアを加算(0番目のステージに100加算)
 			CApplication::AddStageScore(0, 100);
 		}

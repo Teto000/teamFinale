@@ -148,15 +148,15 @@ void CGame::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (!m_bFinish
-		&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
-	{
-		//ゲーム終了フラグを立てる
-		m_bFinish = true;
+	//if (!m_bFinish
+	//	&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
+	//{
+	//	//ゲーム終了フラグを立てる
+	//	m_bFinish = true;
 
-		//リザルト画面に移行
-		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
-	}
+	//	//リザルト画面に移行
+	//	CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+	//}
 
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
@@ -179,10 +179,6 @@ void CGame::CreateObj()
 {
 	// 変数宣言
 	CCollision_Rectangle3D *pCollision = nullptr;
-
-	/*m_pObjectX[0] = CItemObj::Create();
-	m_pObjectX[0]->SetType(1);
-	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
 
 	//-----------------------------------
 	// オブジェクトの生成(時計)
