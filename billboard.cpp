@@ -154,6 +154,10 @@ void CBillBoard::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();	//デバイスの取得
 
+	//テクスチャの設定
+	CTexture *pTexture = CApplication::GetTexture();
+	pDevice->SetTexture(0, pTexture->GetTexture(m_NumTex));
+
 	//------------------------------------
 	// マトリックス
 	//------------------------------------

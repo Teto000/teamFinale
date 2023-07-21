@@ -233,9 +233,9 @@ void CGame::CreateObj()
 	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 
 	//東屋を直すのに必要なアイテムの目印
-	m_pItemMark[0] = CItemMark::Create(D3DXVECTOR3(-200.0f, 150.0f, 0.0f));
+	m_pItemMark[0] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
 	m_pItemMark[0]->SetSize(100.0f, 100.0f);
-	m_pItemMark[0]->SetTexture(CTexture::TEXTURE_NONE);
+	m_pItemMark[0]->SetTexture(CTexture::TEXTURE_FUKIDASI);
 
 	/*pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(19);
