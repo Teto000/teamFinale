@@ -40,6 +40,11 @@ public:
 	void Update();
 
 	//------------------
+	// セッター
+	//------------------
+	static void SetFinish(bool fin) { m_bFinish = fin; }	//ゲーム終了状態を設定
+
+	//------------------
 	// ゲッター
 	//------------------
 	static CPlayer* GetPlayer(int nNumber) { return m_pPlayer[nNumber]; }	//プレイヤーの取得

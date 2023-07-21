@@ -115,6 +115,7 @@ private:
 
 	/* ↓ オブジェクトごとの当たり判定 ↓ */
 	void Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject);	// 東屋
+	void Coll_Fountain(D3DXVECTOR3 size, CObjectX* pObject);	// 噴水
 	void Coll_Item(D3DXVECTOR3 size, CObjectX* pObject);		// アイテム
 	void Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject);		// 時計
 

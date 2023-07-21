@@ -637,9 +637,35 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 	
 			//ステージにスコアを加算(0番目のステージに100加算)
 			CApplication::AddStageScore(0, 100);
-	
-			//リザルト画面に移行
-			CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+		}
+	}
+}
+
+//=============================================================================
+// 噴水との当たり判定
+// Author : Sato Teruto
+// 概要 : 噴水との当たり判定処理をまとめた関数
+//=============================================================================
+void CPlayer::Coll_Fountain(D3DXVECTOR3 size, CObjectX* pObject)
+{
+	//相手の位置を取得
+	D3DXVECTOR3 targetPos = pObject->GetPosition();
+
+	//--------------------------------
+	// 壊れた東屋との当たり判定
+	//--------------------------------
+	if (CUtility::Collision(GetPos(), GetPosOld(), size
+		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+		&& pObject->GetObjType() == CObject::OBJTYPE_FOUNTAIN_BREAK
+		&& m_pMyItem != nullptr)
+	{// 衝突判定が行われた & アイテムを持っているなら
+		if (CInputKeyboard::Trigger(DIK_SPACE))
+		{//アイテムを置いたら
+			//噴水を直す
+			pObject->SetType(20);
+
+			//ステージにスコアを加算(0番目のステージに100加算)
+			CApplication::AddStageScore(0, 100);
 		}
 	}
 }
