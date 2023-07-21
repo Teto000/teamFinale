@@ -76,7 +76,7 @@ private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxStage = 1;		//ステージの最大数
+	static const int nMaxStage = 2;		//ステージの最大数
 
 	//------------------
 	// 静的メンバ変数

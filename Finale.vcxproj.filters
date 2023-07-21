@@ -42,6 +42,9 @@
     <Filter Include="Main\Object\X\Mesh">
       <UniqueIdentifier>{eaed9934-cba2-4c53-88c6-4ab05c97c9e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Object\Billboard">
+      <UniqueIdentifier>{dd5e9b6f-32dd-4914-b73a-e6ed6e893336}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -179,6 +182,12 @@
     <ClCompile Include="rubble.cpp">
       <Filter>Main\Object\X</Filter>
     </ClCompile>
+    <ClCompile Include="billboard.cpp">
+      <Filter>Main\Object\Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMark.cpp">
+      <Filter>Main\Object\Billboard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -303,6 +312,14 @@
     </ClInclude>
     <ClInclude Include="game_center.h">
       <Filter>Main\Object\X</Filter>
+    </ClInclude>
+    <ClInclude Include="mode.h" />
+    <ClInclude Include="rubble.h" />
+    <ClInclude Include="billboard.h">
+      <Filter>Main\Object\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMark.h">
+      <Filter>Main\Object\Billboard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
