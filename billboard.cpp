@@ -364,7 +364,7 @@ void CBillBoard::SetColor(D3DXCOLOR col)
 // テクスチャの設定
 // 引数：テクスチャ名
 //===========================
-void CBillBoard::SetTexture(CTexture::TEXTURE texture)
+void CBillBoard::SetTexture(CTexture::NUM_TEXTURE numTex)
 {
-	m_texture = texture;
+	m_NumTex = numTex;
 }

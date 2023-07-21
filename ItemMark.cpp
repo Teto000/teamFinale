@@ -29,6 +29,8 @@ CItemMark::~CItemMark()
 //======================================
 HRESULT CItemMark::Init(D3DXVECTOR3 pos)
 {
+	CBillBoard::Init(pos);
+
 	return S_OK;
 }
 
@@ -37,6 +39,7 @@ HRESULT CItemMark::Init(D3DXVECTOR3 pos)
 //======================================
 void CItemMark::Uninit()
 {
+	CBillBoard::Uninit();
 }
 
 //======================================
@@ -44,6 +47,7 @@ void CItemMark::Uninit()
 //======================================
 void CItemMark::Update()
 {
+	CBillBoard::Update();
 }
 
 //======================================
@@ -51,6 +55,7 @@ void CItemMark::Update()
 //======================================
 void CItemMark::Draw()
 {
+	CBillBoard::Draw();
 }
 
 //======================================
@@ -63,7 +68,7 @@ CItemMark* CItemMark::Create(D3DXVECTOR3 pos)
 	//----------------------------------
 	// ポリゴンの生成と初期化
 	//----------------------------------
-	//pItemMark = new CItemMark;	//生成
+	pItemMark = new CItemMark;	//生成
 
 	if (pItemMark != nullptr)
 	{//NULLチェック

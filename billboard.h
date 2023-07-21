@@ -47,13 +47,14 @@ public:
 
 	/* ↓テクスチャ↓ */
 	void SetTexCIE(float left, float fRight);			//テクスチャ座標の設定
-	void SetTexture(CTexture::TEXTURE texture);			//テクスチャの設定
+	void SetTexture(CTexture::NUM_TEXTURE numTex);	//テクスチャの設定
 	void SetAnimation(float fNumber, int nPattern);		//アニメーションの設定
 
 	//----------------
 	// ゲッター
 	//----------------
 	D3DXVECTOR3 GetPosition() override { return m_pos; }	//位置の取得
+	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }
 	float GetWidth() override { return m_fWidth; }			//幅の取得
 	float GetHeight() override { return m_fHeight; }		//高さの取得
 
@@ -72,7 +73,7 @@ protected:
 	D3DXMATRIX m_mtxWorld;	//ワールドマトリックス
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	CTexture::TEXTURE m_texture;		//テクスチャ
+	CTexture::NUM_TEXTURE m_NumTex;		//テクスチャ
 };
 
 #endif // !_OBJECT_H_
