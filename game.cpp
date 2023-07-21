@@ -35,16 +35,16 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-const float CGame::fPastPosX = 2000.0f;			//過去移動時のX座標の変化量
-bool		CGame::m_bFinish = false;			//ゲーム終了フラグ
-CCamera*	CGame::m_pCamera = nullptr;			//カメラ
-CTime*		CGame::m_pTime = nullptr;			//タイマー
-CSky*		CGame::m_pSky = nullptr;			//空
-CMeshField*	CGame::m_pMeshField = nullptr;		//地面
-CObjectX*	CGame::m_pObjectX[nMaxObject] = {};	//オブジェクト
-CItemMark*	CGame::m_pItemMark[2] = {};			//アイテムの目印	
-CObjectX*	CGame::m_pObjBG[nMaxBG];
-CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};	//プレイヤー
+const float CGame::fPastPosX = 2000.0f;				//過去移動時のX座標の変化量
+bool		CGame::m_bFinish = false;				//ゲーム終了フラグ
+CCamera*	CGame::m_pCamera = nullptr;				//カメラ
+CTime*		CGame::m_pTime = nullptr;				//タイマー
+CSky*		CGame::m_pSky = nullptr;				//空
+CMeshField*	CGame::m_pMeshField = nullptr;			//地面
+CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
+CItemMark*	CGame::m_pItemMark[nMaxItemMark] = {};	//アイテムの目印	
+CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
+CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 
 //===========================
 // コンストラクタ
@@ -272,11 +272,16 @@ void CGame::CreateObj()
 	repair.at(0).nRequired = 4;
 	pRubble->SetRepair(repair);
 
+	//噴水を直すのに必要なアイテムの目印
+	m_pItemMark[1] = CItemMark::Create(D3DXVECTOR3(200.0f, 130.0f, 200.0f));
+	m_pItemMark[1]->SetSize(100.0f, 100.0f);
+	m_pItemMark[1]->SetTexture(CTexture::TEXTURE_FUKIDASI4);
+
 	//壊れた噴水
-	m_pObjectX[3] = CItemObj::Create();
+	/*m_pObjectX[3] = CItemObj::Create();
 	m_pObjectX[3]->SetType(21);
 	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
-	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));
+	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));*/
 
 	//木の生成
 	CreateWood();

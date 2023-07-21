@@ -61,8 +61,9 @@ private:
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
-	static const int nMaxObject = 4;	//オブジェクトの最大数
-	static const int nMaxBG = 51;
+	static const int nMaxObject = 3;	//オブジェクトの最大数
+	static const int nMaxBG = 51;		//背景オブジェクトの最大数
+	static const int nMaxItemMark = 2;	//アイテム目印の最大数
 	static const float fPastPosX;		//過去のX座標
 
 	//-------------------
@@ -81,7 +82,7 @@ private:
 	static CSky*		m_pSky;						//空
 	static CMeshField*	m_pMeshField;				//メッシュフィールド
 	static CObjectX*	m_pObjectX[nMaxObject];		//オブジェクト
-	static CItemMark*	m_pItemMark[2];				//アイテムの目印	
+	static CItemMark*	m_pItemMark[nMaxItemMark];	//アイテムの目印	
 	static CObjectX*	m_pObjBG[nMaxBG];			//背景オブジェクト(木)の生成
 	static CPlayer*		m_pPlayer[nMaxPlayer];		//プレイヤー
 };

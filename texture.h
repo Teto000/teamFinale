@@ -48,6 +48,7 @@ public:
 		TEXTURE_FINISH,			//FINISH‚Ì•¶Žš
 		TEXTURE_COMPLETE,		//COMPLETE‚Ì•¶Žš
 		TEXTURE_FUKIDASI,		//‚«o‚µ
+		TEXTURE_FUKIDASI4,		//‚«o‚µ(4)
 
 		/* « ‚»‚Ì‘¼ « */
 		TEXTURE_NUMBER,			//”Žš

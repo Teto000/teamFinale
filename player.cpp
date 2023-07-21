@@ -118,6 +118,9 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	// eƒNƒ‰ƒX‚Ì‰Šú‰»
 	CMotionModel3D::Init(pos);
 
+	//•Ï”‚Ì‰Šú‰»
+	m_bPast = false;
+
 	if (m_pMove == nullptr)
 	{// ˆÚ“®
 		m_pMove = new CMove;
