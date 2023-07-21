@@ -222,7 +222,7 @@ void CGame::CreateObj()
 	pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(18);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetPos(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
+	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 0.0f));
 	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
