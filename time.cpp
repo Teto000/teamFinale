@@ -93,8 +93,17 @@ void CTime::Uninit()
 //=======================
 void CTime::Update()
 {
-	if (CGame::GetFinish())
+	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲームが終了しているなら
+		m_pObject->SetSize(800.0f, 300.0f);
+		m_nFinTime++;
+
+		if (m_nFinTime >= 60)
+		{
+			//リザルト画面に移行
+			CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+		}
+
 		//タイムを保存
 		CRanking::SetNewTime(m_nTime);
 	}
@@ -119,14 +128,7 @@ void CTime::Update()
 
 			if (m_nTime <= 0)
 			{
-				m_pObject->SetSize(800.0f, 300.0f);
-				m_nFinTime++;
-
-				if (m_nFinTime >= 3)
-				{
-					//リザルト画面に移行
-					//CMode::GetFade()->SetFade(CMode::MODE_RESULT);
-				}
+				CGame::SetFinish(true);
 			}
 		}
 	}

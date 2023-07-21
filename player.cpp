@@ -320,7 +320,7 @@ D3DXVECTOR3 CPlayer::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 	// モーション情報の取得
 	CMotion *pMotion = CMotionModel3D::GetMotion();
 
-	if (!CGame::GetFinish())
+	if (CGame::GetFinish())
 	{//ゲームが終了しているなら
 		//動けなくする
 		return D3DXVECTOR3(0.0f,0.0f,0.0f);

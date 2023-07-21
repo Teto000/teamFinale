@@ -148,15 +148,15 @@ void CGame::Update()
 	//-----------------------
 	// 画面遷移
 	//-----------------------
-	if (!m_bFinish
-		&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
-	{
-		//ゲーム終了フラグを立てる
-		m_bFinish = true;
+	//if (!m_bFinish
+	//	&& CInputKeyboard::Trigger(DIK_RETURN) || joypad->AllTrigger())
+	//{
+	//	//ゲーム終了フラグを立てる
+	//	m_bFinish = true;
 
-		//リザルト画面に移行
-		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
-	}
+	//	//リザルト画面に移行
+	//	CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+	//}
 
 	if (CInputKeyboard::Trigger(DIK_L))
 	{//Lキーを押したら
