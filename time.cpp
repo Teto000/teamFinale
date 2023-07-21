@@ -97,11 +97,8 @@ void CTime::Update()
 	{//ゲームが終了しているなら
 		//タイムを保存
 		CRanking::SetNewTime(m_nTime);
-
-		//リザルト画面に移行
-		CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 	}
-	else if(m_bCntTime)
+	else if(m_bCntTime && CMode::GetMode() == CMode::MODE_GAME)
 	{//時間を数える状態なら
 		//フレーム数を数える
 		m_nCntFream++;
@@ -125,7 +122,7 @@ void CTime::Update()
 				m_pObject->SetSize(800.0f, 300.0f);
 				m_nFinTime++;
 
-				if (m_nFinTime >= 2)
+				if (m_nFinTime >= 3)
 				{
 					//リザルト画面に移行
 					//CMode::GetFade()->SetFade(CMode::MODE_RESULT);
