@@ -180,10 +180,6 @@ void CGame::CreateObj()
 	// 変数宣言
 	CCollision_Rectangle3D *pCollision = nullptr;
 
-	/*m_pObjectX[0] = CItemObj::Create();
-	m_pObjectX[0]->SetType(1);
-	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));*/
-
 	//-----------------------------------
 	// オブジェクトの生成(時計)
 	//-----------------------------------
