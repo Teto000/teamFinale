@@ -68,7 +68,7 @@ HRESULT CButtonMash::Init(D3DXVECTOR3 pos)
 		pLife[nCnt] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
 		pLife[nCnt]->SetSize(10.0f, 40.0f);
 		pLife[nCnt]->SetTexture(CTexture::TEXTURE_NONE);
-		pLife[nCnt]->SetColor(m_col[3]);
+		pLife[nCnt]->SetColor(m_col[2]);
 	}
 
 	//アニメーション用変数

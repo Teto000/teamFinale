@@ -76,9 +76,7 @@ HRESULT CGame::Init()
 	//------------------------
 	// カメラの生成
 	//------------------------
-	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f
-								, (DWORD)SCREEN_WIDTH
-								, (DWORD)SCREEN_HEIGHT);
+	m_pCamera = CCamera::Create();
 
 	//メッシュフィールドの生成
 	m_pMeshField = CMeshField::Create();

@@ -56,7 +56,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
-	m_nTime = 40;		//初期時間
+	m_nTime = 5;		//初期時間
 	fInterval = 50.0f;	//数値の間隔
 
 	m_pObject = CObject2D::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
@@ -95,13 +95,13 @@ void CTime::Update()
 {
 	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲームが終了しているなら
-		m_pObject->SetSize(800.0f, 300.0f);
+		m_pObject->SetSize(800.0f, 200.0f);
 		m_nFinTime++;
 
 		if (m_nFinTime >= 60)
 		{
 			//リザルト画面に移行
-			CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+			//CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 		}
 
 		//タイムを保存

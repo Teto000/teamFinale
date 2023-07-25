@@ -193,7 +193,7 @@ void CRenderer::Draw()
 		//-------------------------
 	case CMode::MODE_GAME:
 		//カメラの取得
-		m_pCamera = CGame::GetCamera();
+		m_pCamera = CMode::GetGame()->GetCamera();
 
 		//カメラの設定
 		m_pCamera->SetCamera(m_pD3DDevice);
@@ -213,15 +213,6 @@ void CRenderer::Draw()
 	default:
 		m_pCamera = nullptr;
 		break;
-	}
-
-	if (m_pCamera != nullptr)
-	{//カメラがnullじゃないなら
-		//--------------------------------------
-		// ビューポートの設定
-		//--------------------------------------
-		D3DVIEWPORT9 viewport = m_pCamera->GetViewport();
-		m_pD3DDevice->SetViewport(&viewport);
 	}
 
 	//-----------------------------------------

@@ -81,7 +81,7 @@ private:
 	bool m_bCntTime;				//ŠÔ‚ğ”‚¦‚éó‘Ô
 	CNumber* m_pNumber[nMaxDigits];	//”’l
 
-	CObject2D* m_pObject;
+	CObject2D* m_pObject;	//Finish•¶š
 };
 
 #endif

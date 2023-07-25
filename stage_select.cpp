@@ -64,8 +64,7 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// ÉJÉÅÉâÇÃê∂ê¨
 	//------------------------
-	m_pCamera = CCamera::Create((DWORD)0.0f, (DWORD)0.0f,
-								(DWORD)SCREEN_WIDTH, (DWORD)SCREEN_HEIGHT);
+	m_pCamera = CCamera::Create();
 
 	//------------------------
 	// ínñ ÇÃê∂ê¨
