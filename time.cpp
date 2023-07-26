@@ -56,7 +56,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//‰Šú’l‚ÌÝ’è
 	m_pos = pos;		//ˆÊ’u
-	m_nTime = 5;		//‰ŠúŽžŠÔ
+	m_nTime = 90;		//‰ŠúŽžŠÔ
 	fInterval = 50.0f;	//”’l‚ÌŠÔŠu
 
 	m_pObject = CObject2D::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
