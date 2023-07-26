@@ -12,7 +12,9 @@
 #include "mode.h"
 #include "renderer.h"
 
+#include "input.h"
 #include "input_keyboard.h"
+#include "input_joypad.h"
 #include "object2D.h"
 #include "game.h"
 
@@ -94,6 +96,8 @@ void CButtonMash::Uninit()
 //=======================
 void CButtonMash::Update()
 {
+	CInputJoypad *pJoypad = CInput::GetJoypad();
+
 	if (pObj2D[0] != nullptr
 		&&pLife[0] != nullptr)
 	{
@@ -109,8 +113,16 @@ void CButtonMash::Update()
 			m_nPatternAnim++;
 		}
 
+#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{//Jキーを押したときに
+		 //連打カウントを1増やす
+			m_nMashCounter++;
+		}
+#endif // DEBUG
+
+		if (pJoypad->Trigger(CInputJoypad::JOYKEY_B))
+		{
 			//連打カウントを1増やす
 			m_nMashCounter++;
 		}

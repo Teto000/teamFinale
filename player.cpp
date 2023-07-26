@@ -15,6 +15,8 @@
 #include "player.h"
 #include "game.h"
 #include "stage_select.h"
+#include "input.h"
+#include "input_joypad.h"
 #include "input_keyboard.h"
 #include "camera.h"
 #include "utility.h"
@@ -139,6 +141,8 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 		m_pLine[nCntLine] = CLine::Create();
 	}
 
+	pJoypad = CInput::GetJoypad();
+
 	return E_NOTIMPL;
 }
 
@@ -209,8 +213,36 @@ void CPlayer::Update()
 		{
 			CObject *pCollidedObj = apCollidedObj.at(nCntObj);
 
+#ifdef _DEBUG
 			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
 				&& CInputKeyboard::Trigger(DIK_SPACE))
+				{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
+					if (m_pMyItem != nullptr)
+					{
+						m_pMyItem->Stack((CItemObj*)pCollidedObj);
+						break;
+					}
+					else
+					{// アイテムを取得する
+						Retention((CItemObj*)pCollidedObj);
+						break;
+					}
+				}
+				else if (pCollidedObj->GetObjType() == CObject::OBJTYPE_MINIGAME)
+				{// ゲームセンターに触れている
+					CGameCenter *pGameCenter = (CGameCenter*)pCollidedObj;
+
+					if (CInputKeyboard::Trigger(DIK_SPACE)
+						&& !pGameCenter->GetGame())
+					{
+						pGameCenter->SetPlayer(this);
+						pGameCenter->SetGame(true);
+					}
+				}
+#endif // _DEBUG
+
+			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
+				&&pJoypad->Trigger(CInputJoypad::JOYKEY_A))
 			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
 				if (m_pMyItem != nullptr)
 				{
@@ -227,7 +259,7 @@ void CPlayer::Update()
 			{// ゲームセンターに触れている
 				CGameCenter *pGameCenter = (CGameCenter*)pCollidedObj;
 
-				if (CInputKeyboard::Trigger(DIK_SPACE)
+				if (pJoypad->Trigger(CInputJoypad::JOYKEY_X)
 					&& !pGameCenter->GetGame())
 				{
 					pGameCenter->SetPlayer(this);
@@ -618,11 +650,27 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION)
 	{// 衝突判定が行われた。
+#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{
 			int randData;
 			randData = rand() % 1;
-			
+
+			// ミニゲーム中じゃないなら
+			if (!m_bMiniGame)
+			{
+				//ミニゲームの生成&ミニゲーム中に設定する
+				CMiniGameBasis::Create(D3DXVECTOR3(640.0f, 320.0f, 0.0f), randData);
+				m_bMiniGame = true;
+			}
+		}
+#endif // _DEBUG
+
+		if (pJoypad->Trigger(CInputJoypad::JOYKEY_X))
+		{
+			int randData;
+			randData = rand() % 1;
+
 			// ミニゲーム中じゃないなら
 			if (!m_bMiniGame)
 			{
@@ -641,11 +689,22 @@ void  CPlayer::Coll_Pavilion(D3DXVECTOR3 size, CObjectX* pObject)
 		&& pObject->GetObjType() == CObject::OBJTYPE_PAVILION_BREAK
 		&& m_pMyItem != nullptr)
 	{// 衝突判定が行われた & アイテムを持っているなら
+#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{//アイテムを置いたら
-			//東屋を直す
+		 //東屋を直す
 			pObject->SetType(18);
-	
+
+			//ステージにスコアを加算(0番目のステージに100加算)
+			CApplication::AddStageScore(0, 100);
+		}
+#endif // _DEBUG
+
+		if (pJoypad->Trigger(CInputJoypad::JOYKEY_A))
+		{//アイテムを置いたら
+		 //東屋を直す
+			pObject->SetType(18);
+
 			//ステージにスコアを加算(0番目のステージに100加算)
 			CApplication::AddStageScore(0, 100);
 		}
@@ -697,11 +756,20 @@ void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
 		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 		&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
 	{// 衝突判定が行われた。
+#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bWarp)
 		{//0キーを押したとき & ワープしない状態なら
-			//ワープ
+		 //ワープ
 			newPos = Warp(pos);
 		}
+#endif // _DEBUG
+
+		if (pJoypad->Trigger(CInputJoypad::JOYKEY_X) && !m_bWarp)
+		{//0キーを押したとき & ワープしない状態なら
+		 //ワープ
+			newPos = Warp(pos);
+		}
+		
 	}
 
 	//位置の更新
@@ -835,10 +903,18 @@ void CPlayer::Update_Idel()
 	//	}
 	//}
 
+	if (pJoypad->Trigger(CInputJoypad::JOYKEY_A))
+	{
+		// アイテムの保持の解除
+		Drop();
+	}
+
+#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_SPACE))
 	{// アイテムの保持の解除
 		Drop();
 	}
+#endif // _DEBUG
 
 	m_EAction = NEUTRAL_ACTION;
 

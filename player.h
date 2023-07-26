@@ -21,6 +21,7 @@ class CObjectX;
 class CObject2D;
 class CItemObj;
 class CLine;
+class CInputJoypad;
 
 //=============================================================================
 // プレイヤークラス
@@ -142,6 +143,7 @@ private:
 	D3DXCOLOR lineCol;			// ラインの色
 	bool m_bCrate;				// ビルが建ったか
 	static bool m_bWarp;		// ワープする状態かどうか
+	CInputJoypad *pJoypad;
 };
 
 #endif

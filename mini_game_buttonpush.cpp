@@ -13,6 +13,8 @@
 #include "renderer.h"
 
 #include "object2D.h"
+#include "input.h"
+#include "input_joypad.h"
 #include "input_keyboard.h"
 #include "fade.h"
 #include "game.h"
@@ -146,7 +148,7 @@ void CButtonPushGame::Update()
 			//移動
 			pos += m_move;
 			pObj2D[2]->SetPos(pos);
-
+#ifdef _DEBUG
 			if (CInputKeyboard::Trigger(DIK_SPACE)
 				&& m_nCntPlayTime > nMaxPlayTime)
 			{//SPACEキーが押された時 & 操作可能時間に達していたら
@@ -194,6 +196,59 @@ void CButtonPushGame::Update()
 					m_bStop = true;
 				}
 			}
+#endif // _DEBUG
+			CInputJoypad *pJoypad = CInput::GetJoypad();
+
+			if (pJoypad->Trigger(CInputJoypad::JOYKEY_B)
+				&& m_nCntPlayTime > nMaxPlayTime)
+			{//SPACEキーが押された時 & 操作可能時間に達していたら
+			 //バーが真ん中の時
+				if (pos.x >= 615.0f
+					&& pos.x <= 665.0f)
+				{
+					//ポリゴンを全削除してnullptr代入
+					for (int nCnt = 0; nCnt < MAX_BUTTONPOLYGON; nCnt++)
+					{
+						pObj2D[nCnt]->Uninit();
+						pObj2D[nCnt] = nullptr;
+					}
+
+					//プレイヤーをゲーム中状態から解除する
+					CGame *pGame = CMode::GetGame();
+					CGameCenter *pParent = GetParent();
+					CPlayer *pPlayer = pParent->GetPlayer();
+					CItemObj *pPlayerItem = pPlayer->GetMyItem();
+
+					if (pPlayerItem == nullptr)
+					{// アイテムを取得していない
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetItemType(GetItemType());
+
+						pPlayer->Retention(pItem);
+					}
+					else if (pPlayerItem != nullptr)
+					{
+						CItemObj *pItem = CItemObj::Create();
+						pItem->SetType(GetItemType());
+						pPlayerItem->Stack(pItem);
+					}
+
+					//プレイヤーがミニゲームを終了する時
+					if (GetGame())
+					{
+						SetGame(false);
+						GetParent()->SetGame(false);
+						pPlayer = nullptr;
+					}
+				}
+				else
+				{
+					m_bStop = true;
+				}
+			}
+
+
+
 		}
 		else if (m_bStop)
 		{
