@@ -50,7 +50,7 @@ public:
 	float GetHeight() override;															//高さの取得
 
 private:
-	void SetVtxNor(VERTEX_3D* pVtx, WORD* pIdx);	//頂点の法線を設定
+	void SetVtxNor();	//頂点の法線を設定
 
 private:
 	//------------------
