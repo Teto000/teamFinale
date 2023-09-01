@@ -69,15 +69,12 @@ HRESULT CMesh::Init(D3DXVECTOR3 pos)
 	//----------------------------------
 	// メッシュを構成する情報の設定
 	//----------------------------------
-	m_nNumDivision = 12;				//ポリゴンの分割数
 	m_nCntVtx = m_nNumDivision + 1;		//頂点の分割数
 	m_nNumVtx = (m_nNumDivision + 1) * (m_nNumDivision + 1);							//頂点数
 	m_nNumPolygon = m_nNumDivision * m_nNumDivision * 2 + (m_nNumDivision - 1) * 4;		//ポリゴン数
 	m_nNumIndex = (m_nNumDivision + 1) * 2 * m_nNumDivision + (m_nNumDivision - 1) * 2;	//インデックス数
-	m_fMaxWidth = 5500.0f;								//メッシュフィールドの最大幅
 	m_fMeshWidth = (m_fMaxWidth / m_nNumDivision);		//メッシュフィールドの幅
 	m_fTexSize = (5.0f / m_nNumDivision);				//テクスチャの分割サイズ
-
 
 	//----------------------------------
 	// 頂点バッファの生成
@@ -440,16 +437,6 @@ void CMesh::SetMeshSize(int nDivision, float fWidth)
 {
 	m_nNumDivision = nDivision;	//ポリゴンの分割数の設定
 	m_fMaxWidth = fWidth;		//メッシュフィールドの最大幅の設定
-
-	//----------------------------
-	// メッシュの情報の再設定
-	//----------------------------
-	m_nCntVtx = m_nNumDivision + 1;		//頂点の分割数
-	m_nNumVtx = (m_nNumDivision + 1) * (m_nNumDivision + 1);							//頂点数
-	m_nNumPolygon = m_nNumDivision * m_nNumDivision * 2 + (m_nNumDivision - 1) * 4;		//ポリゴン数
-	m_nNumIndex = (m_nNumDivision + 1) * 2 * m_nNumDivision + (m_nNumDivision - 1) * 2;	//インデックス数
-	m_fMeshWidth = (m_fMaxWidth / m_nNumDivision);		//メッシュフィールドの幅
-	m_fTexSize = (1.0f / m_nNumDivision);				//テクスチャの分割サイズ
 }
 
 //===========================

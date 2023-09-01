@@ -69,7 +69,7 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	// ínñ ÇÃê∂ê¨
 	//------------------------
-	m_pMeshField = CMeshField::Create();
+	m_pMeshField = CMeshField::Create(12.0f,5500.0f);
 
 	//------------------------
 	// ãÛÇÃê∂ê¨

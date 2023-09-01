@@ -33,10 +33,11 @@ CMeshField::~CMeshField()
 //=======================
 HRESULT CMeshField::Init(D3DXVECTOR3 pos)
 {
+
 	CMesh::Init(pos);
 
-	//分割数、幅の設定
-	//CMesh::SetMeshSize(8, 400);
+	////分割数、幅の設定
+	//CMesh::SetMeshSize(12, 5500);
 
 	CMesh::SetTexture(CTexture::TEXTURE_GROUND);
 
@@ -70,7 +71,7 @@ void CMeshField::Draw()
 //=======================
 // 生成
 //=======================
-CMeshField *CMeshField::Create()
+CMeshField *CMeshField::Create(float Division, float MaxWidth)
 {
 	CMeshField *pMeshField = nullptr;
 
@@ -84,6 +85,11 @@ CMeshField *CMeshField::Create()
 		//初期化
 		{
 			D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
+			
+			// メッシュの設定
+			pMeshField->SetMeshSize(Division, MaxWidth);
+			
+			// 初期化
 			pMeshField->Init(D3DXVECTOR3(pos));
 		}
 		pMeshField->SetObjType(OBJTYPE_MESH);

@@ -32,7 +32,7 @@ public:
 	//------------------
 	// Ã“Iƒƒ“ƒo•Ï”
 	//------------------
-	static CMeshField* Create();
+	static CMeshField* Create(float Division,float MaxWidth);
 };
 
 #endif

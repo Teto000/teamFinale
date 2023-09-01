@@ -79,7 +79,7 @@ HRESULT CGame::Init()
 	m_pCamera = CCamera::Create();
 
 	//メッシュフィールドの生成
-	m_pMeshField = CMeshField::Create();
+	m_pMeshField = CMeshField::Create(24.0f,15500.0f);
 
 	//空の生成
 	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);

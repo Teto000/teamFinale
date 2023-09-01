@@ -260,6 +260,7 @@ void CCamera::Follow()
 	// 行列を使ったカメラ制御
 	//----------------------------------------
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
+	float vecF;
 
 	switch (CMode::GetMode())
 	{//モードごとの処理
@@ -276,9 +277,11 @@ void CCamera::Follow()
 			pos1.x -= CGame::GetPastPosX();
 			pos2.x -= CGame::GetPastPosX();
 		}
-
+		
 		//プレイヤー間の距離を求める
 		vec = pos1 + pos2;
+
+		vecF = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.z - pos2.z) * (pos1.z - pos2.z));
 
 		//その中間を見る
 		target.x = vec.x / 2;
@@ -291,12 +294,12 @@ void CCamera::Follow()
 		}
 
 		//カメラの高さを調整
-		m_posV.y = (fabsf(vec.x) + fabsf(vec.z));
+		m_posV.y = vecF * 1.3f;
 
 		//高さの最低値を設定
-		if (m_posV.y <= 100.0f)
+		if (m_posV.y <= 300.0f)
 		{
-			m_posV.y = 100.0f;
+			m_posV.y = 300.0f;
 		}
 		break;
 
