@@ -23,6 +23,7 @@ class CMeshField;	//地面
 class CPlayer;		//プレイヤー
 class CObjectX;		//オブジェクト
 class CItemMark;	//アイテム目印
+class CRubble;
 
 //================================
 // ゲームクラスの定義
@@ -61,10 +62,11 @@ private:
 	// 定数
 	//-------------------
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
-	static const int nMaxObject = 3;	//オブジェクトの最大数
+	static const int nMaxObject = 2;	//オブジェクトの最大数
 	static const int nMaxBG = 51;		//背景オブジェクトの最大数
 	static const int nMaxItemMark = 2;	//アイテム目印の最大数
 	static const float fPastPosX;		//過去のX座標
+	static const int nMaxRubble = 4;
 
 	//-------------------
 	// プライベート関数
@@ -85,6 +87,7 @@ private:
 	static CItemMark*	m_pItemMark[nMaxItemMark];	//アイテムの目印	
 	static CObjectX*	m_pObjBG[nMaxBG];			//背景オブジェクト(木)の生成
 	static CPlayer*		m_pPlayer[nMaxPlayer];		//プレイヤー
+	static CRubble*		m_pRubble[nMaxRubble];
 };
 
 #endif

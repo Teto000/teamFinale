@@ -1,5 +1,5 @@
 // モデルの最大数
-MAX_TYPE = 26
+MAX_TYPE = 32
 
 //***************************
 // Xファイル名の読み込み
@@ -30,6 +30,12 @@ MODEL_FILENAME = data/MODEL/wood/wood.x					# [22]
 MODEL_FILENAME = data/MODEL/item/wood.x					# [23]
 MODEL_FILENAME = data/MODEL/item/stone.x				# [24]
 MODEL_FILENAME = data/MODEL/item/metal000.x				# [25]
+MODEL_FILENAME = data/MODEL/slide/slide.x				# [26]
+MODEL_FILENAME = data/MODEL/slide/slide_break.x			# [27]
+MODEL_FILENAME = data/MODEL/swing/swing.x				# [28]
+MODEL_FILENAME = data/MODEL/swing/swing_break.x			# [29]
+MODEL_FILENAME = data/MODEL/seesaw/seesaw.x				# [30]
+MODEL_FILENAME = data/MODEL/seesaw/seesaw_break.x		# [31]
 
 
 

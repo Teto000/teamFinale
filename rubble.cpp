@@ -167,6 +167,18 @@ void CRubble::SetBuildType(EBuildType buildType)
 		SetType(21);
 		break;
 
+	case CRubble::TYPE_SLIDE:
+		SetType(27);
+		break;
+
+	case CRubble::TYPE_SWING:
+		SetType(29);
+		break;
+
+	case CRubble::TYPE_SEESAW:
+		SetType(31);
+		break;
+
 	default:
 		assert(false);
 		break;
@@ -198,17 +210,24 @@ void CRubble::Collision()
 				if (pCollidedObj != nullptr
 					&& pCollidedObj->GetItemType() == m_repair.at(nCnt).type)
 				{
+					int nCntTintinn = 0;
 					CItemObj *pChild = pCollidedObj->SearchChild();
+					pCollidedObj->SearchChild(nCntTintinn);
 
 					CItemObj *pParent = (CItemObj*)pChild->GetParentItem();
-					
+
 					if (pParent != nullptr)
 					{
 						pParent->SetChildItem();
 					}
 
-					pChild->Uninit();
-					pChild = nullptr;
+					if(pChild != nullptr)
+					{
+						pChild->Uninit();
+						pChild = nullptr;
+					}
+
+					pCollidedObj->SearchChild(nCntTintinn);
 
 					m_repair.at(nCnt).nCutRequired++;
 
@@ -238,6 +257,18 @@ void CRubble::Complete()
 
 	case CRubble::TYPE_FOUNTAIN:
 		SetType(20);
+		break;
+
+	case CRubble::TYPE_SLIDE:
+		SetType(26);
+		break;
+
+	case CRubble::TYPE_SWING:
+		SetType(28);
+		break;
+
+	case CRubble::TYPE_SEESAW:
+		SetType(30);
 		break;
 
 	default:
