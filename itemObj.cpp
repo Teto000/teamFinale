@@ -172,30 +172,31 @@ void CItemObj::Draw()
 void CItemObj::Stack(CItemObj * pTarget)
 {
 	// 親の設定
-	CItemObj *pItem = this;
+ 	CItemObj *pItem = this;
 	int nCntChildItem = 0;
 
-	while (1)
-	{//pObjがnullじゃないなら
-	 //次のオブジェクトを保存
-		CItemObj *pItemNext = (CItemObj*)pItem->GetChildItem();
+	// 子アイテムの検索
+	int nCntItem = 0;
+	pItem = pItem->SearchChild(nCntItem);
 
-		if (pItem->GetChildItem() == nullptr)
-		{// 親子関係の設定
-			pTarget->SetParentItem(pItem);
-			pTarget->SetParent(pItem->GetModel());
-			SetChildItem(pTarget);
-
-			// アイテムの当たり判定の設定
-			D3DXVECTOR3 modelSize = pTarget->GetModel()->GetMyMaterial().size;
-			pTarget->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
-
-			break;
+	if (pItem->GetChildItem() == nullptr)
+	{// 親子関係の設定
+		if (pItem->GetChildItem() != nullptr)
+		{
+			assert(false);
 		}
 
-		//次のオブジェクトのアドレスを代入
-		pItem = pItemNext;
-		nCntChildItem++;
+		pTarget->SetParentItem(pItem);
+		pTarget->SetParent(pItem->GetModel());
+		pItem->SetChildItem(pTarget);
+
+		// アイテムの当たり判定の設定
+		pTarget->GetCollision()->SetUseFlag(false);
+		D3DXVECTOR3 collisionSize = GetCollision()->GetSize();
+		collisionSize.y += pTarget->GetCollision()->GetSize().y;
+		GetCollision()->SetSize(collisionSize);
+		D3DXVECTOR3 modelSize = pTarget->GetModel()->GetMyMaterial().size;
+		pTarget->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
 	}
 }
 
@@ -354,30 +355,23 @@ void CItemObj::Stack()
 			// 親の設定
 			CItemObj *pItem = this;
 
-			while (1)
-			{//pObjがnullじゃないなら
-			 //次のオブジェクトを保存
-				CItemObj *pItemNext = (CItemObj*)pItem->GetChildItem();
+			// 子アイテムの検索
+			int nCntItem = 0;
+			pItem = pItem->SearchChild(nCntItem);
 
-				if (pItem->GetChildItem() == nullptr)
-				{// 親子関係の設定
-					pTargetItem->SetParentItem(pItem);
-					pTargetItem->SetParent(pItem->GetModel());
-					pItem->SetChildItem(pTargetItem);
+			if (pItem->GetChildItem() == nullptr)
+			{// 親子関係の設定
+				pTargetItem->SetParentItem(pItem);
+				pTargetItem->SetParent(pItem->GetModel());
+				pItem->SetChildItem(pTargetItem);
 
-					// アイテムの当たり判定の設定
-					pTargetItem->GetCollision()->SetUseFlag(false);
-					D3DXVECTOR3 collisionSize = GetCollision()->GetSize();
-					collisionSize.y += pTargetItem->GetCollision()->GetSize().y;
-					GetCollision()->SetSize(collisionSize);
-					D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMyMaterial().size;
-					pTargetItem->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
-
-					break;
-				}
-
-				//次のオブジェクトのアドレスを代入
-				pItem = pItemNext;
+				// アイテムの当たり判定の設定
+				pTargetItem->GetCollision()->SetUseFlag(false);
+				D3DXVECTOR3 collisionSize = GetCollision()->GetSize();
+				collisionSize.y += pTargetItem->GetCollision()->GetSize().y;
+				GetCollision()->SetSize(collisionSize);
+				D3DXVECTOR3 modelSize = pTargetItem->GetModel()->GetMyMaterial().size;
+				pTargetItem->SetPosOffset(D3DXVECTOR3(0.0f, modelSize.y, 0.0f));
 			}
 		}
 	}
