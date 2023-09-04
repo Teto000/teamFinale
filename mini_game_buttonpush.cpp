@@ -11,6 +11,8 @@
 #include "mini_game_buttonpush.h"
 #include "application.h"
 #include "renderer.h"
+#include "game.h"
+#include "debug_proc.h"
 
 #include "object2D.h"
 #include "input.h"
@@ -25,6 +27,7 @@
 #include "player.h"
 #include "collision_rectangle3D.h"
 #include "game_center.h"
+#include "utility.h"
 
 //=======================
 // コンストラクタ
@@ -63,23 +66,24 @@ HRESULT CButtonPushGame::Init(D3DXVECTOR3 pos)
 	//端までいったかどうか
 	m_bEdge = false;
 	m_bStop = false;
+	m_bOnce = false;
 	m_nCount = 0;
 
 	//背景用黒ポリゴン
-	pObj2D[0] = CObject2D::Create(D3DXVECTOR3(640.0f,350.0f,0.0f));
-	pObj2D[0]->SetSize(1000.0f, 600.0f);
+	pObj2D[0] = CBillBoard::Create(D3DXVECTOR3(640.0f,350.0f,0.0f));
+	pObj2D[0]->SetSize(150.0f, 70.0f);
 	pObj2D[0]->SetTexture(CTexture::TEXTURE_NONE);
 	pObj2D[0]->SetColor(m_col[0]);
 
 	//ゲージ画像
-	pObj2D[1] = CObject2D::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
-	pObj2D[1]->SetSize(900.0f, 250.0f);
+	pObj2D[1] = CBillBoard::Create(D3DXVECTOR3(640.0f, 350.0f, 0.0f));
+	pObj2D[1]->SetSize(150.0f, 45.0f);
 	pObj2D[1]->SetTexture(CTexture::TEXTURE_GAUGE);
 	pObj2D[1]->SetColor(m_col[1]);
 
 	//ボタンポリゴン
-	pObj2D[2] = CObject2D::Create(D3DXVECTOR3(250.0f, 350.0f, 0.0f));
-	pObj2D[2]->SetSize(25.0f, 300.0f);
+	pObj2D[2] = CBillBoard::Create(D3DXVECTOR3(750.0f, 350.0f, 0.0f));
+	pObj2D[2]->SetSize(5.0f, 40.0f);
 	pObj2D[2]->SetTexture(CTexture::TEXTURE_NONE);
 	pObj2D[2]->SetColor(m_col[2]);
 
@@ -103,6 +107,18 @@ void CButtonPushGame::Update()
 	if (pObj2D[0] != nullptr
 		&& pObj2D[1] != nullptr)
 	{
+		CGameCenter *pParent = GetParent();
+		CPlayer *pPlayer = pParent->GetPlayer();
+		D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
+		D3DXVECTOR3 ObjPos = pObj2D[1]->GetPosition();
+		float ObjSize = pObj2D[1]->GetWidth();
+
+		if (!m_bOnce)
+		{
+			pObj2D[2]->SetPos(PlayerPos);
+			m_bOnce = true;
+		}
+
 		//操作可能までの時間を数える
 		m_nCntPlayTime++;
 
@@ -124,7 +140,7 @@ void CButtonPushGame::Update()
 			//端まで行ったら反射
 			if (!m_bEdge)
 			{
-				if (pos.x >= 1080.0f)
+				if (pos.x >= ObjPos.x + ObjSize / 2)
 				{
 					m_move.x *= -1.0f;
 					m_bEdge = true;
@@ -135,7 +151,7 @@ void CButtonPushGame::Update()
 			}
 			else
 			{
-				if (pos.x <= 200.0f)
+				if (pos.x <= ObjPos.x - ObjSize / 2)
 				{
 					m_move.x *= -1.0f;
 					m_bEdge = false;
@@ -147,14 +163,20 @@ void CButtonPushGame::Update()
 
 			//移動
 			pos += m_move;
-			pObj2D[2]->SetPos(pos);
+
+			pObj2D[0]->SetPos(D3DXVECTOR3(PlayerPos.x, PlayerPos.y + 150.0f, PlayerPos.z));
+			pObj2D[1]->SetPos(D3DXVECTOR3(PlayerPos.x, PlayerPos.y + 150.0f, PlayerPos.z));
+			pObj2D[2]->SetPos(D3DXVECTOR3(pos.x, PlayerPos.y + 150.0f, PlayerPos.z));
+
+			CDebugProc::Print("バーのPos : %f,%f,%f", pos.x,pos.y,pos.z);
+
 #ifdef _DEBUG
 			if (CInputKeyboard::Trigger(DIK_SPACE)
 				&& m_nCntPlayTime > nMaxPlayTime)
 			{//SPACEキーが押された時 & 操作可能時間に達していたら
 				//バーが真ん中の時
-				if (pos.x >= 615.0f
-					&& pos.x <= 665.0f)
+				if (pos.x >= ObjPos.x - SUCCESS_RANGE
+					&& pos.x <= ObjPos.x + SUCCESS_RANGE)
 				{
 					//ポリゴンを全削除してnullptr代入
 					for (int nCnt = 0; nCnt < MAX_BUTTONPOLYGON; nCnt++)
@@ -165,8 +187,6 @@ void CButtonPushGame::Update()
 
 					//プレイヤーをゲーム中状態から解除する
 					CGame *pGame = CMode::GetGame();
-					CGameCenter *pParent = GetParent();
-					CPlayer *pPlayer = pParent->GetPlayer();
 					CItemObj *pPlayerItem = pPlayer->GetMyItem();
 
 					if (pPlayerItem == nullptr)
@@ -214,9 +234,7 @@ void CButtonPushGame::Update()
 					}
 
 					//プレイヤーをゲーム中状態から解除する
-					CGame *pGame = CMode::GetGame();
-					CGameCenter *pParent = GetParent();
-					CPlayer *pPlayer = pParent->GetPlayer();
+					CGame *pGame = CMode::GetGame();		
 					CItemObj *pPlayerItem = pPlayer->GetMyItem();
 
 					if (pPlayerItem == nullptr)
@@ -246,9 +264,6 @@ void CButtonPushGame::Update()
 					m_bStop = true;
 				}
 			}
-
-
-
 		}
 		else if (m_bStop)
 		{

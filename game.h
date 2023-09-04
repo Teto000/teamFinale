@@ -64,6 +64,7 @@ private:
 	static const int nMaxPlayer = 2;	//プレイヤーの最大数
 	static const int nMaxObject = 2;	//オブジェクトの最大数
 	static const int nMaxBG = 51;		//背景オブジェクトの最大数
+	static const int nWood = 13;
 	static const int nMaxItemMark = 2;	//アイテム目印の最大数
 	static const float fPastPosX;		//過去のX座標
 	static const int nMaxRubble = 4;

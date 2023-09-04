@@ -15,8 +15,9 @@
 //-------------------------------
 // マクロ定義
 //-------------------------------
-#define MAX_SPEED			(3.0f)	//速度
+#define MAX_SPEED			(1.0f)	//速度
 #define MAX_BUTTONPOLYGON	(3)		//ポリゴンの数
+#define SUCCESS_RANGE		(3.0f)	//成功範囲
 
 //================================
 // ミニゲーム基盤クラス
@@ -58,7 +59,7 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	CObject2D *pObj2D[MAX_OBJECT];
+	CBillBoard *pObj2D[MAX_OBJECT];
 	D3DXCOLOR m_col[MAX_OBJECT];
 	D3DXVECTOR3 m_move;		//移動
 	CLEAR m_flash;			//フラッシュ状態
@@ -66,6 +67,7 @@ private:
 	int m_nCntPlayTime;		//操作出来るまでの時間を数える
 	bool m_bStop;			//止まるかどうか
 	bool m_bEdge;			//端にたどり着いたかどうか
+	bool m_bOnce;			//一回だけ通る
 };
 
 #endif
