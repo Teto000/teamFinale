@@ -91,7 +91,8 @@ public:
 	// セッター
 	void SetNumber(int nNum) { m_nNumber = nNum; }				// プレイヤー番号の設定
 	void SetMiniGame(bool bMiniGame);							// ミニゲーム中かどうかの設定
-	
+	void SetUpdate(bool bUpdate) { m_bUpdate = bUpdate; }
+
 	// ゲッター
 	CItemObj* GetMyItem() { return m_pMyItem; }					// 取得アイテムのゲッター
 	int GetParentParts() { return m_nParentParts; }				// 親パーツのゲッター
@@ -144,6 +145,7 @@ private:
 	bool m_bCrate;				// ビルが建ったか
 	static bool m_bWarp;		// ワープする状態かどうか
 	CInputJoypad *pJoypad;
+	bool m_bUpdate;
 };
 
 #endif

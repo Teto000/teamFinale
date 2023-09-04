@@ -187,6 +187,11 @@ void CPlayer::Uninit()
 //=============================================================================
 void CPlayer::Update()
 {
+	if (m_bUpdate)
+	{
+		return;
+	}
+
 	// モーションのバックアップ
 	m_EActionOld = m_EAction;
 

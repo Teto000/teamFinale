@@ -17,6 +17,7 @@
 #include "renderer.h"
 #include "model3D.h"
 #include "collision_rectangle3D.h"
+#include "player.h"
 
 //=============================================================================
 // インスタンス生成
@@ -124,5 +125,8 @@ void CGameCenter::SetGame(bool bGame)
 		m_pMiniGameBasis->SetParent(this);
 		m_pMiniGameBasis->SetGame(true);
 		m_pMiniGameBasis->SetItemType(m_ItemType);
+		m_pMiniGameBasis->SetPlayer(m_pPlayer);
+
+		m_pPlayer->SetUpdate(true);
 	}
 }

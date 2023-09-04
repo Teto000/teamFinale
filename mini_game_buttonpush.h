@@ -15,7 +15,7 @@
 //-------------------------------
 // マクロ定義
 //-------------------------------
-#define MAX_SPEED			(1.0f)	//速度
+#define MAX_SPEED			(0.5f)	//速度
 #define MAX_BUTTONPOLYGON	(3)		//ポリゴンの数
 #define SUCCESS_RANGE		(3.0f)	//成功範囲
 
@@ -44,6 +44,8 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+
+	void GameUpdate();
 
 	//------------------
 	// 静的メンバ変数

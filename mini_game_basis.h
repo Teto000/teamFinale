@@ -17,6 +17,7 @@
 // 前方宣言
 //-------------------------------
 class CGameCenter;
+class CPlayer;
 
 //================================
 // ミニゲーム基盤クラス
@@ -53,14 +54,16 @@ public:
 	void SetParent(CGameCenter *pParent) { m_pParent = pParent; }
 	void SetItemType(CItemObj::EItemType type) { m_ItemType = type; }
 	void SetGame(bool bGame) { m_bGame = bGame; }
-	CItemObj::EItemType GetItemType() { return m_ItemType; }
+	void SetPlayer(CPlayer *player);
 
 	//------------------
 	// ゲッター
 	//------------------
+	CItemObj::EItemType GetItemType() { return m_ItemType; }
 	MiniGameType GetGameType() { return m_nType; }
 	CGameCenter *GetParent() { return m_pParent; }
 	bool GetGame() { return m_bGame; }
+	CPlayer *GetPlayer() { return m_pPlayer; }
 
 	//------------------
 	// 静的メンバ変数
@@ -74,6 +77,7 @@ private:
 	MiniGameType m_nType;					// ミニゲームの種類
 	CGameCenter *m_pParent;					// 親オブジェクト
 	CItemObj::EItemType m_ItemType;
+	CPlayer *m_pPlayer;						// プレイヤー
 	bool m_bDraw;							// 描画フラグ
 	bool m_bGame;							// ゲーム中か否か
 };

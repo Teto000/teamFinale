@@ -162,3 +162,8 @@ void CMiniGameBasis::SetScaling(float fWidth, float fHeight)
 
 	CBillBoard::SetSize(m_fWidth, m_fHeight);
 }
+
+void CMiniGameBasis::SetPlayer(CPlayer * player)
+{
+	m_pPlayer = player;
+}
