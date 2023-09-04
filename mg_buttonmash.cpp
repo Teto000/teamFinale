@@ -181,6 +181,7 @@ void CButtonMash::Update()
 			{
 				SetGame(false);
 				GetParent()->SetGame(false);
+				GetPlayer()->SetUpdate(false);
 				pPlayer = nullptr;
 			}
 		}

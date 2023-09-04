@@ -45,7 +45,7 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void GameUpdate();
+	void GameUpdate();	//ミニゲームの更新処理
 
 	//------------------
 	// 静的メンバ変数
