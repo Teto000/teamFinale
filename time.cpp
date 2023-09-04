@@ -101,7 +101,7 @@ void CTime::Update()
 		if (m_nFinTime >= 60)
 		{
 			//リザルト画面に移行
-			//CMode::GetFade()->SetFade(CMode::MODE_RESULT);
+			CMode::GetFade()->SetFade(CMode::MODE_RESULT);
 		}
 
 		//タイムを保存

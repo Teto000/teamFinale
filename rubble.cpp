@@ -302,7 +302,10 @@ void CRubble::Complete()
 	CApplication::AddStageScore(0, 100);
 
 	//‚«o‚µ‚ÌÁ‹Ž
-	m_pItemMark->Uninit();
+	if (m_pItemMark)
+	{
+		m_pItemMark->Uninit();
+	}
 }
 
 //=============================================================================
