@@ -81,6 +81,7 @@ private:
 	static CTime*		m_pTime;					//タイマー
 	static CSky*		m_pSky;						//空
 	static CMeshField*	m_pMeshField;				//メッシュフィールド
+	static CMeshField*	m_pMeshField2;				//メッシュフィールド
 	static CObjectX*	m_pObjectX[nMaxObject];		//オブジェクト
 	static CItemMark*	m_pItemMark[nMaxItemMark];	//アイテムの目印	
 	static CObjectX*	m_pObjBG[nMaxBG];			//背景オブジェクト(木)の生成

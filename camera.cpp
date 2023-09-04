@@ -294,7 +294,7 @@ void CCamera::Follow()
 		}
 
 		//ƒJƒƒ‰‚Ì‚‚³‚ð’²®
-		m_posV.y = vecF * 1.3f;
+		m_posV.y = vecF * 1.1f;
 
 		//‚‚³‚ÌÅ’á’l‚ðÝ’è
 		if (m_posV.y <= 300.0f)

@@ -41,6 +41,7 @@ CCamera*	CGame::m_pCamera = nullptr;				//カメラ
 CTime*		CGame::m_pTime = nullptr;				//タイマー
 CSky*		CGame::m_pSky = nullptr;				//空
 CMeshField*	CGame::m_pMeshField = nullptr;			//地面
+CMeshField* CGame::m_pMeshField2 = nullptr;			//地面2
 CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
 CItemMark*	CGame::m_pItemMark[nMaxItemMark] = {};	//アイテムの目印	
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
@@ -78,8 +79,12 @@ HRESULT CGame::Init()
 	//------------------------
 	m_pCamera = CCamera::Create();
 
+	m_pMeshField2 = CMeshField::Create(12.0f,5500.0f);
+	m_pMeshField2->SetPos(D3DXVECTOR3(0.0f, -5.0f, 0.0f));
+	m_pMeshField2->SetTexture(CTexture::TEXTURE_GRASS);
 	//メッシュフィールドの生成
-	m_pMeshField = CMeshField::Create(24.0f,15500.0f);
+	m_pMeshField = CMeshField::Create(12.0f,1000.0f);
+	m_pMeshField->SetTexture(CTexture::TEXTURE_GROUND);
 
 	//空の生成
 	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
@@ -296,13 +301,13 @@ void CGame::CreateWood()
 		{//左の木
 			m_pObjBG[i] = CItemObj::Create();
 			m_pObjBG[i]->SetType(22);
-			m_pObjBG[i]->SetPos(D3DXVECTOR3(-450.0f, 0.0f, 500.0f - (100.0f * i)));
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f, 0.0f, 500.0f - (100.0f * i)));
 		}
 		else if (i < 25)
 		{//右の木
 			m_pObjBG[i] = CItemObj::Create();
 			m_pObjBG[i]->SetType(22);
-			m_pObjBG[i]->SetPos(D3DXVECTOR3(450.0f, 0.0f, 500.0f - (100.0f * (i - 13))));
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(550.0f, 0.0f, 500.0f - (100.0f * (i - 13))));
 		}
 		else if (i < 38)
 		{//上の木

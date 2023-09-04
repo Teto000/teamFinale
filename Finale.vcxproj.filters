@@ -188,6 +188,9 @@
     <ClCompile Include="ItemMark.cpp">
       <Filter>Main\Object\Billboard</Filter>
     </ClCompile>
+    <ClCompile Include="calculation.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -320,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="ItemMark.h">
       <Filter>Main\Object\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="calculation.h">
+      <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

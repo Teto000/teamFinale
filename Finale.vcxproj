@@ -159,6 +159,7 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bg.cpp" />
     <ClCompile Include="billboard.cpp" />
+    <ClCompile Include="calculation.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="collision_rectangle3D.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="application.h" />
     <ClInclude Include="bg.h" />
     <ClInclude Include="billboard.h" />
+    <ClInclude Include="calculation.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="collision_rectangle3D.h" />

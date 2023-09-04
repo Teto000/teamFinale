@@ -88,7 +88,7 @@ CMeshField *CMeshField::Create(float Division, float MaxWidth)
 			
 			// ƒƒbƒVƒ…‚ÌÝ’è
 			pMeshField->SetMeshSize(Division, MaxWidth);
-			
+
 			// ‰Šú‰»
 			pMeshField->Init(D3DXVECTOR3(pos));
 		}

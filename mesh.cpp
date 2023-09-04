@@ -37,8 +37,8 @@ CMesh::CMesh(int nPriority) : CObject(nPriority)
 	m_nNumDivision = 0;		//ポリゴンの分割数
 	m_nCntVtx = 0;			//頂点の分割数
 	m_nNumVtx = 0;			//頂点数
-	m_nNumPolygon = 0;			//ポリゴン数
-	m_nNumIndex = 0;			//インデックス数
+	m_nNumPolygon = 0;		//ポリゴン数
+	m_nNumIndex = 0;		//インデックス数
 	m_fMaxWidth = 0.0f;		//メッシュフィールドの最大幅
 	m_fMeshWidth = 0.0f;	//メッシュフィールドの幅
 	m_fTexSize = 0.0f;		//テクスチャの分割サイズ
@@ -69,12 +69,12 @@ HRESULT CMesh::Init(D3DXVECTOR3 pos)
 	//----------------------------------
 	// メッシュを構成する情報の設定
 	//----------------------------------
-	m_nNumDivision = 20;				//ポリゴンの分割数
+	//m_nNumDivision = 20;				//ポリゴンの分割数
 	m_nCntVtx = m_nNumDivision + 1;		//頂点の分割数
 	m_nNumVtx = (m_nNumDivision + 1) * (m_nNumDivision + 1);							//頂点数
 	m_nNumPolygon = m_nNumDivision * m_nNumDivision * 2 + (m_nNumDivision - 1) * 4;		//ポリゴン数
 	m_nNumIndex = (m_nNumDivision + 1) * 2 * m_nNumDivision + (m_nNumDivision - 1) * 2;	//インデックス数
-	m_fMaxWidth = 5500.0f;								//メッシュフィールドの最大幅
+	//m_fMaxWidth = 5500.0f;								//メッシュフィールドの最大幅
 	m_fMeshWidth = (m_fMaxWidth / m_nNumDivision);		//メッシュフィールドの幅
 	m_fTexSize = (5.0f / m_nNumDivision);				//テクスチャの分割サイズ
 
@@ -252,7 +252,7 @@ void CMesh::Draw()
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP,	//プリミティブの種類
 								  0,
 								  0,
-								  m_nNumVtx,	//頂点数
+								  m_nNumVtx,		//頂点数
 								  0,
 								  m_nNumPolygon);	//描画するプリミティブ数
 
@@ -369,80 +369,80 @@ void CMesh::CollisionMesh()
 //===========================
 void CMesh::SetVtxNor()
 {
-	VERTEX_3D*pVtx;		//頂点情報へのポインタ
+	//VERTEX_3D*pVtx;		//頂点情報へのポインタ
 
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	////頂点バッファをロックし、頂点情報へのポインタを取得
+	//m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	//インデックスバッファのロック
-	WORD* pIdx;
-	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+	////インデックスバッファのロック
+	//WORD* pIdx;
+	//m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
-	//--------------------------
-	// 頂点の位置を取得
-	//--------------------------
-	for (int nCnt = 0; nCnt < m_nNumIndex; nCnt++)
-	{//インデックス数分回す
-		m_VtxPos[nCnt] = pVtx[pIdx[nCnt]].pos;
-		//各頂点のベクトルを格納
-		m_VtxNor[pIdx[nCnt]] = pVtx[pIdx[nCnt]].nor;
-	}
+	////--------------------------
+	//// 頂点の位置を取得
+	////--------------------------
+	//for (int nCnt = 0; nCnt < m_nNumIndex; nCnt++)
+	//{//インデックス数分回す
+	//	m_VtxPos[nCnt] = pVtx[pIdx[nCnt]].pos;
+	//	//各頂点のベクトルを格納
+	//	m_VtxNor[pIdx[nCnt]] = pVtx[pIdx[nCnt]].nor;
+	//}
 
-	//-----------------------------
-	// 頂点の法線ベクトルを設定
-	//-----------------------------
-	for (int nNumIdx = 0; nNumIdx < (m_nNumIndex - 2); nNumIdx++)
-	{
-		//ポリゴンの頂点の位置を取得
-		D3DXVECTOR3 P1 = m_VtxPos[nNumIdx + 0];
-		D3DXVECTOR3 P2 = m_VtxPos[nNumIdx + 1];
-		D3DXVECTOR3 P3 = m_VtxPos[nNumIdx + 2];
+	////-----------------------------
+	//// 頂点の法線ベクトルを設定
+	////-----------------------------
+	//for (int nNumIdx = 0; nNumIdx < (m_nNumIndex - 2); nNumIdx++)
+	//{
+	//	//ポリゴンの頂点の位置を取得
+	//	D3DXVECTOR3 P1 = m_VtxPos[nNumIdx + 0];
+	//	D3DXVECTOR3 P2 = m_VtxPos[nNumIdx + 1];
+	//	D3DXVECTOR3 P3 = m_VtxPos[nNumIdx + 2];
 
-		//縮退ポリゴンの除外
-		if (P1 == P2 || P2 == P3 || P3 == P1)
-		{
-			nNumIdx++;
-			continue;
-		}
+	//	//縮退ポリゴンの除外
+	//	if (P1 == P2 || P2 == P3 || P3 == P1)
+	//	{
+	//		nNumIdx++;
+	//		continue;
+	//	}
 
-		//-------------------------
-		// 面法線ベクトルを計算
-		//-------------------------
-		D3DXVECTOR3 V1 = P2 - P1;
-		D3DXVECTOR3 V2 = P3 - P2;
+	//	//-------------------------
+	//	// 面法線ベクトルを計算
+	//	//-------------------------
+	//	D3DXVECTOR3 V1 = P2 - P1;
+	//	D3DXVECTOR3 V2 = P3 - P2;
 
-		//外積計算(3次元)
-		D3DXVec3Cross(&m_Normal, &V1, &V2);
+	//	//外積計算(3次元)
+	//	D3DXVec3Cross(&m_Normal, &V1, &V2);
 
-		//ベクトルの正規化
-		D3DXVec3Normalize(&m_Normal, &m_Normal);
+	//	//ベクトルの正規化
+	//	D3DXVec3Normalize(&m_Normal, &m_Normal);
 
-		//-------------------------
-		// 法線の向きを揃える
-		//-------------------------
-		if (nNumIdx % 2 != 0)
-		{//奇数なら
-			m_Normal *= -1;
-		}
+	//	//-------------------------
+	//	// 法線の向きを揃える
+	//	//-------------------------
+	//	if (nNumIdx % 2 != 0)
+	//	{//奇数なら
+	//		m_Normal *= -1;
+	//	}
 
-		//-------------------------
-		// 頂点ベクトルを計算
-		//-------------------------
-		//面法線ベクトルを加算
-		m_VtxNor[pIdx[nNumIdx]] += m_Normal;
+	//	//-------------------------
+	//	// 頂点ベクトルを計算
+	//	//-------------------------
+	//	//面法線ベクトルを加算
+	//	m_VtxNor[pIdx[nNumIdx]] += m_Normal;
 
-		//ベクトルの正規化
-		D3DXVec3Normalize(&m_VtxNor[pIdx[nNumIdx]], &m_VtxNor[pIdx[nNumIdx]]);
+	//	//ベクトルの正規化
+	//	D3DXVec3Normalize(&m_VtxNor[pIdx[nNumIdx]], &m_VtxNor[pIdx[nNumIdx]]);
 
-		//ベクトルの設定
-		pVtx[pIdx[nNumIdx]].nor = m_VtxNor[pIdx[nNumIdx]];
-	}
+	//	//ベクトルの設定
+	//	pVtx[pIdx[nNumIdx]].nor = m_VtxNor[pIdx[nNumIdx]];
+	//}
 
-	//頂点バッファをアンロックする
-	m_pVtxBuff->Unlock();
+	////頂点バッファをアンロックする
+	//m_pVtxBuff->Unlock();
 
-	//インデックスバッファのアンロック
-	m_pIdxBuff->Unlock();
+	////インデックスバッファのアンロック
+	//m_pIdxBuff->Unlock();
 }
 
 //===========================
