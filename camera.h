@@ -49,6 +49,8 @@ public:
 	D3DXVECTOR3 GetInitPosV()	{ return m_initPosV; }	//視点の初期値を取得
 	D3DXVECTOR3 GetPosR()		{ return m_posR; }		//注視点を取得
 	D3DXVECTOR3 GetRot()		{ return m_rot; }		//角度を取得
+	D3DXMATRIX GetMtxProjection() { return m_mtxProjection; }
+	D3DXMATRIX GetMtxView()		{ return m_mtxView; }
 
 private:
 	void Turn();	//旋回

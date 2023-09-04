@@ -11,6 +11,7 @@
 // インクルード
 //--------------------------
 #include "object.h"
+#include "camera.h"
 
 //================================
 // ユーティリティクラスの定義
@@ -43,6 +44,9 @@ public:
 
 	//角度の正規化
 	static float GetNorRot(float rot);
+
+	static D3DXVECTOR3 ScreenCastWorld(const D3DXVECTOR3 &pos ,CCamera *pCamera);
+	static D3DXVECTOR3 WorldCastScreen(const D3DXVECTOR3 &pos,CCamera *pCamera);
 };
 
 #endif _UTILITY_H_

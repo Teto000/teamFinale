@@ -319,6 +319,26 @@ void CBillBoard::SetAnimation(float fNumber, int nPattern)
 	m_pVtxBuff->Unlock();
 }
 
+CBillBoard * CBillBoard::Create(D3DXVECTOR3 pos)
+{
+	CBillBoard *pBillBoard = nullptr;
+
+	//----------------------------------
+	// ポリゴンの生成と初期化
+	//----------------------------------
+	pBillBoard = new CBillBoard;	//生成
+
+	if (pBillBoard != nullptr)
+	{//NULLチェック
+
+	 //初期化
+		pBillBoard->Init(pos);
+		pBillBoard->SetObjType(OBJTYPE_MINIGAME);
+	}
+
+	return pBillBoard;
+}
+
 //===========================
 // 頂点座標の設定(ゲージ)
 // 引数：左、右、上、下

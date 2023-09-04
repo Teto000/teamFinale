@@ -14,6 +14,7 @@
 //#include "enemy.h"
 #include "game.h"
 #include "debug_proc.h"
+#include "renderer.h"
 
 //=======================================
 // コンストラクタ
@@ -126,4 +127,90 @@ float CUtility::GetNorRot(float rot)
 	}
 
 	return rotData;
+}
+
+//=============================================================================
+// スクリーン座標をワールド座標にキャストする
+// Author : 唐﨑結斗
+// 概要 : 
+//=============================================================================
+D3DXVECTOR3 CUtility::ScreenCastWorld(const D3DXVECTOR3 &pos,CCamera *pCamera)
+{
+	// 計算用マトリックス
+	D3DXMATRIX mtx, mtxTrans, mtxView, mtxPrj, mtxViewPort;
+
+	// 行列移動関数 (第一引数にX,Y,Z方向の移動行列を作成)
+	D3DXMatrixTranslation(&mtxTrans, pos.x, pos.y, pos.z);
+
+	// カメラのビューマトリックスの取得
+	mtxView = pCamera->GetMtxView();
+
+	// カメラのプロジェクションマトリックスの取得
+	mtxPrj = pCamera->GetMtxProjection();
+
+	// マトリックスの乗算
+	mtx = mtxTrans * mtxView * mtxPrj;
+
+	// ビューポート行列（スクリーン行列）の作成
+	float w = (float)SCREEN_WIDTH / 2.0f;
+	float h = (float)SCREEN_HEIGHT / 2.0f;
+
+	mtxViewPort = {
+		w , 0 , 0 , 0 ,
+		0 ,-h , 0 , 0 ,
+		0 , 0 , 1 , 0 ,
+		w , h , 0 , 1
+	};
+
+	// マトリックスのXYZ
+	D3DXVECTOR3 vec = D3DXVECTOR3(mtx._41, mtx._42, mtx._43);
+
+	D3DXVec3TransformCoord(&vec, &vec, &mtxViewPort);
+
+	return vec;
+}
+
+//=============================================================================
+// ワールド座標をスクリーン座標にキャストする
+// Author : 唐﨑結斗
+// 概要 : 
+//=============================================================================
+D3DXVECTOR3 CUtility::WorldCastScreen(const D3DXVECTOR3 &pos, CCamera *pCamera)
+{
+	// 計算用ベクトル
+	D3DXVECTOR3 vec = pos;
+
+	// 計算用マトリックス
+	D3DXMATRIX mtx, mtxTrans, mtxView, mtxPrj, mtxViewPort;
+
+	// 行列移動関数 (第一引数にX,Y,Z方向の移動行列を作成)
+	D3DXMatrixTranslation(&mtxTrans, pos.x, pos.y, pos.z);
+
+	// カメラのビューマトリックスの取得
+	mtxView = pCamera->GetMtxView();
+
+	// カメラのプロジェクションマトリックスの取得
+	mtxPrj = pCamera->GetMtxProjection();
+
+	// ビューポート行列（スクリーン行列）の作成
+	D3DXMatrixIdentity(&mtxViewPort);
+	float w = (float)SCREEN_WIDTH / 2.0f;
+	float h = (float)SCREEN_HEIGHT / 2.0f;
+	mtxViewPort = {
+		w , 0 , 0 , 0 ,
+		0 ,-h , 0 , 0 ,
+		0 , 0 , 1 , 0 ,
+		w , h , 0 , 1
+	};
+
+	// 逆行列の算出
+	D3DXMatrixInverse(&mtxView, NULL, &mtxView);
+	D3DXMatrixInverse(&mtxPrj, NULL, &mtxPrj);
+	D3DXMatrixInverse(&mtxViewPort, NULL, &mtxViewPort);
+
+	// 逆変換
+	mtx = mtxViewPort * mtxPrj * mtxView;
+	D3DXVec3TransformCoord(&vec, &D3DXVECTOR3(vec.x, vec.y, vec.z), &mtx);
+
+	return vec;
 }

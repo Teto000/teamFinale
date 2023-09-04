@@ -10,7 +10,7 @@
 //-------------------------------
 // インクルード
 //-------------------------------
-#include "object2d.h"
+#include "billboard.h"
 #include "itemObj.h"
 
 //-------------------------------
@@ -21,7 +21,7 @@ class CGameCenter;
 //================================
 // ミニゲーム基盤クラス
 //================================
-class CMiniGameBasis : public CObject2D
+class CMiniGameBasis : public CBillBoard
 {
 public:
 

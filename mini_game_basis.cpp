@@ -20,7 +20,7 @@
 //=======================
 // コンストラクタ
 //=======================
-CMiniGameBasis::CMiniGameBasis() : CObject2D(1)
+CMiniGameBasis::CMiniGameBasis()
 {
 	m_bDraw = false;	//描画フラグ
 }
@@ -43,13 +43,13 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 	m_fHeight = 80.0f;
 
 	//オブジェクトの初期化
-	CObject2D::Init(pos);
+	CBillBoard::Init(pos);
 
 	//大きさの設定
-	CObject2D::SetSize(m_fWidth, m_fHeight);
+	CBillBoard::SetSize(m_fWidth, m_fHeight);
 
 	//テクスチャの設定
-	CObject2D::SetTexture(CTexture::TEXTURE_NONE);
+	CBillBoard::SetTexture(CTexture::TEXTURE_NONE);
 
 	return S_OK;
 }
@@ -60,7 +60,7 @@ HRESULT CMiniGameBasis::Init(D3DXVECTOR3 pos)
 void CMiniGameBasis::Uninit()
 {
 	//オブジェクトの終了
-	CObject2D::Uninit();
+	CBillBoard::Uninit();
 }
 
 //=======================
@@ -69,7 +69,7 @@ void CMiniGameBasis::Uninit()
 void CMiniGameBasis::Update()
 {
 	//オブジェクトの更新
-	CObject2D::Update();
+	CBillBoard::Update();
 }
 
 //=======================
@@ -91,7 +91,7 @@ void CMiniGameBasis::Draw()
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	//オブジェクトの描画
-	CObject2D::Draw();
+	CBillBoard::Draw();
 
 	//アルファテストの無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -160,5 +160,5 @@ void CMiniGameBasis::SetScaling(float fWidth, float fHeight)
 	m_fWidth = fWidth;
 	m_fHeight = fHeight;
 
-	CObject2D::SetSize(m_fWidth, m_fHeight);
+	CBillBoard::SetSize(m_fWidth, m_fHeight);
 }
