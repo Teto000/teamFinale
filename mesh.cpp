@@ -69,12 +69,15 @@ HRESULT CMesh::Init(D3DXVECTOR3 pos)
 	//----------------------------------
 	// メッシュを構成する情報の設定
 	//----------------------------------
+	m_nNumDivision = 20;				//ポリゴンの分割数
 	m_nCntVtx = m_nNumDivision + 1;		//頂点の分割数
 	m_nNumVtx = (m_nNumDivision + 1) * (m_nNumDivision + 1);							//頂点数
 	m_nNumPolygon = m_nNumDivision * m_nNumDivision * 2 + (m_nNumDivision - 1) * 4;		//ポリゴン数
 	m_nNumIndex = (m_nNumDivision + 1) * 2 * m_nNumDivision + (m_nNumDivision - 1) * 2;	//インデックス数
+	m_fMaxWidth = 5500.0f;								//メッシュフィールドの最大幅
 	m_fMeshWidth = (m_fMaxWidth / m_nNumDivision);		//メッシュフィールドの幅
 	m_fTexSize = (5.0f / m_nNumDivision);				//テクスチャの分割サイズ
+
 
 	//----------------------------------
 	// 頂点バッファの生成
@@ -137,35 +140,32 @@ HRESULT CMesh::Init(D3DXVECTOR3 pos)
 	//----------------------------------
 	int nCnt = 0;
 
-	for (int Z = 0; Z < m_nNumDivision; Z++)
+	// インデックスの設定
+	for (int nCntZ = 0; nCntZ < m_nNumDivision; nCntZ++)
 	{
-		for (int X = 0; X < m_nCntVtx; X++)
-		{
-			//インデックスバッファの設定
-			pIdx[nCnt] = (WORD(X + Z * (m_nCntVtx) + (m_nCntVtx)));
-			pIdx[nCnt + 1] = (WORD(X + Z * (m_nCntVtx)));
+		for (int nCntX = 0; nCntX < (m_nNumDivision + 1); nCntX++)
+		{// インデックス数の設定
+			pIdx[0] = (WORD)((m_nNumDivision + 1) + nCntX + nCntZ * (m_nNumDivision + 1));
+			pIdx[1] = (WORD)((m_nNumDivision + 1) + nCntX + nCntZ * (m_nNumDivision + 1) - (m_nNumDivision + 1));
 
-			nCnt += 2;
+			pIdx += 2;
+		}
 
-			//縮退ポリゴンの追加
-			if (X == m_nNumDivision)
-			{
-				pIdx[nCnt] = (WORD)(X + Z * m_nCntVtx);
-				pIdx[nCnt + 1] = (WORD)((Z + 2) * m_nCntVtx);
+		if (nCntZ != m_nNumDivision - 1)
+		{// 最大数以下の時
+		 // 縮退ポリゴンインデックス数の設定
+			pIdx[0] = (WORD)((m_nNumDivision + 1) * nCntZ + m_nNumDivision);
+			pIdx[1] = (WORD)((m_nNumDivision + 1) * (nCntZ + 2));
 
-				nCnt += 2;
-			}
+			pIdx += 2;
 		}
 	}
 
-	//頂点の法線を設定
-	SetVtxNor(pVtx, pIdx);
-
-	pVtx += m_nNumVtx;
-	pIdx += m_nNumIndex;
-
 	//インデックスバッファのアンロック
 	m_pIdxBuff->Unlock();
+
+	//頂点の法線を設定
+	SetVtxNor();
 
 	return S_OK;
 }
@@ -367,8 +367,17 @@ void CMesh::CollisionMesh()
 //===========================
 // 頂点の法線を設定
 //===========================
-void CMesh::SetVtxNor(VERTEX_3D* pVtx, WORD* pIdx)
+void CMesh::SetVtxNor()
 {
+	VERTEX_3D*pVtx;		//頂点情報へのポインタ
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//インデックスバッファのロック
+	WORD* pIdx;
+	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+
 	//--------------------------
 	// 頂点の位置を取得
 	//--------------------------
@@ -428,6 +437,12 @@ void CMesh::SetVtxNor(VERTEX_3D* pVtx, WORD* pIdx)
 		//ベクトルの設定
 		pVtx[pIdx[nNumIdx]].nor = m_VtxNor[pIdx[nNumIdx]];
 	}
+
+	//頂点バッファをアンロックする
+	m_pVtxBuff->Unlock();
+
+	//インデックスバッファのアンロック
+	m_pIdxBuff->Unlock();
 }
 
 //===========================
@@ -437,6 +452,16 @@ void CMesh::SetMeshSize(int nDivision, float fWidth)
 {
 	m_nNumDivision = nDivision;	//ポリゴンの分割数の設定
 	m_fMaxWidth = fWidth;		//メッシュフィールドの最大幅の設定
+
+	//----------------------------
+	// メッシュの情報の再設定
+	//----------------------------
+	m_nCntVtx = m_nNumDivision + 1;		//頂点の分割数
+	m_nNumVtx = (m_nNumDivision + 1) * (m_nNumDivision + 1);							//頂点数
+	m_nNumPolygon = m_nNumDivision * m_nNumDivision * 2 + (m_nNumDivision - 1) * 4;		//ポリゴン数
+	m_nNumIndex = (m_nNumDivision + 1) * 2 * m_nNumDivision + (m_nNumDivision - 1) * 2;	//インデックス数
+	m_fMeshWidth = (m_fMaxWidth / m_nNumDivision);		//メッシュフィールドの幅
+	m_fTexSize = (1.0f / m_nNumDivision);				//テクスチャの分割サイズ
 }
 
 //===========================
