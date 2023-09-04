@@ -57,7 +57,8 @@ public:
 	void Update() override;															// 更新
 	void Draw() override;															// 描画
 	void Stack(CItemObj *pTarget);													// 積み重ね
-	CItemObj* SearchChild();																// 子供の検索
+	CItemObj* SearchChild();														// 子供の検索
+	CItemObj* SearchChild(int &count);												// 子供の検索
 	void SetParent(CModel3D *pParent);												// 親の設定
 	void SetParent();																// 親の設定解除
 	void SetParentItem(CObject *pParentItem) { m_pParentItem = pParentItem; }		// 親の設定

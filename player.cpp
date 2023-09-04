@@ -823,7 +823,7 @@ void CPlayer::LimitMove(D3DXVECTOR3 pos)
 	//--------------------------
 	if (CMode::GetMode() == CMode::MODE_GAME)
 	{//ÉQÅ[ÉÄâÊñ Ç»ÇÁ
-		fValue = 400.0f;
+		fValue = 500.0f;
 
 		if (m_bPast)
 		{//âﬂãéÇ…Ç¢ÇÈÇ»ÇÁ

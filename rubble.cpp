@@ -19,6 +19,7 @@
 #include "model3D.h"
 #include "collision_rectangle3D.h"
 #include "line.h"
+#include "ItemMark.h"
 
 //=============================================================================
 // インスタンス生成
@@ -50,7 +51,8 @@ CRubble * CRubble::Create()
 //=============================================================================
 CRubble::CRubble() : m_nRequired(0),		// 修理数
 m_nCntRequired(0),
-m_bComplete(false)
+m_bComplete(false),
+m_pItemMark(nullptr)
 {
 	// 修理の初期化
 	m_repair.clear();
@@ -167,6 +169,18 @@ void CRubble::SetBuildType(EBuildType buildType)
 		SetType(21);
 		break;
 
+	case CRubble::TYPE_SLIDE:
+		SetType(27);
+		break;
+
+	case CRubble::TYPE_SWING:
+		SetType(29);
+		break;
+
+	case CRubble::TYPE_SEESAW:
+		SetType(31);
+		break;
+
 	default:
 		assert(false);
 		break;
@@ -198,17 +212,24 @@ void CRubble::Collision()
 				if (pCollidedObj != nullptr
 					&& pCollidedObj->GetItemType() == m_repair.at(nCnt).type)
 				{
+					int nCntTintinn = 0;
 					CItemObj *pChild = pCollidedObj->SearchChild();
+					pCollidedObj->SearchChild(nCntTintinn);
 
 					CItemObj *pParent = (CItemObj*)pChild->GetParentItem();
-					
+
 					if (pParent != nullptr)
 					{
 						pParent->SetChildItem();
 					}
 
-					pChild->Uninit();
-					pChild = nullptr;
+					if(pChild != nullptr)
+					{
+						pChild->Uninit();
+						pChild = nullptr;
+					}
+
+					pCollidedObj->SearchChild(nCntTintinn);
 
 					m_repair.at(nCnt).nCutRequired++;
 
@@ -240,6 +261,18 @@ void CRubble::Complete()
 		SetType(20);
 		break;
 
+	case CRubble::TYPE_SLIDE:
+		SetType(26);
+		break;
+
+	case CRubble::TYPE_SWING:
+		SetType(28);
+		break;
+
+	case CRubble::TYPE_SEESAW:
+		SetType(30);
+		break;
+
 	default:
 		assert(false);
 		break;
@@ -247,6 +280,9 @@ void CRubble::Complete()
 
 	//ステージにスコアを加算(0番目のステージに100加算)
 	CApplication::AddStageScore(0, 100);
+
+	//吹き出しの消去
+	m_pItemMark->Uninit();
 }
 
 //=============================================================================
@@ -267,4 +303,16 @@ void CRubble::SetLine()
 	m_pLine[1]->SetLine(pos, rot, D3DXVECTOR3(-size.x, -size.y, -size.z), D3DXVECTOR3(-size.x, -size.y, size.z), col);
 	m_pLine[2]->SetLine(pos, rot, D3DXVECTOR3(-size.x, -size.y, -size.z), D3DXVECTOR3(size.x, -size.y, -size.z), col);
 	m_pLine[3]->SetLine(pos, rot, D3DXVECTOR3(size.x, -size.y, -size.z), D3DXVECTOR3(size.x, -size.y, size.z), col);
+}
+
+//=============================================================================
+// 吹き出しの設置
+// Author : Sato Teruto
+// 概要 : アイテムを直すのに必要な数を表示
+//=============================================================================
+void CRubble::SetMark(D3DXVECTOR3 pos, CTexture::NUM_TEXTURE tex)
+{
+	m_pItemMark = CItemMark::Create(pos);
+	m_pItemMark->SetSize(100.0f, 100.0f);
+	m_pItemMark->SetTexture(tex);
 }

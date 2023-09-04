@@ -227,6 +227,34 @@ CItemObj* CItemObj::SearchChild()
 	return pItem;
 }
 
+CItemObj * CItemObj::SearchChild(int &count)
+{
+	int nCntItem = 0;
+
+	// e‚Ìİ’è
+	CItemObj *pItem = this;
+	CItemObj *pItemNext = nullptr;
+
+	while (1)
+	{
+		pItemNext = (CItemObj*)pItem->GetChildItem();
+
+		if (pItemNext != nullptr)
+		{
+			pItem = pItemNext;
+			nCntItem++;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	count = nCntItem;
+
+	return pItem;
+}
+
 //=============================================================================
 // eƒ‚ƒfƒ‹‚Ìİ’è
 // Author : “‚ú±Œ‹“l

@@ -46,6 +46,7 @@ CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
 CItemMark*	CGame::m_pItemMark[nMaxItemMark] = {};	//アイテムの目印	
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
+CRubble*	CGame::m_pRubble[nMaxRubble] = {};
 
 //===========================
 // コンストラクタ
@@ -230,15 +231,27 @@ void CGame::CreateObj()
 	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
 
 	//壊れた東屋
-	m_pObjectX[2] = CItemObj::Create();
-	m_pObjectX[2]->SetType(19);
-	m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
-	m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	m_pRubble[0] = CRubble::Create();
+	m_pRubble[0]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+	m_pRubble[0]->SetBuildType(CRubble::TYPE_PAVILION);
+	pCollision = m_pRubble[0]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(90.0f, 90.0f, 90.0f));
+	m_pRubble[0]->SetRequired(1);
+	std::vector<CRubble::REPAIR> repair;
+	repair.clear();
+	repair.resize(m_pRubble[0]->GetRequired());
+	repair.at(0).type = CItemObj::TYPE_WOOD;
+	repair.at(0).nRequired = 1;
+	m_pRubble[0]->SetRepair(repair);
 
 	//東屋を直すのに必要なアイテムの目印
-	m_pItemMark[0] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
-	m_pItemMark[0]->SetSize(100.0f, 100.0f);
-	m_pItemMark[0]->SetTexture(CTexture::TEXTURE_FUKIDASI);
+	m_pRubble[0]->SetMark(D3DXVECTOR3(-200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
+
+	//m_pObjectX[2] = CItemObj::Create();
+	//m_pObjectX[2]->SetType(19);
+	//m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
+	//m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
 
 	/*pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(19);
@@ -261,30 +274,139 @@ void CGame::CreateObj()
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
 
-	CRubble *pRubble = CRubble::Create();
-	pRubble->SetPos(D3DXVECTOR3(200.0f, 0.0f, 200.0f));
-	pRubble->SetBuildType(CRubble::TYPE_FOUNTAIN);
-	pCollision = pRubble->GetCollision();
+	//壊れた噴水
+	m_pRubble[1] = CRubble::Create();
+	m_pRubble[1]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 200.0f));
+	m_pRubble[1]->SetBuildType(CRubble::TYPE_FOUNTAIN);
+	pCollision = m_pRubble[1]->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
-	pRubble->SetRequired(1);
-	std::vector<CRubble::REPAIR> repair;
+	m_pRubble[1]->SetRequired(1);
 	repair.clear();
-	repair.resize(pRubble->GetRequired());
+	repair.resize(m_pRubble[1]->GetRequired());
 	repair.at(0).type = CItemObj::TYPE_WOOD;
 	repair.at(0).nRequired = 4;
-	pRubble->SetRepair(repair);
+	m_pRubble[1]->SetRepair(repair);
 
 	//噴水を直すのに必要なアイテムの目印
-	m_pItemMark[1] = CItemMark::Create(D3DXVECTOR3(200.0f, 130.0f, 200.0f));
-	m_pItemMark[1]->SetSize(100.0f, 100.0f);
-	m_pItemMark[1]->SetTexture(CTexture::TEXTURE_FUKIDASI4);
+	m_pRubble[1]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 200.0f), CTexture::TEXTURE_FUKIDASI4);
 
 	//壊れた噴水
 	/*m_pObjectX[3] = CItemObj::Create();
 	m_pObjectX[3]->SetType(21);
 	m_pObjectX[3]->SetObjType(CObject::OBJTYPE_FOUNTAIN_BREAK);
 	m_pObjectX[3]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -100.0f));*/
+
+	//-----------------------------------
+	// オブジェクトの生成(滑り台)
+	//-----------------------------------
+	//綺麗な滑り台
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(26);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(-200.0f + fPastPosX, 0.0f, 0.0f));
+	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(140.0f, 90.0f, 50.0f));
+
+	//壊れた滑り台
+	m_pRubble[2] = CRubble::Create();
+	m_pRubble[2]->SetPos(D3DXVECTOR3(200.0f, 0.0f, 0.0f));
+	m_pRubble[2]->SetBuildType(CRubble::TYPE_SLIDE);
+	pCollision = m_pRubble[2]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 30.0f));
+	pCollision->SetSize(D3DXVECTOR3(140.0f, 90.0f, 50.0f));
+	m_pRubble[2]->SetRequired(1);
+	repair.clear();
+	repair.resize(m_pRubble[2]->GetRequired());
+	repair.at(0).type = CItemObj::TYPE_WOOD;
+	repair.at(0).nRequired = 1;
+	m_pRubble[2]->SetRepair(repair);
+
+	//m_pObjectX[4] = CItemObj::Create();
+	//m_pObjectX[4]->SetType(27);
+	//m_pObjectX[4]->SetObjType(CObject::OBJTYPE_SLIDE_BREAK);
+	//m_pObjectX[4]->SetPos(D3DXVECTOR3(200.0f, 0.0f, -50.0f));
+
+	//滑り台を直すのに必要なアイテムの目印
+	//m_pItemMark[2] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
+	//m_pItemMark[2]->SetSize(100.0f, 100.0f);
+	//m_pItemMark[2]->SetTexture(CTexture::TEXTURE_FUKIDASI);
+
+	//-----------------------------------
+	// オブジェクトの生成(ブランコ)
+	//-----------------------------------
+	//綺麗なブランコ
+	pGameCenter = CGameCenter::Create();
+	pGameCenter->SetType(28);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetPos(D3DXVECTOR3(-200.0f + fPastPosX, 0.0f, 400.0f));
+	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
+	pCollision = pGameCenter->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(-5.0f, 25.0f, 0.0f));
+	pCollision->SetSize(D3DXVECTOR3(165.0f, 90.0f, 130.0f));
+
+	//壊れたブランコ
+	m_pRubble[3] = CRubble::Create();
+	m_pRubble[3]->SetPos(D3DXVECTOR3(-300.0f, 0.0f, 300.0f));
+	m_pRubble[3]->SetBuildType(CRubble::TYPE_SWING);
+	pCollision = m_pRubble[3]->GetCollision();
+	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 30.0f));
+	pCollision->SetSize(D3DXVECTOR3(165.0f, 90.0f, 130.0f));
+	m_pRubble[3]->SetRequired(1);
+	repair.clear();
+	repair.resize(m_pRubble[3]->GetRequired());
+	repair.at(0).type = CItemObj::TYPE_WOOD;
+	repair.at(0).nRequired = 1;
+	m_pRubble[3]->SetRepair(repair);
+
+	//m_pObjectX[5] = CItemObj::Create();
+	//m_pObjectX[5]->SetType(29);
+	//m_pObjectX[5]->SetObjType(CObject::OBJTYPE_SWING_BREAK);
+	//m_pObjectX[5]->SetPos(D3DXVECTOR3(-300.0f, 0.0f, 300.0f));
+
+	//ブランコを直すのに必要なアイテムの目印
+	//m_pItemMark[2] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
+	//m_pItemMark[2]->SetSize(100.0f, 100.0f);
+	//m_pItemMark[2]->SetTexture(CTexture::TEXTURE_FUKIDASI);
+
+	//-----------------------------------
+	// オブジェクトの生成(シーソー)
+	//-----------------------------------
+	//綺麗なシーソー
+	//pGameCenter = CGameCenter::Create();
+	//pGameCenter->SetType(30);
+	//pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	//pGameCenter->SetPos(D3DXVECTOR3(-250.0f + fPastPosX, 0.0f, 200.0f));
+	//pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
+	//pCollision = pGameCenter->GetCollision();
+	//pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
+	//pCollision->SetSize(D3DXVECTOR3(270.0f, 90.0f, 30.0f));
+
+	////壊れたシーソー
+	//m_pRubble[4] = CRubble::Create();
+	//m_pRubble[4]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, -250.0f));
+	//m_pRubble[4]->SetBuildType(CRubble::TYPE_SEESAW);
+	//pCollision = m_pRubble[4]->GetCollision();
+	//pCollision->SetPos(D3DXVECTOR3(5.0f, 25.0f, 0.0f));
+	//pCollision->SetSize(D3DXVECTOR3(280.0f, 90.0f, 80.0f));
+	//m_pRubble[4]->SetRequired(1);
+	//repair.clear();
+	//repair.resize(m_pRubble[4]->GetRequired());
+	//repair.at(0).type = CItemObj::TYPE_WOOD;
+	//repair.at(0).nRequired = 1;
+	//m_pRubble[4]->SetRepair(repair);
+
+	//m_pObjectX[6] = CItemObj::Create();
+	//m_pObjectX[6]->SetType(31);
+	//m_pObjectX[6]->SetObjType(CObject::OBJTYPE_SEESAW_BREAK);
+	//m_pObjectX[6]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, -250.0f));
+
+	//シーソーを直すのに必要なアイテムの目印
+	//m_pItemMark[2] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
+	//m_pItemMark[2]->SetSize(100.0f, 100.0f);
+	//m_pItemMark[2]->SetTexture(CTexture::TEXTURE_FUKIDASI);
 
 	//木の生成
 	CreateWood();
@@ -313,13 +435,13 @@ void CGame::CreateWood()
 		{//上の木
 			m_pObjBG[i] = CItemObj::Create();
 			m_pObjBG[i]->SetType(22);
-			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 26)), 0.0f, 450.0f));
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 26)), 0.0f, 550.0f));
 		}
 		else if (i < 51)
 		{//下の木
 			m_pObjBG[i] = CItemObj::Create();
 			m_pObjBG[i]->SetType(22);
-			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 39)), 0.0f, -450.0f));
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 39)), 0.0f, -550.0f));
 		}
 	}
 }

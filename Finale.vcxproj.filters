@@ -317,12 +317,14 @@
       <Filter>Main\Object\X</Filter>
     </ClInclude>
     <ClInclude Include="mode.h" />
-    <ClInclude Include="rubble.h" />
     <ClInclude Include="billboard.h">
       <Filter>Main\Object\Billboard</Filter>
     </ClInclude>
     <ClInclude Include="ItemMark.h">
       <Filter>Main\Object\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="rubble.h">
+      <Filter>Main\Object\X</Filter>
     </ClInclude>
     <ClInclude Include="calculation.h">
       <Filter>Main\Application</Filter>

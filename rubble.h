@@ -14,11 +14,13 @@
 #include <vector>
 #include "objectX.h"
 #include "itemObj.h"
+#include "texture.h"
 
 //--------------------------------
 // 前方宣言
 //--------------------------------
 class CLine;
+class CItemMark;
 
 //=============================================================================
 // モデルオブジェクトクラス
@@ -47,6 +49,9 @@ public:
 		TYPE_NONE = 0,
 		TYPE_PAVILION,
 		TYPE_FOUNTAIN,
+		TYPE_SLIDE,
+		TYPE_SWING,
+		TYPE_SEESAW,
 		MAX_TYPE,
 	};
 
@@ -71,6 +76,7 @@ public:
 	void SetRepair(std::vector<REPAIR> repair) { m_repair = repair; }
 	void SetRequired(int nRequired) { m_nRequired = nRequired; }
 	void SetBuildType(EBuildType buildType);
+	void SetMark(D3DXVECTOR3 pos, CTexture::NUM_TEXTURE tex);	// 吹き出しの生成
 	int GetRequired() { return m_nRequired; }
 
 private:
@@ -88,6 +94,7 @@ private:
 	CLine **m_pLine;						// ライン情報
 	D3DXCOLOR m_lineCol;					// ラインの色
 	EBuildType m_buildType;					// 建物のタイプ
+	CItemMark* m_pItemMark;					// 吹き出し
 	int m_nRequired;						// 修理数
 	int m_nCntRequired;						// 修理数カウント
 	bool m_bComplete;						// 完了Flag
