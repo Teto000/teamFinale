@@ -240,15 +240,13 @@ void CGame::CreateObj()
 	repair.at(0).nRequired = 1;
 	m_pRubble[0]->SetRepair(repair);
 
+	//東屋を直すのに必要なアイテムの目印
+	m_pRubble[0]->SetMark(D3DXVECTOR3(-200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
+
 	//m_pObjectX[2] = CItemObj::Create();
 	//m_pObjectX[2]->SetType(19);
 	//m_pObjectX[2]->SetObjType(CObject::OBJTYPE_PAVILION_BREAK);
 	//m_pObjectX[2]->SetPos(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
-
-	//東屋を直すのに必要なアイテムの目印
-	m_pItemMark[0] = CItemMark::Create(D3DXVECTOR3(-200.0f, 130.0f, 0.0f));
-	m_pItemMark[0]->SetSize(100.0f, 100.0f);
-	m_pItemMark[0]->SetTexture(CTexture::TEXTURE_FUKIDASI);
 
 	/*pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(19);
@@ -286,9 +284,7 @@ void CGame::CreateObj()
 	m_pRubble[1]->SetRepair(repair);
 
 	//噴水を直すのに必要なアイテムの目印
-	m_pItemMark[1] = CItemMark::Create(D3DXVECTOR3(200.0f, 130.0f, 200.0f));
-	m_pItemMark[1]->SetSize(100.0f, 100.0f);
-	m_pItemMark[1]->SetTexture(CTexture::TEXTURE_FUKIDASI4);
+	m_pRubble[1]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 200.0f), CTexture::TEXTURE_FUKIDASI4);
 
 	//壊れた噴水
 	/*m_pObjectX[3] = CItemObj::Create();
