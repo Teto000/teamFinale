@@ -82,7 +82,7 @@ HRESULT CGame::Init()
 
 	m_pMeshField2 = CMeshField::Create(12.0f,5500.0f);
 	m_pMeshField2->SetPos(D3DXVECTOR3(0.0f, -5.0f, 0.0f));
-	m_pMeshField2->SetTexture(CTexture::TEXTURE_GRASS);
+	m_pMeshField2->SetTexture(CTexture::TEXTURE_GROUND);
 	//メッシュフィールドの生成
 	m_pMeshField = CMeshField::Create(12.0f,1000.0f);
 	m_pMeshField->SetTexture(CTexture::TEXTURE_GROUND);
