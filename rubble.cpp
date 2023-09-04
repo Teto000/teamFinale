@@ -138,6 +138,26 @@ void CRubble::Update()
 			m_bComplete = true;
 			Complete();
 		}
+		else
+		{
+			// 修正完了に必要な残りアイテム量を計算
+			int nRest = m_repair.at(0).nRequired - m_repair.at(0).nCutRequired;
+
+			// テクスチャの更新
+			switch (nRest)
+			{
+			case 4:
+				m_pItemMark->SetTexture(CTexture::TEXTURE_FUKIDASI4);
+				break;
+
+			case 3:
+				m_pItemMark->SetTexture(CTexture::TEXTURE_FUKIDASI);
+				break;
+
+			default:
+				break;
+			}
+		}
 	}
 }
 
