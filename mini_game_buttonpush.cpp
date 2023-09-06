@@ -247,29 +247,11 @@ void CButtonPushGame::GameUpdate()
 
 			//プレイヤーをゲーム中状態から解除する
 			CGame *pGame = CMode::GetGame();
-			CItemObj *pPlayerItem = pPlayer->GetMyItem();
-
-			if (pPlayerItem == nullptr)
-			{// アイテムを取得していない
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetItemType(GetItemType());
-
-				pPlayer->Retention(pItem);
-			}
-			else if (pPlayerItem != nullptr)
-			{
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(GetItemType());
-				pPlayerItem->Stack(pItem);
-			}
 
 			//プレイヤーがミニゲームを終了する時
 			if (GetGame())
 			{
 				SetGame(false);
-				GetParent()->SetGame(false);
-				GetPlayer()->SetUpdate(false);
-				pPlayer = nullptr;
 			}
 		}
 		else
@@ -296,29 +278,11 @@ void CButtonPushGame::GameUpdate()
 
 			//プレイヤーをゲーム中状態から解除する
 			CGame *pGame = CMode::GetGame();
-			CItemObj *pPlayerItem = pPlayer->GetMyItem();
-
-			if (pPlayerItem == nullptr)
-			{// アイテムを取得していない
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetItemType(GetItemType());
-
-				pPlayer->Retention(pItem);
-			}
-			else if (pPlayerItem != nullptr)
-			{
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(GetItemType());
-				pPlayerItem->Stack(pItem);
-			}
 
 			//プレイヤーがミニゲームを終了する時
 			if (GetGame())
 			{
 				SetGame(false);
-				GetParent()->SetGame(false);
-				GetPlayer()->SetUpdate(false);
-				pPlayer = nullptr;
 			}
 		}
 		else

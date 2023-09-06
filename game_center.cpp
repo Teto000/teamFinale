@@ -102,6 +102,37 @@ void CGameCenter::Update()
 {
 	// モデルオブジェクトの更新
 	CObjectX::Update();
+
+	if (m_pMiniGameBasis == nullptr)
+	{
+		return;
+	}
+
+	if (!m_pMiniGameBasis->GetGame())
+	{
+		CItemObj *pPlayerItem = m_pPlayer->GetMyItem();
+
+		if (pPlayerItem == nullptr)
+		{// アイテムを取得していない
+			CItemObj *pItem = CItemObj::Create();
+			pItem->SetItemType(m_ItemType);
+
+			m_pPlayer->Retention(pItem);
+		}
+		else if (pPlayerItem != nullptr)
+		{
+			CItemObj *pItem = CItemObj::Create();
+			pItem->SetItemType(m_ItemType);
+			pPlayerItem->Stack(pItem);
+		}
+
+		SetGame(false);
+		m_pPlayer->SetUpdate(false);
+		m_pPlayer = nullptr;
+		m_pMiniGameBasis->Uninit();
+		m_pMiniGameBasis = nullptr;
+		m_bGame = false;
+	}
 }
 
 //=============================================================================
@@ -117,6 +148,11 @@ void CGameCenter::Draw()
 
 void CGameCenter::SetGame(bool bGame)
 {
+	if (m_bGame)
+	{
+		return;
+	}
+
 	m_bGame = bGame;
 
 	if (m_bGame && m_EMiniGameType != CMiniGameBasis::TYPE_NULL)
