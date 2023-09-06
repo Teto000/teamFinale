@@ -56,7 +56,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//‰Šú’l‚ÌÝ’è
 	m_pos = pos;		//ˆÊ’u
-	m_nTime = 5;		//‰ŠúŽžŠÔ
+	m_nTime = 90;		//‰ŠúŽžŠÔ
 	fInterval = 50.0f;	//”’l‚ÌŠÔŠu
 
 	//------------------------------
