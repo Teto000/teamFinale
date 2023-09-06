@@ -17,6 +17,7 @@
 //-------------------------------
 class CNumber;	//数値
 class CObject2D;
+class CMessage;
 
 //================================
 // タイマークラス
@@ -80,8 +81,7 @@ private:
 	float fInterval;				//数値の間隔
 	bool m_bCntTime;				//時間を数える状態
 	CNumber* m_pNumber[nMaxDigits];	//数値
-
-	CObject2D* m_pObject;	//Finish文字
+	CMessage* m_pMessage;
 };
 
 #endif
