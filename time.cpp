@@ -17,6 +17,7 @@
 #include "input_keyboard.h"
 #include "mode.h"
 #include "fade.h"
+#include "message.h"
 
 //=======================
 // コンストラクタ
@@ -31,8 +32,7 @@ CTime::CTime() : CObject(1)
 	m_nCntFream = 0;			//フレーム数のカウント
 	fInterval = 0.0f;			//数値の間隔
 	m_bCntTime = false;			//時間を数える状態
-
-	m_pObject = nullptr;
+	m_pMessage = nullptr;
 
 	for (int i = 0; i < nMaxDigits; i++)
 	{
@@ -56,11 +56,8 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
-	m_nTime = 90;		//初期時間
+	m_nTime = 5;		//初期時間
 	fInterval = 50.0f;	//数値の間隔
-
-	m_pObject = CObject2D::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	m_pObject->SetTexture(CTexture::TEXTURE_FINISH);
 
 	//------------------------------
 	// 数値の設定
@@ -95,7 +92,6 @@ void CTime::Update()
 {
 	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲームが終了しているなら
-		m_pObject->SetSize(800.0f, 200.0f);
 		m_nFinTime++;
 
 		if (m_nFinTime >= 60)
@@ -129,6 +125,10 @@ void CTime::Update()
 			if (m_nTime <= 0)
 			{
 				CGame::SetFinish(true);
+
+				m_pMessage = CMessage::Create(
+					D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
+					, 800.0f, 200.0f);
 			}
 		}
 	}

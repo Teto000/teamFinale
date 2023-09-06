@@ -191,6 +191,9 @@
     <ClCompile Include="calculation.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="message.cpp">
+      <Filter>Main\Object\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="calculation.h">
       <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>Main\Object\2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
