@@ -131,8 +131,6 @@ void CRubble::Update()
 
 	if (!m_bComplete)
 	{
-		Collision();
-
 		if (m_nCntRequired == m_nRequired)
 		{
 			m_bComplete = true;
@@ -207,61 +205,44 @@ void CRubble::SetBuildType(EBuildType buildType)
 	}
 }
 
-void CRubble::Collision()
+void CRubble::Repair(CItemObj *pItem)
 {
-	// 当たり判定の取得
-	CCollision_Rectangle3D *pCollision = GetCollision();
-	pCollision->Collision(CObject::OBJTYPE_ITEM, false);
+	CItemObj *pPlayerItem = pItem;
 
-	// 当たったオブジェクトのリストを取得
-	std::vector<CObject*> apCollidedObj = pCollision->GetCollidedObj();
-
-	if (apCollidedObj.size() > 0)
-	{// 当たったオブジェクトとの処理
-		for (int nCntObj = 0; nCntObj < apCollidedObj.size(); nCntObj++)
+	for (int nCnt = 0; nCnt < m_nRequired; nCnt++)
+	{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得 
+		if (m_repair.at(nCnt).bCompletion)
 		{
-			CItemObj *pCollidedObj = (CItemObj*)apCollidedObj.at(nCntObj);
+			return;
+		}
 
-			for (int nCnt = 0; nCnt < m_nRequired; nCnt++)
-			{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得 
-				if (m_repair.at(nCnt).bCompletion)
-				{
-					return;
-				}
+		if (pPlayerItem != nullptr
+			&& pPlayerItem->GetItemType() == m_repair.at(nCnt).type)
+		{
+			CItemObj *pChild = pPlayerItem->SearchChild();
 
-				if (pCollidedObj != nullptr
-					&& pCollidedObj->GetItemType() == m_repair.at(nCnt).type)
-				{
-					int nCntTintinn = 0;
-					CItemObj *pChild = pCollidedObj->SearchChild();
-					pCollidedObj->SearchChild(nCntTintinn);
+			CItemObj *pParent = (CItemObj*)pChild->GetParentItem();
 
-					CItemObj *pParent = (CItemObj*)pChild->GetParentItem();
-
-					if (pParent != nullptr)
-					{
-						pParent->SetChildItem();
-					}
-
-					if(pChild != nullptr)
-					{
-						pChild->Uninit();
-						pChild = nullptr;
-					}
-
-					pCollidedObj->SearchChild(nCntTintinn);
-
-					m_repair.at(nCnt).nCutRequired++;
-
-					if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
-					{
-						m_repair.at(nCnt).bCompletion = true;
-						m_nCntRequired++;
-					}
-
-					break;
-				}
+			if (pParent != nullptr)
+			{
+				pParent->SetChildItem();
 			}
+
+			if (pChild != nullptr)
+			{
+				pChild->Uninit();
+				pChild = nullptr;
+			}
+
+			m_repair.at(nCnt).nCutRequired++;
+
+			if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
+			{
+				m_repair.at(nCnt).bCompletion = true;
+				m_nCntRequired++;
+			}
+
+			break;
 		}
 	}
 }

@@ -31,6 +31,7 @@
 #include "fade.h"
 #include "line.h"
 #include "game_center.h"
+#include "rubble.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -242,6 +243,23 @@ void CPlayer::Update()
 					{
 						pGameCenter->SetPlayer(this);
 						pGameCenter->SetGame(true);
+					}
+				}
+				else if (m_pMyItem != nullptr
+					&& pCollidedObj->GetObjType() == CObject::OBJTYPE_BREAK)
+				{// ゲームセンターに触れている
+					CRubble *pRubble = (CRubble*)pCollidedObj;
+
+					if (CInputKeyboard::Trigger(DIK_SPACE))
+					{
+						int nCntChild = 0;
+						m_pMyItem->SearchChild(nCntChild);
+						pRubble->Repair(m_pMyItem);
+
+						if (nCntChild == 1)
+						{
+							m_pMyItem = nullptr;
+						}
 					}
 				}
 #endif // _DEBUG

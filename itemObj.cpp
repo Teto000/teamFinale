@@ -238,12 +238,12 @@ CItemObj * CItemObj::SearchChild(int &count)
 
 	while (1)
 	{
+		nCntItem++;
 		pItemNext = (CItemObj*)pItem->GetChildItem();
 
 		if (pItemNext != nullptr)
 		{
 			pItem = pItemNext;
-			nCntItem++;
 		}
 		else
 		{
