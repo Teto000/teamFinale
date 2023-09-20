@@ -51,6 +51,7 @@ public:
 		TEXTURE_FUKIDASI2,		//吹き出し(2)
 		TEXTURE_FUKIDASI3,		//吹き出し(3)
 		TEXTURE_FUKIDASI4,		//吹き出し(4)
+		TEXTURE_CLOCK,			//時計盤
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字
