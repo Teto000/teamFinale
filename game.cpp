@@ -43,7 +43,6 @@ CSky*		CGame::m_pSky = nullptr;				//空
 CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 CMeshField* CGame::m_pMeshField2 = nullptr;			//地面2
 CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
-CItemMark*	CGame::m_pItemMark[nMaxItemMark] = {};	//アイテムの目印	
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 CRubble*	CGame::m_pRubble[nMaxRubble] = {};

@@ -142,18 +142,9 @@ void CRubble::Update()
 			int nRest = m_repair.at(0).nRequired - m_repair.at(0).nCutRequired;
 
 			// テクスチャの更新
-			switch (nRest)
+			if (m_pItemMark)
 			{
-			case 4:
-				m_pItemMark->SetTexture(CTexture::TEXTURE_FUKIDASI4);
-				break;
-
-			case 3:
-				m_pItemMark->SetTexture(CTexture::TEXTURE_FUKIDASI);
-				break;
-
-			default:
-				break;
+				m_pItemMark->SetValue(nRest);
 			}
 		}
 	}
