@@ -41,6 +41,7 @@ public:
 	//-------------------
 	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
 	void SetTexture(CTexture::NUM_TEXTURE tex);
+	void SetSize(float fWidth, float fHeight);
 
 	//-------------------
 	// ゲッター
