@@ -38,6 +38,8 @@ public:
 
 		/* ↓ タイトル ↓ */
 		TEXTURE_TITLE = 0,		//タイトル背景
+		TEXTURE_TITLE_BG,
+		TEXTURE_PRESSENTER,
 
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
