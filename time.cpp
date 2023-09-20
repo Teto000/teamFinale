@@ -22,7 +22,7 @@
 //=======================
 // コンストラクタ
 //=======================
-CTime::CTime() : CObject(1)
+CTime::CTime() : CObject2D(1)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
 	m_numberPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//数字の位置
@@ -30,15 +30,8 @@ CTime::CTime() : CObject(1)
 	m_nCntMove = 0;				//移動までの時間
 	m_nFinTime = 0;				//ゲーム終了までの時間
 	m_nCntFream = 0;			//フレーム数のカウント
-	fInterval = 0.0f;			//数値の間隔
 	m_bCntTime = false;			//時間を数える状態
 	m_pMessage = nullptr;
-
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		m_aPosTexU[i] = 0;		//今の桁の数値
-		m_pNumber[i] = nullptr;	//数値
-	}
 }
 
 //=======================
@@ -57,19 +50,10 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 	//初期値の設定
 	m_pos = pos;		//位置
 	m_nTime = 90;		//初期時間
-	fInterval = 50.0f;	//数値の間隔
 
-	//------------------------------
-	// 数値の設定
-	//------------------------------
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		D3DXVECTOR3 numberPos = D3DXVECTOR3(m_pos.x + (fInterval * i), m_pos.y, m_pos.z);
-		m_pNumber[i] = CNumber::Create(numberPos, m_nTime);
-		m_pNumber[i]->Set(i);
-	}
-
-	SetNumber();
+	CObject2D::Init(pos);
+	CObject2D::SetSize(100.0f,100.0f);
+	CObject2D::SetTexture(CTexture::TEXTURE_CLOCK);
 
 	return S_OK;
 }
@@ -79,10 +63,7 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 //=======================
 void CTime::Uninit()
 {
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		m_pNumber[i]->Uninit();
-	}
+	CObject2D::Uninit();
 }
 
 //=======================
@@ -90,6 +71,8 @@ void CTime::Uninit()
 //=======================
 void CTime::Update()
 {
+	CObject2D::Update();
+
 	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲームが終了しているなら
 		m_nFinTime++;
@@ -119,7 +102,6 @@ void CTime::Update()
 			}
 
 			//数字の設定
-			SetNumber();
 			m_nCntFream = 0;
 
 			if (m_nTime <= 0)
@@ -139,10 +121,7 @@ void CTime::Update()
 //=======================
 void CTime::Draw()
 {
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		m_pNumber[i]->Draw();
-	}
+	CObject2D::Draw();
 }
 
 //=======================
@@ -165,72 +144,4 @@ CTime *CTime::Create(D3DXVECTOR3 pos)
 	}
 
 	return pCombo;
-}
-
-//=======================
-// 数値の設定
-//=======================
-void CTime::SetNumber()
-{
-	for (int i = 0; i < nMaxDigits; i++)
-	{//桁数分回す
-		if (m_pNumber[i] != nullptr)
-		{//nullじゃないなら
-			//桁数を計算
-			int nDigit = (int)(log10(m_nTime) + 1);
-
-			//ナンバーの描画を有効・無効にする
-			m_pNumber[i]->SetEnable(nMaxDigits - i <= nDigit);
-
-			if (m_nTime == 0)
-			{//コンボ数が0なら
-				//ナンバーの描画を有効・無効にする
-				m_pNumber[nMaxDigits - 1]->SetEnable(true);
-			}
-
-			//powで桁数を出す。
-			int nCntNumber = nMaxDigits - i - 1;
-			int nNum0 = (int)pow(10, nCntNumber + 1);
-			int nNum1 = (int)pow(10, nCntNumber);
-
-			//桁ごとの値を求める
-			m_aPosTexU[i] = (m_nTime % nNum0) / nNum1;
-			m_pNumber[i]->Set(m_aPosTexU[i]);
-		}
-	}
-}
-
-//=======================
-// 時間の設定
-// 引数：設定したい数値
-//=======================
-void CTime::SetTime(int nTime)
-{
-	m_nTime = nTime;
-
-	SetNumber();
-}
-
-//=======================
-// 描画状態の設定
-// 引数：描画状態のbool
-//=======================
-void CTime::SetDraw(bool bDraw)
-{
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		m_pNumber[i]->SetEnable(bDraw);
-	}
-}
-
-//=======================
-// 色の設定
-// 引数：変更先の色
-//=======================
-void CTime::SetColor(D3DXCOLOR col)
-{
-	for (int i = 0; i < nMaxDigits; i++)
-	{
-		m_pNumber[i]->SetColor(col);
-	}
 }

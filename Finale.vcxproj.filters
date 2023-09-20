@@ -194,6 +194,9 @@
     <ClCompile Include="message.cpp">
       <Filter>Main\Object\2D</Filter>
     </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>Main\Object\2D\Number</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="message.h">
       <Filter>Main\Object\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>Main\Object\2D\Number</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

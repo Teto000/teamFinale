@@ -20,7 +20,7 @@
 #include "objectX.h"
 #include "player.h"
 #include "object2D.h"
-#include "time.h"
+#include "score.h"
 #include "sky.h"
 
 //----------------------------------
@@ -107,7 +107,7 @@ HRESULT CStageSelect::Init()
 	//------------------------
 	{
 		D3DXVECTOR3 pos(560.0f, 460.0f, 0.0f);
-		m_pNumber = CTime::Create(pos);
+		m_pNumber = CScore::Create(pos);
 	}
 
 	return S_OK;

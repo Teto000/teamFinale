@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "ranking.h"
-#include "time.h"
+#include "score.h"
 #include "game.h"
 #include "renderer.h"
 #include "input.h"
@@ -52,7 +52,7 @@ HRESULT CRanking::Init(D3DXVECTOR3 pos)
 	for (int i = 0; i < nMaxRanking; i++)
 	{
 		pos = D3DXVECTOR3(300.0f, 200 + (i * 100.0f), 0.0f);
-		m_pTime[i] = CTime::Create(pos);
+		m_pTime[i] = CScore::Create(pos);
 	}
 
 	Load();		//“Ç‚İ‚İ
@@ -153,7 +153,7 @@ void CRanking::Save()
 	{
 		for (int i = 0; i < nMaxRanking; i++)
 		{
-			fprintf(fp, "%d\n", m_pTime[i]->GetTime());	//“Ç‚İ‚ñ‚¾•¶š‚²‚Æ‚Éİ’è‚·‚é
+			fprintf(fp, "%d\n", m_pTime[i]->GetScore());	//“Ç‚İ‚ñ‚¾•¶š‚²‚Æ‚Éİ’è‚·‚é
 		}
 
 		fclose(fp);
@@ -187,16 +187,16 @@ void CRanking::Load()
 void CRanking::Ranking()
 {
 	m_nRankUpdate = -1;
-	if (m_nTime <= m_pTime[nMaxRanking - 1]->GetTime())
+	if (m_nTime <= m_pTime[nMaxRanking - 1]->GetScore())
 	{//”äŠr
 		m_pTime[nMaxRanking - 1]->SetTime(m_nTime);
 
 		//¸‡‚É•À‚Ñ•Ï‚¦‚é
-		std::vector<int> rank = { m_pTime[0]->GetTime()
-								, m_pTime[1]->GetTime()
-								, m_pTime[2]->GetTime()
-								, m_pTime[3]->GetTime()
-								, m_pTime[4]->GetTime() };
+		std::vector<int> rank = { m_pTime[0]->GetScore()
+								, m_pTime[1]->GetScore()
+								, m_pTime[2]->GetScore()
+								, m_pTime[3]->GetScore()
+								, m_pTime[4]->GetScore() };
 
 		std::sort(rank.begin(), rank.end());
 
