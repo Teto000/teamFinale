@@ -162,6 +162,9 @@ void CObject2D::Draw()
 
 	CTexture *pTexture = CApplication::GetTexture();
 
+	//Zバッファをオフ
+	pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+
 	//テクスチャの設定
 	pDevice->SetTexture(0, pTexture->GetTexture(m_NumTex));
 
@@ -172,6 +175,9 @@ void CObject2D::Draw()
 
 	//テクスチャのリセット
 	pDevice->SetTexture(0, NULL);
+
+	//Zバッファをオン
+	pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 
 //===========================

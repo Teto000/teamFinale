@@ -165,13 +165,13 @@ void CTime::Update()
 //=======================
 void CTime::Draw()
 {
-	/*for (int i = 0; i < nMaxObj; i++)
+	for (int i = 0; i < nMaxObj; i++)
 	{
 		if (m_pObj[i])
 		{
 			m_pObj[i]->Draw();
 		}
-	}*/
+	}
 }
 
 //=======================
