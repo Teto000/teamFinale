@@ -90,7 +90,8 @@ HRESULT CGame::Init()
 	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//タイマーの生成
-	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+	m_pTime = CTime::Create(
+		D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
 	m_pTime->SetCntTime(true);
 
 	// プレイヤーの設定

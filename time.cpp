@@ -30,8 +30,14 @@ CTime::CTime() : CObject2D(1)
 	m_nCntMove = 0;				//移動までの時間
 	m_nFinTime = 0;				//ゲーム終了までの時間
 	m_nCntFream = 0;			//フレーム数のカウント
+	m_neeadleRotX = 0.0f;		//針の角度
 	m_bCntTime = false;			//時間を数える状態
 	m_pMessage = nullptr;
+
+	for (int i = 0; i < nMaxObj; i++)
+	{
+		m_pObj[i] = nullptr;
+	}
 }
 
 //=======================
@@ -48,12 +54,19 @@ CTime::~CTime()
 HRESULT CTime::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
-	m_pos = pos;		//位置
-	m_nTime = 90;		//初期時間
+	m_pos = pos;			//位置
+	m_neeadleRotX = -0.1f;	//針の角度
+	m_nTime = nMaxTime;		//初期時間
 
-	CObject2D::Init(pos);
-	CObject2D::SetSize(100.0f,100.0f);
-	CObject2D::SetTexture(CTexture::TEXTURE_CLOCK);
+	m_pObj[0] = new CObject2D;
+	m_pObj[0]->Init(pos);
+	m_pObj[0]->SetSize(180.0f,180.0f);
+	m_pObj[0]->SetTexture(CTexture::TEXTURE_CLOCK);
+
+	m_pObj[1] = new CObject2D;
+	m_pObj[1]->Init(pos);
+	m_pObj[1]->SetSize(180.0f, 140.0f);
+	m_pObj[1]->SetTexture(CTexture::TEXTURE_CLOCK_NEEDLE);
 
 	return S_OK;
 }
@@ -63,7 +76,15 @@ HRESULT CTime::Init(D3DXVECTOR3 pos)
 //=======================
 void CTime::Uninit()
 {
-	CObject2D::Uninit();
+	/*for (int i = 0; i < nMaxObj; i++)
+	{
+		if (m_pObj[i])
+		{
+			m_pObj[i]->Uninit();
+			delete m_pObj[i];
+			m_pObj[i] = nullptr;
+		}
+	}*/
 }
 
 //=======================
@@ -71,7 +92,25 @@ void CTime::Uninit()
 //=======================
 void CTime::Update()
 {
-	CObject2D::Update();
+	//更新
+	for (int i = 0; i < nMaxObj; i++)
+	{
+		if (m_pObj[i])
+		{
+			m_pObj[i]->Update();
+		}
+	}
+
+	if (CInputKeyboard::Trigger(DIK_P))
+	{
+		m_neeadleRotX -= 0.1f;
+	}
+
+	//時計の針を回転させる
+	m_pObj[1]->SetVtxCIE_Rot(m_pos,
+		m_neeadleRotX,
+		180.0f,
+		140.0f);
 
 	if (CGame::GetFinish() && CMode::GetMode() == CMode::MODE_GAME)
 	{//ゲームが終了しているなら
@@ -84,7 +123,7 @@ void CTime::Update()
 		}
 
 		//タイムを保存
-		CRanking::SetNewTime(m_nTime);
+		//CRanking::SetNewTime(m_nTime);
 	}
 	else if(m_bCntTime && CMode::GetMode() == CMode::MODE_GAME)
 	{//時間を数える状態なら
@@ -98,7 +137,12 @@ void CTime::Update()
 		{
 			if (m_nTime > 0)
 			{
+				//時間を減らす
 				m_nTime--;
+
+				//針を動かす
+				//時間ピッタリで時計の針が一周するようにする
+				m_neeadleRotX -= (6.2f / nMaxTime);
 			}
 
 			//数字の設定
@@ -121,12 +165,18 @@ void CTime::Update()
 //=======================
 void CTime::Draw()
 {
-	CObject2D::Draw();
+	/*for (int i = 0; i < nMaxObj; i++)
+	{
+		if (m_pObj[i])
+		{
+			m_pObj[i]->Draw();
+		}
+	}*/
 }
 
 //=======================
 // 生成
-// 引数：位置、コンボ数
+// 引数：位置
 //=======================
 CTime *CTime::Create(D3DXVECTOR3 pos)
 {

@@ -57,6 +57,12 @@ public:
 
 private:
 	//------------------
+	// 定数
+	//------------------
+	static const int nMaxTime = 90;	//時間の最大値
+	static const int nMaxObj = 2;
+
+	//------------------
 	// メンバ変数
 	//------------------
 	D3DXVECTOR3 m_pos;				//位置
@@ -65,8 +71,10 @@ private:
 	int m_nCntMove;					//移動までの時間
 	int m_nFinTime;					//ゲーム終了までの時間
 	int m_nCntFream;				//フレーム数のカウント
+	float m_neeadleRotX;			//針の角度
 	bool m_bCntTime;				//時間を数える状態
 	CMessage* m_pMessage;
+	CObject2D* m_pObj[nMaxObj];		//オブジェクト
 };
 
 #endif
