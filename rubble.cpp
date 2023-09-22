@@ -229,6 +229,9 @@ void CRubble::Repair(CItemObj *pItem)
 
 			m_repair.at(nCnt).nCutRequired++;
 
+			//スコアの加算(アイテム投入時)
+			CGame::GetScore()->AddScore(50);
+
 			if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
 			{
 				m_repair.at(nCnt).bCompletion = true;
@@ -275,7 +278,7 @@ void CRubble::Complete()
 	//ステージにスコアを加算(0番目のステージに100加算)
 	//CApplication::AddStageScore(0, 100);
 
-	//スコアの加算
+	//スコアの加算(建物完成時)
 	CGame::GetScore()->AddScore(300);
 
 	//吹き出しの消去
