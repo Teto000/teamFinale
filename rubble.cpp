@@ -20,6 +20,8 @@
 #include "collision_rectangle3D.h"
 #include "line.h"
 #include "ItemMark.h"
+#include "game.h"
+#include "score.h"
 
 //=============================================================================
 // インスタンス生成
@@ -271,7 +273,10 @@ void CRubble::Complete()
 	}
 
 	//ステージにスコアを加算(0番目のステージに100加算)
-	CApplication::AddStageScore(0, 100);
+	//CApplication::AddStageScore(0, 100);
+
+	//スコアの加算
+	CGame::GetScore()->AddScore(300);
 
 	//吹き出しの消去
 	if (m_pItemMark)

@@ -39,7 +39,8 @@ public:
 	// セッター
 	//----------------
 	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定
-	void SetTime(int nTime);		//時間の設定
+	void SetScore(int nScore);		//スコアの設定
+	void AddScore(int nScore);		//スコアの加算
 	void SetColor(D3DXCOLOR col);	//色の設定
 	void SetDraw(bool bDraw);		//描画状態の設定
 

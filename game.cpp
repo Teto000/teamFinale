@@ -31,6 +31,7 @@
 #include "game_center.h"
 #include "rubble.h"
 #include "ItemMark.h"
+#include "score.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -46,6 +47,7 @@ CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 CRubble*	CGame::m_pRubble[nMaxRubble] = {};
+CScore*		CGame::m_pScore = nullptr;				//スコア
 
 //===========================
 // コンストラクタ
@@ -93,6 +95,12 @@ HRESULT CGame::Init()
 	m_pTime = CTime::Create(
 		D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
 	m_pTime->SetCntTime(true);
+
+	//スコアの生成
+	{
+		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, 600.0f, 0.0f);
+		m_pScore = CScore::Create(pos);
+	}
 
 	// プレイヤーの設定
 	for (int i = 0; i < nMaxPlayer; i++)

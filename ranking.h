@@ -41,7 +41,7 @@ public:
 	//----------------
 	// セッター
 	//----------------
-	static void SetNewTime(int nTime) { m_nTime = nTime; }							//新しい時間を設定
+	static void SetNewTime(int nScore) { m_nScore = nScore; }							//新しい時間を設定
 	void SetPos(D3DXVECTOR3 pos) override {}										//位置の設定
 
 	//----------------
@@ -67,12 +67,12 @@ private:
 	// メンバ変数
 	//------------------
 	int	m_nRankUpdate;				//更新ランクNo.
-	CScore*	m_pTime[nMaxRanking];	//時間
+	CScore*	m_pScore[nMaxRanking];	//スコア
 
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static int m_nTime;	//時間
+	static int m_nScore;	//スコア
 };
 
 #endif

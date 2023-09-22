@@ -61,6 +61,7 @@ public:
 	//------------------
 	// セッター
 	//------------------
+	static void SetStageScore(int nNum, int nValue) { m_nStageScore[nNum] = nValue; }	//ステージごとのスコアを設定
 	static void AddStageScore(int nNum, int nValue) { m_nStageScore[nNum] += nValue; }	//ステージごとのスコアを加算
 	static void ResetStageScore(int nNum) { m_nStageScore[nNum] = 0; }					//ステージのごとのスコアをリセット
 	static void SetMaxScore(int nNum, int nValue) { m_nMaxScore[nNum] = nValue; }		//ステージごとのスコアの最大数を設定

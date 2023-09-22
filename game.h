@@ -24,6 +24,7 @@ class CPlayer;		//プレイヤー
 class CObjectX;		//オブジェクト
 class CItemMark;	//アイテム目印
 class CRubble;
+class CScore;		//スコア
 
 //================================
 // ゲームクラスの定義
@@ -52,6 +53,7 @@ public:
 	static CPlayer* GetPlayer(int nNumber) { return m_pPlayer[nNumber]; }	//プレイヤーの取得
 	static CObjectX* GetObjectX(int nNum) { return m_pObjectX[nNum]; }		//オブジェクトの取得
 	static CCamera*	GetCamera() { return m_pCamera; }		//カメラの取得
+	static CScore*	GetScore() { return m_pScore; }			//スコアの取得
 	static const int GetMaxPlayer() { return nMaxPlayer; }	//プレイヤーの最大数を取得
 	static const int GetMaxObject() { return nMaxObject; }	//オブジェクトの最大数を取得
 	static const float GetPastPosX() { return fPastPosX; }	//過去移動時のX座標の変化量を取得
@@ -88,6 +90,7 @@ private:
 	static CObjectX*	m_pObjBG[nMaxBG];			//背景オブジェクト(木)の生成
 	static CPlayer*		m_pPlayer[nMaxPlayer];		//プレイヤー
 	static CRubble*		m_pRubble[nMaxRubble];
+	static CScore*		m_pScore;					//スコア
 };
 
 #endif

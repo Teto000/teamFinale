@@ -169,7 +169,7 @@ void CStageSelect::Update()
 
 		//”Žš‚ð•`‰æ‚·‚é
 		m_pNumber->SetDraw(true);
-		m_pNumber->SetTime(nScore);
+		m_pNumber->SetScore(nScore);
 	}
 	else
 	{

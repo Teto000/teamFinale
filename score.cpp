@@ -1,6 +1,6 @@
 //===================================================
 //
-// タイマー処理
+// スコア処理
 // Author : Sato Teruto
 //
 //===================================================
@@ -51,7 +51,7 @@ HRESULT CScore::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
 	m_pos = pos;		//位置
-	m_nScore = 90;		//初期時間
+	m_nScore = 0;		//スコア
 	fInterval = 50.0f;	//数値の間隔
 
 	//------------------------------
@@ -85,7 +85,11 @@ void CScore::Uninit()
 //=======================
 void CScore::Update()
 {
-	
+	if (CGame::GetFinish())
+	{//ゲームが終了しているなら
+		//現在のスコアをステージのスコアに設定
+		CApplication::SetStageScore(0,m_nScore);
+	}
 }
 
 //=======================
@@ -155,12 +159,23 @@ void CScore::SetNumber()
 }
 
 //=======================
-// 時間の設定
+// スコアの設定
 // 引数：設定したい数値
 //=======================
-void CScore::SetTime(int nTime)
+void CScore::SetScore(int nScore)
 {
-	m_nScore = nTime;
+	m_nScore = nScore;
+
+	SetNumber();
+}
+
+//=======================
+// スコアの加算
+// 引数：設定したい数値
+//=======================
+void CScore::AddScore(int nScore)
+{
+	m_nScore += nScore;
 
 	SetNumber();
 }
