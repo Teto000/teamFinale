@@ -43,6 +43,7 @@ public:
 
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
+		TEXTURE_RANKING,		//ランキングロゴ
 
 		/* ↓ ゲーム ↓ */
 		TEXTURE_SKY,			//空
