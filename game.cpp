@@ -355,6 +355,9 @@ void CGame::CreateObj()
 	repair.at(0).nRequired = 1;
 	m_pRubble[2]->SetRepair(repair);
 
+	//滑り台を直すのに必要なアイテムの目印
+	m_pRubble[2]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
+
 	//m_pObjectX[4] = CItemObj::Create();
 	//m_pObjectX[4]->SetType(27);
 	//m_pObjectX[4]->SetObjType(CObject::OBJTYPE_SLIDE_BREAK);
@@ -392,6 +395,9 @@ void CGame::CreateObj()
 	repair.at(0).type = CItemObj::TYPE_WOOD;
 	repair.at(0).nRequired = 1;
 	m_pRubble[3]->SetRepair(repair);
+
+	//ブランコを直すのに必要なアイテムの目印
+	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 13k0.0f, 300.0f), CTexture::TEXTURE_FUKIDASI);
 
 	//m_pObjectX[5] = CItemObj::Create();
 	//m_pObjectX[5]->SetType(29);
