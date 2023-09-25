@@ -32,6 +32,7 @@
 #include "rubble.h"
 #include "ItemMark.h"
 #include "score.h"
+#include "object_mg.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -193,6 +194,7 @@ void CGame::CreateObj()
 {
 	// 変数宣言
 	CCollision_Rectangle3D *pCollision = nullptr;
+	CObjectManager *pObjectManager = CObjectManager::Create();
 
 	//-----------------------------------
 	// オブジェクトの生成(時計)
@@ -255,6 +257,7 @@ void CGame::CreateObj()
 
 	//東屋を直すのに必要なアイテムの目印
 	m_pRubble[0]->SetMark(D3DXVECTOR3(-200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
+	pObjectManager->SetRubble(m_pRubble[0]);
 
 	//m_pObjectX[2] = CItemObj::Create();
 	//m_pObjectX[2]->SetType(19);
@@ -298,6 +301,7 @@ void CGame::CreateObj()
 
 	//噴水を直すのに必要なアイテムの目印
 	m_pRubble[1]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 200.0f), CTexture::TEXTURE_FUKIDASI4);
+	pObjectManager->SetRubble(m_pRubble[1]);
 
 	//壊れた噴水
 	/*m_pObjectX[3] = CItemObj::Create();
@@ -331,6 +335,7 @@ void CGame::CreateObj()
 	repair.at(0).type = CItemObj::TYPE_WOOD;
 	repair.at(0).nRequired = 1;
 	m_pRubble[2]->SetRepair(repair);
+	pObjectManager->SetRubble(m_pRubble[2]);
 
 	//m_pObjectX[4] = CItemObj::Create();
 	//m_pObjectX[4]->SetType(27);
@@ -368,6 +373,7 @@ void CGame::CreateObj()
 	repair.at(0).type = CItemObj::TYPE_WOOD;
 	repair.at(0).nRequired = 1;
 	m_pRubble[3]->SetRepair(repair);
+	pObjectManager->SetRubble(m_pRubble[3]);
 
 	//m_pObjectX[5] = CItemObj::Create();
 	//m_pObjectX[5]->SetType(29);

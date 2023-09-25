@@ -243,6 +243,49 @@ void CRubble::Repair(CItemObj *pItem)
 	}
 }
 
+void CRubble::Reset()
+{
+	for (int nCnt = 0; nCnt < m_nRequired; nCnt++)
+	{
+		m_repair.at(nCnt).nCutRequired = 0;
+		m_repair.at(nCnt).bCompletion = false;
+	}
+
+	m_nCntRequired = 0;
+
+	switch (m_buildType)
+	{
+	case CRubble::TYPE_NONE:
+		break;
+
+	case CRubble::TYPE_PAVILION:
+		SetType(19);
+		break;
+
+	case CRubble::TYPE_FOUNTAIN:
+		SetType(21);
+		break;
+
+	case CRubble::TYPE_SLIDE:
+		SetType(27);
+		break;
+
+	case CRubble::TYPE_SWING:
+		SetType(29);
+		break;
+
+	case CRubble::TYPE_SEESAW:
+		SetType(31);
+		break;
+
+	default:
+		assert(false);
+		break;
+	}
+
+	m_bComplete = false;
+}
+
 void CRubble::Complete()
 {
 	switch (m_buildType)
@@ -285,6 +328,7 @@ void CRubble::Complete()
 	if (m_pItemMark)
 	{
 		m_pItemMark->Uninit();
+		m_pItemMark = nullptr;
 	}
 }
 

@@ -74,11 +74,13 @@ public:
 	void Update() override;														// XV
 	void Draw() override;														// •`‰æ
 	void Repair(CItemObj *pItem);
+	void Reset();
 	void SetRepair(std::vector<REPAIR> repair) { m_repair = repair; }
 	void SetRequired(int nRequired) { m_nRequired = nRequired; }
 	void SetBuildType(EBuildType buildType);
 	void SetMark(D3DXVECTOR3 pos, CTexture::NUM_TEXTURE tex);	// ‚«o‚µ‚Ì¶¬
 	int GetRequired() { return m_nRequired; }
+	bool GetComplete() { return m_bComplete; }
 
 private:
 	//--------------------------------------------------------------------

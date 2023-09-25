@@ -192,6 +192,7 @@
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3d.cpp" />
     <ClCompile Include="objectX.cpp" />
+    <ClCompile Include="object_mg.cpp" />
     <ClCompile Include="parts.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="ranking.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3d.h" />
     <ClInclude Include="objectX.h" />
+    <ClInclude Include="object_mg.h" />
     <ClInclude Include="parts.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="ranking.h" />
