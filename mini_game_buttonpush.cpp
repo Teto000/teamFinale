@@ -247,29 +247,11 @@ void CButtonPushGame::GameUpdate()
 
 			//プレイヤーをゲーム中状態から解除する
 			CGame *pGame = CMode::GetGame();
-			CItemObj *pPlayerItem = pPlayer->GetMyItem();
-
-			if (pPlayerItem == nullptr)
-			{// アイテムを取得していない
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetItemType(GetItemType());
-
-				pPlayer->Retention(pItem);
-			}
-			else if (pPlayerItem != nullptr)
-			{
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(GetItemType());
-				pPlayerItem->Stack(pItem);
-			}
 
 			//プレイヤーがミニゲームを終了する時
 			if (GetGame())
 			{
 				SetGame(false);
-				GetParent()->SetGame(false);
-				GetPlayer()->SetUpdate(false);
-				pPlayer = nullptr;
 			}
 		}
 		else
@@ -284,8 +266,8 @@ void CButtonPushGame::GameUpdate()
 		&& m_nCntPlayTime > nMaxPlayTime)
 	{//SPACEキーが押された時 & 操作可能時間に達していたら
 	 //バーが真ん中の時
-		if (pos.x >= 615.0f
-			&& pos.x <= 665.0f)
+		if (pos.x >= ObjPos.x - SUCCESS_RANGE
+			&& pos.x <= ObjPos.x + SUCCESS_RANGE)
 		{
 			//ポリゴンを全削除してnullptr代入
 			for (int nCnt = 0; nCnt < MAX_BUTTONPOLYGON; nCnt++)
@@ -296,29 +278,11 @@ void CButtonPushGame::GameUpdate()
 
 			//プレイヤーをゲーム中状態から解除する
 			CGame *pGame = CMode::GetGame();
-			CItemObj *pPlayerItem = pPlayer->GetMyItem();
-
-			if (pPlayerItem == nullptr)
-			{// アイテムを取得していない
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetItemType(GetItemType());
-
-				pPlayer->Retention(pItem);
-			}
-			else if (pPlayerItem != nullptr)
-			{
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(GetItemType());
-				pPlayerItem->Stack(pItem);
-			}
 
 			//プレイヤーがミニゲームを終了する時
 			if (GetGame())
 			{
 				SetGame(false);
-				GetParent()->SetGame(false);
-				GetPlayer()->SetUpdate(false);
-				pPlayer = nullptr;
 			}
 		}
 		else

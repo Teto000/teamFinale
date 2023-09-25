@@ -48,6 +48,9 @@ void CItemMark::Uninit()
 void CItemMark::Update()
 {
 	CBillBoard::Update();
+
+	//テクスチャの切り替え
+	ChangeTexture();
 }
 
 //======================================
@@ -77,4 +80,40 @@ CItemMark* CItemMark::Create(D3DXVECTOR3 pos)
 	}
 
 	return pItemMark;
+}
+
+//======================================
+// 値の設定
+//======================================
+void CItemMark::SetValue(int nValue)
+{
+	m_nValue = nValue;
+}
+
+//======================================
+// テクスチャの切り替え
+//======================================
+void CItemMark::ChangeTexture()
+{
+	switch (m_nValue)
+	{
+	case 4:
+		SetTexture(CTexture::TEXTURE_FUKIDASI4);
+		break;
+
+	case 3:
+		SetTexture(CTexture::TEXTURE_FUKIDASI3);
+		break;
+
+	case 2:
+		SetTexture(CTexture::TEXTURE_FUKIDASI2);
+		break;
+
+	case 1:
+		SetTexture(CTexture::TEXTURE_FUKIDASI);
+		break;
+
+	default:
+		break;
+	}
 }

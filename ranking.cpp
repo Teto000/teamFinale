@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "ranking.h"
-#include "time.h"
+#include "score.h"
 #include "game.h"
 #include "renderer.h"
 #include "input.h"
@@ -21,7 +21,7 @@
 //----------------------
 // 静的メンバ変数宣言
 //----------------------
-int CRanking::m_nTime = 0;	//時間
+int CRanking::m_nScore = 0;	//時間
 
 //=======================
 // コンストラクタ
@@ -32,7 +32,7 @@ CRanking::CRanking() : CObject(1)
 
 	for (int i = 0; i < nMaxRanking; i++)
 	{
-		m_pTime[i];	//時間
+		m_pScore[i];	//スコア
 	}
 }
 
@@ -52,7 +52,7 @@ HRESULT CRanking::Init(D3DXVECTOR3 pos)
 	for (int i = 0; i < nMaxRanking; i++)
 	{
 		pos = D3DXVECTOR3(300.0f, 200 + (i * 100.0f), 0.0f);
-		m_pTime[i] = CTime::Create(pos);
+		m_pScore[i] = CScore::Create(pos);
 	}
 
 	Load();		//読み込み
@@ -69,7 +69,7 @@ void CRanking::Uninit()
 {
 	for (int i = 0; i < nMaxRanking; i++)
 	{
-		m_pTime[i]->Uninit();
+		m_pScore[i]->Uninit();
 	}
 }
 
@@ -80,18 +80,18 @@ void CRanking::Update()
 {
 	for (int i = 0; i < nMaxRanking; i++)
 	{
-		m_pTime[i]->Update();
+		m_pScore[i]->Update();
 	}
 
 	//-------------------------------
 	// 今回のスコアを赤くする
 	//-------------------------------
-	if (m_nTime != m_nRankUpdate)
+	if (m_nScore != m_nRankUpdate)
 	{//今回のタイムがランキングの数値と同じなら
 		if (m_nRankUpdate != -1)
 		{//ランキング外じゃなかったら
 			//色の変更
-			m_pTime[m_nRankUpdate]->SetColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+			m_pScore[m_nRankUpdate]->SetColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 	}
 
@@ -101,7 +101,7 @@ void CRanking::Update()
 	{
 		for (int i = 0; i < nMaxRanking; i++)
 		{
-			m_pTime[i]->SetTime(999);
+			m_pScore[i]->SetScore(999);
 			Save();		//書き込み
 		}
 	}
@@ -115,7 +115,7 @@ void CRanking::Draw()
 {
 	for (int i = 0; i < nMaxRanking; i++)
 	{
-		m_pTime[i]->Draw();
+		m_pScore[i]->Draw();
 	}
 }
 
@@ -153,7 +153,7 @@ void CRanking::Save()
 	{
 		for (int i = 0; i < nMaxRanking; i++)
 		{
-			fprintf(fp, "%d\n", m_pTime[i]->GetTime());	//読み込んだ文字ごとに設定する
+			fprintf(fp, "%d\n", m_pScore[i]->GetScore());	//読み込んだ文字ごとに設定する
 		}
 
 		fclose(fp);
@@ -174,7 +174,7 @@ void CRanking::Load()
 		for (int i = 0; i < nMaxRanking; i++)
 		{
 			fscanf(fp, "%d", &nScore);	//読み込んだ文字ごとに設定する
-			m_pTime[i]->SetTime(nScore);
+			m_pScore[i]->SetScore(nScore);
 		}
 
 		fclose(fp);
@@ -187,24 +187,24 @@ void CRanking::Load()
 void CRanking::Ranking()
 {
 	m_nRankUpdate = -1;
-	if (m_nTime <= m_pTime[nMaxRanking - 1]->GetTime())
+	if (m_nScore <= m_pScore[nMaxRanking - 1]->GetScore())
 	{//比較
-		m_pTime[nMaxRanking - 1]->SetTime(m_nTime);
+		m_pScore[nMaxRanking - 1]->SetScore(m_nScore);
 
 		//昇順に並び変える
-		std::vector<int> rank = { m_pTime[0]->GetTime()
-								, m_pTime[1]->GetTime()
-								, m_pTime[2]->GetTime()
-								, m_pTime[3]->GetTime()
-								, m_pTime[4]->GetTime() };
+		std::vector<int> rank = { m_pScore[0]->GetScore()
+								, m_pScore[1]->GetScore()
+								, m_pScore[2]->GetScore()
+								, m_pScore[3]->GetScore()
+								, m_pScore[4]->GetScore() };
 
 		std::sort(rank.begin(), rank.end());
 
 		for (int i = 0; i < nMaxRanking; i++)
 		{//並び変えたやつを代入
-			m_pTime[i]->SetTime(rank[i]);
+			m_pScore[i]->SetScore(rank[i]);
 
-			if (m_nTime == rank[i])
+			if (m_nScore == rank[i])
 			{
 				m_nRankUpdate = i;
 			}

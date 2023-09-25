@@ -154,33 +154,13 @@ void CButtonMash::Update()
 			CGame *pGame = CMode::GetGame();
 			CGameCenter *pParent = GetParent();
 			CPlayer *pPlayer = pParent->GetPlayer();
-			CItemObj *pPlayerItem = pPlayer->GetMyItem();
-
-			if (pPlayerItem == nullptr)
-			{// アイテムを取得していない
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(0);
-
-				// 当たり判定の設定
-				CCollision_Rectangle3D *pCollision = pItem->GetCollision();
-				pCollision->SetSize(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
-				pCollision->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
-				pCollision->SetUseFlag(false);
-
-				pPlayer->Retention(pItem);
-			}
-			else if (pPlayerItem != nullptr)
-			{
-				CItemObj *pItem = CItemObj::Create();
-				pItem->SetType(0);
-				pPlayerItem->Stack(pItem);
-			}
 
 			//プレイヤーがミニゲームを終了する時
 			if (GetGame())
 			{
 				SetGame(false);
 				GetParent()->SetGame(false);
+				GetPlayer()->SetUpdate(false);
 				pPlayer = nullptr;
 			}
 		}

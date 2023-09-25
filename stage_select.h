@@ -20,7 +20,7 @@ class CMeshField;	//メッシュフィールド(地面)
 class CObjectX;		//オブジェクトX
 class CPlayer;		//プレイヤー
 class CObject2D;	//オブジェクト2D
-class CTime;		//数字
+class CScore;		//数字
 class CSky;			//空
 
 //==================================
@@ -68,7 +68,7 @@ private:
 	CObjectX*	m_pObjectX[nMaxStage];		//オブジェクト
 	CPlayer*	m_pPlayer;					//プレイヤー
 	CObject2D*	m_pObject2D;				//オブジェクト2D
-	CTime*		m_pNumber;					//数字
+	CScore*		m_pNumber;					//数字
 	CSky*		m_pSky;						//空
 	
 	//-------------------------

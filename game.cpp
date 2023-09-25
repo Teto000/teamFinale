@@ -31,6 +31,7 @@
 #include "game_center.h"
 #include "rubble.h"
 #include "ItemMark.h"
+#include "score.h"
 #include "model3D.h"
 
 //------------------------
@@ -45,10 +46,10 @@ CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 CMeshField* CGame::m_pMeshField2 = nullptr;			//地面2
 CMeshField* CGame::m_pCityField = nullptr;			//町のフィールド
 CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
-CItemMark*	CGame::m_pItemMark[nMaxItemMark] = {};	//アイテムの目印	
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 CRubble*	CGame::m_pRubble[nMaxRubble] = {};
+CScore*		CGame::m_pScore = nullptr;				//スコア
 
 //===========================
 // コンストラクタ
@@ -97,8 +98,15 @@ HRESULT CGame::Init()
 	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//タイマーの生成
-	m_pTime = CTime::Create(D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+	m_pTime = CTime::Create(
+		D3DXVECTOR3(100.0f, 600.0f, 0.0f));
 	m_pTime->SetCntTime(true);
+
+	//スコアの生成
+	{
+		D3DXVECTOR3 pos(1000.0f, 630.0f, 0.0f);
+		m_pScore = CScore::Create(pos);
+	}
 
 	// プレイヤーの設定
 	for (int i = 0; i < nMaxPlayer; i++)

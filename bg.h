@@ -40,6 +40,8 @@ public:
 	// セッター
 	//-------------------
 	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }					//位置の設定
+	void SetColor(D3DXCOLOR col) { m_pObject2D->SetColor(col); }			//色の設定
+	void SetSize(float fWidth, float fHeight) { m_pObject2D->SetSize(fWidth, fHeight); }	//サイズの設定
 	void SetTexture(CTexture::NUM_TEXTURE tex);
 
 	//-------------------

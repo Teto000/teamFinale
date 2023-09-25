@@ -10,18 +10,18 @@
 //-------------------------------
 // インクルード
 //-------------------------------
-#include "object.h"
+#include "object2d.h"
 
 //-------------------------------
 // 前方宣言
 //-------------------------------
 class CNumber;	//数値
-class CObject2D;
+class CMessage;
 
 //================================
 // タイマークラス
 //================================
-class CTime : CObject
+class CTime : CObject2D
 {
 public:
 	CTime();	//コンストラクタ
@@ -39,9 +39,6 @@ public:
 	// セッター
 	//----------------
 	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定
-	void SetTime(int nTime);		//時間の設定
-	void SetColor(D3DXCOLOR col);	//色の設定
-	void SetDraw(bool bDraw);		//描画状態の設定
 	void SetCntTime(bool bCnt) { m_bCntTime = bCnt; }	//時間を数える状態の設定
 
 	//----------------
@@ -59,13 +56,11 @@ public:
 	static CTime* Create(D3DXVECTOR3 pos);
 
 private:
-	void SetNumber();			//数値の設定
-
-private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxDigits = 3;	//最大桁数
+	static const int nMaxTime = 90;	//時間の最大値
+	static const int nMaxObj = 2;
 
 	//------------------
 	// メンバ変数
@@ -76,12 +71,10 @@ private:
 	int m_nCntMove;					//移動までの時間
 	int m_nFinTime;					//ゲーム終了までの時間
 	int m_nCntFream;				//フレーム数のカウント
-	int m_aPosTexU[nMaxDigits];		//今の桁の数値
-	float fInterval;				//数値の間隔
+	float m_neeadleRotX;			//針の角度
 	bool m_bCntTime;				//時間を数える状態
-	CNumber* m_pNumber[nMaxDigits];	//数値
-
-	CObject2D* m_pObject;	//Finish文字
+	CMessage* m_pMessage;
+	CObject2D* m_pObj[nMaxObj];		//オブジェクト
 };
 
 #endif

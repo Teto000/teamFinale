@@ -177,6 +177,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="message.cpp" />
     <ClCompile Include="mg_buttonmash.cpp" />
     <ClCompile Include="mg_stickrotate.cpp" />
     <ClCompile Include="mini_game_basis.cpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="rubble.cpp" />
+    <ClCompile Include="score.cpp" />
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="stage_select.cpp" />
@@ -227,6 +229,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="message.h" />
     <ClInclude Include="mg_buttonmash.h" />
     <ClInclude Include="mg_stickrotate.h" />
     <ClInclude Include="mini_game_basis.h" />
@@ -247,6 +250,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="rubble.h" />
+    <ClInclude Include="score.h" />
     <ClInclude Include="sky.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="stage_select.h" />

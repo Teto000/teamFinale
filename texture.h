@@ -38,9 +38,12 @@ public:
 
 		/* ↓ タイトル ↓ */
 		TEXTURE_TITLE = 0,		//タイトル背景
+		TEXTURE_TITLE_BG,
+		TEXTURE_PRESSENTER,
 
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
+		TEXTURE_RANKING,		//ランキングロゴ
 
 		/* ↓ ゲーム ↓ */
 		TEXTURE_SKY,			//空
@@ -48,7 +51,12 @@ public:
 		TEXTURE_FINISH,			//FINISHの文字
 		TEXTURE_COMPLETE,		//COMPLETEの文字
 		TEXTURE_FUKIDASI,		//吹き出し
+		TEXTURE_FUKIDASI2,		//吹き出し(2)
+		TEXTURE_FUKIDASI3,		//吹き出し(3)
 		TEXTURE_FUKIDASI4,		//吹き出し(4)
+		TEXTURE_CLOCK,			//時計盤
+		TEXTURE_CLOCK_NEEDLE,	//時計の針
+		TEXTURE_SCORE,			//スコア
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字

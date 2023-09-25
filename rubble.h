@@ -73,6 +73,7 @@ public:
 	void Uninit() override;														// 終了
 	void Update() override;														// 更新
 	void Draw() override;														// 描画
+	void Repair(CItemObj *pItem);
 	void SetRepair(std::vector<REPAIR> repair) { m_repair = repair; }
 	void SetRequired(int nRequired) { m_nRequired = nRequired; }
 	void SetBuildType(EBuildType buildType);
@@ -83,7 +84,6 @@ private:
 	//--------------------------------------------------------------------
 	// メンバ関数
 	//--------------------------------------------------------------------
-	void Collision();
 	void Complete();
 	void SetLine();
 

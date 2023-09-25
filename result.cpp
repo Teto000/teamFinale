@@ -27,7 +27,7 @@
 //===========================
 CResult::CResult()
 {
-	m_pBg = nullptr;	//”wŒi
+	m_pBg[0] = nullptr;	//”wŒi
 	m_pRanking = nullptr;
 }
 
@@ -44,11 +44,20 @@ CResult::~CResult()
 //===========================
 HRESULT CResult::Init()
 {	
-	{
+	{	
 		//”wŒi‚Ì¶¬
 		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
-		m_pBg = CBg::Create(pos, CBg::BGTYPE_RESULT);
-		m_pBg->SetTexture(CTexture::TEXTURE_RESULT);
+		m_pBg[0] = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg[0]->SetTexture(CTexture::TEXTURE_RESULT);
+
+		m_pBg[1] = CBg::Create(pos, CBg::BGTYPE_RESULT);
+		m_pBg[1]->SetTexture(CTexture::TEXTURE_NONE);
+		m_pBg[1]->SetSize(800.0f, 650.0f);
+		m_pBg[1]->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
+
+		m_pBg[2] = CBg::Create(D3DXVECTOR3(pos.x,pos.y - 275.0f,pos.z), CBg::BGTYPE_RESULT);
+		m_pBg[2]->SetTexture(CTexture::TEXTURE_RANKING);
+		m_pBg[2]->SetSize(500.0f, 300.0f);
 	}
 
 	//-------------------------------------

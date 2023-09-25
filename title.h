@@ -37,7 +37,9 @@ private:
 	//------------------
 	// ƒƒ“ƒo•Ï”
 	//------------------
-	CBg*	m_pBg;		//”wŒi
+	CBg*	m_pBg[3];		//”wŒi
+	bool m_bScale;
+	float m_fScale;
 };
 
 #endif

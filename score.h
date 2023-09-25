@@ -1,30 +1,31 @@
 //===================================================
 //
-// ランキングヘッダー
+// スコアヘッダー
 // Author : Sato Teruto
 //
 //===================================================
-#ifndef _RANKING_H_
-#define _RANKING_H_	//二重インクルード防止
+#ifndef _SCORE_H_
+#define _SCORE_H_	//二重インクルード防止
 
 //-------------------------------
 // インクルード
 //-------------------------------
-#include "object.h"
+#include "object2d.h"
 
 //-------------------------------
 // 前方宣言
 //-------------------------------
-class CScore;	//スコア
+class CNumber;	//数値
+class CMessage;
 
 //================================
-// ランキングクラス
+// スコアクラス
 //================================
-class CRanking : CObject
+class CScore : CObject
 {
 public:
-	CRanking();	//コンストラクタ
-	~CRanking();	//デストラクタ
+	CScore();	//コンストラクタ
+	~CScore();	//デストラクタ
 
 	//------------------
 	// メンバ関数
@@ -34,45 +35,48 @@ public:
 	void Update();
 	void Draw();
 
-	void Save();
-	void Load();
-	void Ranking();
-
 	//----------------
 	// セッター
 	//----------------
-	static void SetNewTime(int nScore) { m_nScore = nScore; }							//新しい時間を設定
-	void SetPos(D3DXVECTOR3 pos) override {}										//位置の設定
+	void SetPos(D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定
+	void SetScore(int nScore);		//スコアの設定
+	void AddScore(int nScore);		//スコアの加算
+	void SetColor(D3DXCOLOR col);	//色の設定
+	void SetDraw(bool bDraw);		//描画状態の設定
 
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }	//位置の取得
+	D3DXVECTOR3 GetPosition() override { return m_pos; }							//位置の取得
 	D3DXVECTOR3 GetPosOld() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }		//位置の取得
 	float GetWidth() override { return 0.0f; }										//幅の取得
 	float GetHeight() override { return 0.0f; }										//高さの取得
+	int GetScore() { return m_nScore; }												//時間の取得
 
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CRanking* Create();
+	static CScore* Create(D3DXVECTOR3 pos);
+
+private:
+	void SetNumber();			//数値の設定
 
 private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxRanking = 5;	//表示するランキングの最大数
+	static const int nMaxDigits = 3;	//最大桁数
 
 	//------------------
 	// メンバ変数
 	//------------------
-	int	m_nRankUpdate;				//更新ランクNo.
-	CScore*	m_pScore[nMaxRanking];	//スコア
-
-	//------------------
-	// 静的メンバ変数
-	//------------------
-	static int m_nScore;	//スコア
+	D3DXVECTOR3 m_pos;				//位置
+	D3DXVECTOR3 m_numberPos;		//数字の位置
+	int m_nScore;					//スコア
+	int m_aPosTexU[nMaxDigits];		//今の桁の数値
+	float fInterval;				//数値の間隔
+	CNumber* m_pNumber[nMaxDigits];	//数値
+	CObject2D*	m_pScoreBG;
 };
 
 #endif
