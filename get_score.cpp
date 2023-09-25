@@ -36,7 +36,7 @@ HRESULT CGetScore::Init(D3DXVECTOR3 pos)
 	//‚ğ‚à‚Æ‚É‚µ‚½ƒ‰ƒ“ƒ_ƒ€‚È’l‚ğ¶¬
 	srand((unsigned int)time(NULL));
 
-	int nWidth = 200;
+	int nWidth = 50;
 	int nRandX = rand() % nWidth - (nWidth / 2);
 	int nRandY = rand() % nWidth - (nWidth / 2);
 	D3DXVECTOR3 newPos(pos.x + (float)nRandX

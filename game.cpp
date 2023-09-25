@@ -469,25 +469,25 @@ void CGame::CreateWood()
 		else if (i < 64)
 		{//¶‚Ì–Ø
 			m_pObjBG[i] = CItemObj::Create();
-			m_pObjBG[i]->SetType(23);
+			m_pObjBG[i]->SetType(32);
 			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX, 0.0f, 500.0f - (100.0f * (i - 51))));
 		}
 		else if (i < 77)
 		{//‰E‚Ì–Ø
 			m_pObjBG[i] = CItemObj::Create();
-			m_pObjBG[i]->SetType(23);
+			m_pObjBG[i]->SetType(32);
 			m_pObjBG[i]->SetPos(D3DXVECTOR3(550.0f + fPastPosX, 0.0f, 500.0f - (100.0f * (i - 64))));
 		}
 		else if (i < 90)
 		{//ã‚Ì–Ø
 			m_pObjBG[i] = CItemObj::Create();
-			m_pObjBG[i]->SetType(23);
+			m_pObjBG[i]->SetType(32);
 			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX + (100.0f * (i - 77)), 0.0f, 550.0f));
 		}
 		else if (i < 103)
 		{//‰º‚Ì–Ø
 			m_pObjBG[i] = CItemObj::Create();
-			m_pObjBG[i]->SetType(23);
+			m_pObjBG[i]->SetType(32);
 			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX +(100.0f * (i - 90)), 0.0f, -550.0f));
 		}
 	}
