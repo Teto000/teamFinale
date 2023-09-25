@@ -230,7 +230,7 @@ void CButtonPushGame::GameUpdate()
 	//位置の取得
 	D3DXVECTOR3 pos = pObj2D[2]->GetPosition();
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_SPACE)
 		&& m_nCntPlayTime > nMaxPlayTime)
 	{//SPACEキーが押された時 & 操作可能時間に達していたら
@@ -259,7 +259,7 @@ void CButtonPushGame::GameUpdate()
 			m_bStop = true;
 		}
 	}
-#endif // _DEBUG
+//#endif // _DEBUG
 	CInputJoypad *pJoypad = CInput::GetJoypad();
 
 	if (pJoypad->Trigger(CInputJoypad::JOYKEY_B)
