@@ -22,6 +22,8 @@
 #include "ItemMark.h"
 #include "game.h"
 #include "score.h"
+#include "get_score.h"
+#include "player.h"
 
 //=============================================================================
 // インスタンス生成
@@ -54,7 +56,8 @@ CRubble * CRubble::Create()
 CRubble::CRubble() : m_nRequired(0),		// 修理数
 m_nCntRequired(0),
 m_bComplete(false),
-m_pItemMark(nullptr)
+m_pItemMark(nullptr),
+m_pGetScore(nullptr)
 {
 	// 修理の初期化
 	m_repair.clear();
@@ -230,7 +233,13 @@ void CRubble::Repair(CItemObj *pItem)
 			m_repair.at(nCnt).nCutRequired++;
 
 			//スコアの加算(アイテム投入時)
-			CGame::GetScore()->AddScore(5);
+			CGame::GetScore()->AddScore(50);
+
+			{
+				D3DXVECTOR3 pos = CGame::GetPlayer(0)->GetPosition();
+				m_pGetScore = CGetScore::Create(CGetScore::NUMBER_50,
+					D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 50.0f));
+			}
 
 			if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
 			{
@@ -279,7 +288,13 @@ void CRubble::Complete()
 	//CApplication::AddStageScore(0, 100);
 
 	//スコアの加算(建物完成時)
-	CGame::GetScore()->AddScore(30);
+	CGame::GetScore()->AddScore(300);
+
+	{
+		D3DXVECTOR3 pos = CGame::GetPlayer(0)->GetPosition();
+		m_pGetScore = CGetScore::Create(CGetScore::NUMBER_300,
+			D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 50.0f));
+	}
 
 	//吹き出しの消去
 	if (m_pItemMark)

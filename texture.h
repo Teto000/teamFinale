@@ -57,6 +57,8 @@ public:
 		TEXTURE_CLOCK,			//時計盤
 		TEXTURE_CLOCK_NEEDLE,	//時計の針
 		TEXTURE_SCORE,			//スコア
+		TEXTURE_SCORE_50,		//50pt
+		TEXTURE_SCORE_300,		//100pt
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字
