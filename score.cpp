@@ -62,8 +62,8 @@ HRESULT CScore::Init(D3DXVECTOR3 pos)
 
 	if (m_pScoreBG)
 	{
-		m_pScoreBG->Init(D3DXVECTOR3(m_pos.x + 80.0f, m_pos.y + 20.0f, 0.0f));
-		m_pScoreBG->SetSize(300.0f, 200.0f);
+		m_pScoreBG->Init(D3DXVECTOR3(m_pos.x + 70.0f, m_pos.y + 20.0f, 0.0f));
+		m_pScoreBG->SetSize(400.0f, 350.0f);
 		m_pScoreBG->SetTexture(CTexture::TEXTURE_SCORE);
 	}
 

@@ -238,7 +238,7 @@ void CRubble::Repair(CItemObj *pItem)
 			{
 				D3DXVECTOR3 pos = CGame::GetPlayer(0)->GetPosition();
 				m_pGetScore = CGetScore::Create(CGetScore::NUMBER_50,
-					D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 50.0f));
+					D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 100.0f));
 			}
 
 			if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
@@ -293,7 +293,7 @@ void CRubble::Complete()
 	{
 		D3DXVECTOR3 pos = CGame::GetPlayer(0)->GetPosition();
 		m_pGetScore = CGetScore::Create(CGetScore::NUMBER_300,
-			D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 50.0f));
+			D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z - 100.0f));
 	}
 
 	//êÅÇ´èoÇµÇÃè¡ãé

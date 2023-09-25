@@ -59,6 +59,7 @@ public:
 		TEXTURE_SCORE,			//スコア
 		TEXTURE_SCORE_50,		//50pt
 		TEXTURE_SCORE_300,		//100pt
+		TEXTURE_UI_MANUAL,		//操作方法
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字

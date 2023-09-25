@@ -50,6 +50,7 @@ CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 CRubble*	CGame::m_pRubble[nMaxRubble] = {};
 CScore*		CGame::m_pScore = nullptr;				//スコア
+CObject2D*	CGame::m_pObjUI = nullptr;
 
 //===========================
 // コンストラクタ
@@ -99,13 +100,23 @@ HRESULT CGame::Init()
 
 	//タイマーの生成
 	m_pTime = CTime::Create(
-		D3DXVECTOR3(100.0f, 600.0f, 0.0f));
+		D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f));
 	m_pTime->SetCntTime(true);
 
 	//スコアの生成
 	{
 		D3DXVECTOR3 pos(1000.0f, 630.0f, 0.0f);
 		m_pScore = CScore::Create(pos);
+	}
+
+	//操作方法の表示
+	m_pObjUI = new CObject2D(1);
+
+	if (m_pObjUI)
+	{
+		m_pObjUI->Init(D3DXVECTOR3(200.0f, 600.0f, 0.0f));
+		m_pObjUI->SetSize(300.0f, 200.0f);
+		m_pObjUI->SetTexture(CTexture::TEXTURE_UI_MANUAL);
 	}
 
 	// プレイヤーの設定

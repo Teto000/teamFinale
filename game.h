@@ -25,6 +25,7 @@ class CObjectX;		//オブジェクト
 class CItemMark;	//アイテム目印
 class CRubble;
 class CScore;		//スコア
+class CObject2D;
 
 //================================
 // ゲームクラスの定義
@@ -92,6 +93,7 @@ private:
 	static CPlayer*		m_pPlayer[nMaxPlayer];		//プレイヤー
 	static CRubble*		m_pRubble[nMaxRubble];
 	static CScore*		m_pScore;					//スコア
+	static CObject2D*	m_pObjUI;
 };
 
 #endif
