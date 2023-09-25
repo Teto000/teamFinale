@@ -397,7 +397,7 @@ void CGame::CreateObj()
 	m_pRubble[3]->SetRepair(repair);
 
 	//ブランコを直すのに必要なアイテムの目印
-	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 13k0.0f, 300.0f), CTexture::TEXTURE_FUKIDASI);
+	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 130.0f, 300.0f), CTexture::TEXTURE_FUKIDASI);
 
 	//m_pObjectX[5] = CItemObj::Create();
 	//m_pObjectX[5]->SetType(29);
