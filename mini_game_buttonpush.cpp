@@ -266,8 +266,8 @@ void CButtonPushGame::GameUpdate()
 		&& m_nCntPlayTime > nMaxPlayTime)
 	{//SPACEキーが押された時 & 操作可能時間に達していたら
 	 //バーが真ん中の時
-		if (pos.x >= 615.0f
-			&& pos.x <= 665.0f)
+		if (pos.x >= ObjPos.x - SUCCESS_RANGE
+			&& pos.x <= ObjPos.x + SUCCESS_RANGE)
 		{
 			//ポリゴンを全削除してnullptr代入
 			for (int nCnt = 0; nCnt < MAX_BUTTONPOLYGON; nCnt++)
