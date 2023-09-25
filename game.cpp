@@ -93,12 +93,12 @@ HRESULT CGame::Init()
 
 	//タイマーの生成
 	m_pTime = CTime::Create(
-		D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+		D3DXVECTOR3(100.0f, 600.0f, 0.0f));
 	m_pTime->SetCntTime(true);
 
 	//スコアの生成
 	{
-		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, 600.0f, 0.0f);
+		D3DXVECTOR3 pos(1000.0f, 630.0f, 0.0f);
 		m_pScore = CScore::Create(pos);
 	}
 

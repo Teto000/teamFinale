@@ -230,7 +230,7 @@ void CRubble::Repair(CItemObj *pItem)
 			m_repair.at(nCnt).nCutRequired++;
 
 			//スコアの加算(アイテム投入時)
-			CGame::GetScore()->AddScore(50);
+			CGame::GetScore()->AddScore(5);
 
 			if (m_repair.at(nCnt).nCutRequired == m_repair.at(nCnt).nRequired)
 			{
@@ -279,7 +279,7 @@ void CRubble::Complete()
 	//CApplication::AddStageScore(0, 100);
 
 	//スコアの加算(建物完成時)
-	CGame::GetScore()->AddScore(300);
+	CGame::GetScore()->AddScore(30);
 
 	//吹き出しの消去
 	if (m_pItemMark)
