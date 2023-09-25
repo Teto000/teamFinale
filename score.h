@@ -10,7 +10,7 @@
 //-------------------------------
 // インクルード
 //-------------------------------
-#include "object.h"
+#include "object2d.h"
 
 //-------------------------------
 // 前方宣言
@@ -65,7 +65,7 @@ private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxDigits = 3;	//最大桁数
+	static const int nMaxDigits = 4;	//最大桁数
 
 	//------------------
 	// メンバ変数
@@ -76,6 +76,7 @@ private:
 	int m_aPosTexU[nMaxDigits];		//今の桁の数値
 	float fInterval;				//数値の間隔
 	CNumber* m_pNumber[nMaxDigits];	//数値
+	CObject2D*	m_pScoreBG;
 };
 
 #endif

@@ -43,6 +43,7 @@ public:
 
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
+		TEXTURE_RANKING,		//ランキングロゴ
 
 		/* ↓ ゲーム ↓ */
 		TEXTURE_SKY,			//空
@@ -55,6 +56,10 @@ public:
 		TEXTURE_FUKIDASI4,		//吹き出し(4)
 		TEXTURE_CLOCK,			//時計盤
 		TEXTURE_CLOCK_NEEDLE,	//時計の針
+		TEXTURE_SCORE,			//スコア
+		TEXTURE_SCORE_50,		//50pt
+		TEXTURE_SCORE_300,		//100pt
+		TEXTURE_UI_MANUAL,		//操作方法
 
 		/* ↓ その他 ↓ */
 		TEXTURE_NUMBER,			//数字
@@ -71,6 +76,7 @@ public:
 
 		/* メッシュの*/
 		TEXTURE_GRASS,
+		TEXTURE_GROUND_DART,
 	};
 
 	//--------------------------------------------------------------------

@@ -113,13 +113,13 @@ void CButtonMash::Update()
 			m_nPatternAnim++;
 		}
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE))
 		{//Jキーを押したときに
 		 //連打カウントを1増やす
 			m_nMashCounter++;
 		}
-#endif // DEBUG
+//#endif // DEBUG
 
 		if (pJoypad->Trigger(CInputJoypad::JOYKEY_B))
 		{

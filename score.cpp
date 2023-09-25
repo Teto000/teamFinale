@@ -28,6 +28,7 @@ CScore::CScore() : CObject(1)
 	m_numberPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);//数字の位置
 	m_nScore = 0;				//時間
 	fInterval = 0.0f;			//数値の間隔
+	m_pScoreBG = nullptr;
 
 	for (int i = 0; i < nMaxDigits; i++)
 	{
@@ -53,6 +54,18 @@ HRESULT CScore::Init(D3DXVECTOR3 pos)
 	m_pos = pos;		//位置
 	m_nScore = 0;		//スコア
 	fInterval = 50.0f;	//数値の間隔
+
+	if (CMode::GetGame())
+	{
+		m_pScoreBG = new CObject2D;
+	}
+
+	if (m_pScoreBG)
+	{
+		m_pScoreBG->Init(D3DXVECTOR3(m_pos.x + 70.0f, m_pos.y + 20.0f, 0.0f));
+		m_pScoreBG->SetSize(400.0f, 350.0f);
+		m_pScoreBG->SetTexture(CTexture::TEXTURE_SCORE);
+	}
 
 	//------------------------------
 	// 数値の設定
@@ -85,6 +98,11 @@ void CScore::Uninit()
 //=======================
 void CScore::Update()
 {
+	if (m_pScoreBG)
+	{
+		m_pScoreBG->Update();
+	}
+
 	if (CGame::GetFinish())
 	{//ゲームが終了しているなら
 		//現在のスコアをステージのスコアに設定
@@ -97,6 +115,11 @@ void CScore::Update()
 //=======================
 void CScore::Draw()
 {
+	if (m_pScoreBG)
+	{
+		m_pScoreBG->Draw();
+	}
+
 	for (int i = 0; i < nMaxDigits; i++)
 	{
 		m_pNumber[i]->Draw();

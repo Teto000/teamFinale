@@ -38,7 +38,7 @@ private:
 	//------------------
 	// ƒƒ“ƒo•Ï”
 	//------------------
-	CBg* m_pBg;				//”wŒi
+	CBg* m_pBg[3];			//”wŒi
 	CRanking* m_pRanking;	//ƒ‰ƒ“ƒLƒ“ƒO
 };
 

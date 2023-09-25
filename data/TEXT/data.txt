@@ -1,5 +1,5 @@
 // モデルの最大数
-MAX_TYPE = 32
+MAX_TYPE = 33
 
 //***************************
 // Xファイル名の読み込み
@@ -36,6 +36,4 @@ MODEL_FILENAME = data/MODEL/swing/swing.x				# [28]
 MODEL_FILENAME = data/MODEL/swing/swing_break.x			# [29]
 MODEL_FILENAME = data/MODEL/seesaw/seesaw.x				# [30]
 MODEL_FILENAME = data/MODEL/seesaw/seesaw_break.x		# [31]
-
-
-
+MODEL_FILENAME = data/MODEL/wood/wood_broken.x			# [32]

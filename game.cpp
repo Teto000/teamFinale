@@ -32,23 +32,26 @@
 #include "rubble.h"
 #include "ItemMark.h"
 #include "score.h"
+#include "model3D.h"
 #include "object_mg.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-const float CGame::fPastPosX = 2000.0f;				//過去移動時のX座標の変化量
+const float CGame::fPastPosX = 3000.0f;				//過去移動時のX座標の変化量
 bool		CGame::m_bFinish = false;				//ゲーム終了フラグ
 CCamera*	CGame::m_pCamera = nullptr;				//カメラ
 CTime*		CGame::m_pTime = nullptr;				//タイマー
 CSky*		CGame::m_pSky = nullptr;				//空
 CMeshField*	CGame::m_pMeshField = nullptr;			//地面
 CMeshField* CGame::m_pMeshField2 = nullptr;			//地面2
+CMeshField* CGame::m_pCityField = nullptr;			//町のフィールド
 CObjectX*	CGame::m_pObjectX[nMaxObject] = {};		//オブジェクト
 CObjectX*	CGame::m_pObjBG[nMaxBG];				//背景オブジェクト
 CPlayer*	CGame::m_pPlayer[nMaxPlayer] = {};		//プレイヤー
 CRubble*	CGame::m_pRubble[nMaxRubble] = {};
 CScore*		CGame::m_pScore = nullptr;				//スコア
+CObject2D*	CGame::m_pObjUI = nullptr;
 
 //===========================
 // コンストラクタ
@@ -82,25 +85,39 @@ HRESULT CGame::Init()
 	//------------------------
 	m_pCamera = CCamera::Create();
 
-	m_pMeshField2 = CMeshField::Create(12.0f,5500.0f);
-	m_pMeshField2->SetPos(D3DXVECTOR3(0.0f, -5.0f, 0.0f));
+	m_pMeshField2 = CMeshField::Create(12.0f, 5500.0f);
+	m_pMeshField2->SetPos(D3DXVECTOR3(500.0f, -5.0f, 0.0f));
 	m_pMeshField2->SetTexture(CTexture::TEXTURE_GROUND);
 	//メッシュフィールドの生成
-	m_pMeshField = CMeshField::Create(12.0f,1000.0f);
+	m_pMeshField = CMeshField::Create(12.0f, 1000.0f);
 	m_pMeshField->SetTexture(CTexture::TEXTURE_GROUND);
+
+	m_pCityField = CMeshField::Create(12.0f, 2500.0f);
+	m_pCityField->SetPos(D3DXVECTOR3(fPastPosX, 0.0f, 0.0f));
+	m_pCityField->SetTexture(CTexture::TEXTURE_GROUND_DART);
 
 	//空の生成
 	m_pSky = CSky::Create(CTexture::TEXTURE_SKY);
 
 	//タイマーの生成
 	m_pTime = CTime::Create(
-		D3DXVECTOR3(1088.0f, 592.0f, 0.0f));
+		D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f));
 	m_pTime->SetCntTime(true);
 
 	//スコアの生成
 	{
-		D3DXVECTOR3 pos(SCREEN_WIDTH / 2, 600.0f, 0.0f);
+		D3DXVECTOR3 pos(1000.0f, 630.0f, 0.0f);
 		m_pScore = CScore::Create(pos);
+	}
+
+	//操作方法の表示
+	m_pObjUI = new CObject2D(1);
+
+	if (m_pObjUI)
+	{
+		m_pObjUI->Init(D3DXVECTOR3(200.0f, 600.0f, 0.0f));
+		m_pObjUI->SetSize(300.0f, 200.0f);
+		m_pObjUI->SetTexture(CTexture::TEXTURE_UI_MANUAL);
 	}
 
 	// プレイヤーの設定
@@ -194,6 +211,8 @@ void CGame::CreateObj()
 {
 	// 変数宣言
 	CCollision_Rectangle3D *pCollision = nullptr;
+	int size = 1.25f;
+	D3DXVECTOR3 dSize = D3DXVECTOR3(size, size, size);
 	CObjectManager *pObjectManager = CObjectManager::Create();
 
 	//-----------------------------------
@@ -203,6 +222,7 @@ void CGame::CreateObj()
 	m_pObjectX[0]->SetType(17);
 	m_pObjectX[0]->SetObjType(CObject::OBJTYPE_CLOCK);
 	m_pObjectX[0]->SetPos(D3DXVECTOR3(0.0f, 0.0f, 200.0f));
+	m_pObjectX[0]->GetModel()->SetSize(dSize);
 	pCollision = m_pObjectX[0]->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
@@ -211,6 +231,7 @@ void CGame::CreateObj()
 	m_pObjectX[1]->SetType(17);
 	m_pObjectX[1]->SetObjType(CObject::OBJTYPE_CLOCK);
 	m_pObjectX[1]->SetPos(D3DXVECTOR3(fPastPosX, 0.0f, 200.0f));
+	m_pObjectX[1]->GetModel()->SetSize(dSize);
 	pCollision = m_pObjectX[1]->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 60.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(50.0f, 120.0f, 50.0f));
@@ -281,6 +302,7 @@ void CGame::CreateObj()
 	pGameCenter->SetType(20);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
 	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 400.0f));
+	pGameCenter->GetModel()->SetSize(dSize);
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(150.0f, 100.0f, 150.0f));
@@ -318,6 +340,7 @@ void CGame::CreateObj()
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
 	pGameCenter->SetPos(D3DXVECTOR3(-200.0f + fPastPosX, 0.0f, 0.0f));
 	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
+	pGameCenter->GetModel()->SetSize(dSize);
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(140.0f, 90.0f, 50.0f));
@@ -336,6 +359,9 @@ void CGame::CreateObj()
 	repair.at(0).nRequired = 1;
 	m_pRubble[2]->SetRepair(repair);
 	pObjectManager->SetRubble(m_pRubble[2]);
+
+	//滑り台を直すのに必要なアイテムの目印
+	m_pRubble[2]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
 
 	//m_pObjectX[4] = CItemObj::Create();
 	//m_pObjectX[4]->SetType(27);
@@ -356,6 +382,7 @@ void CGame::CreateObj()
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
 	pGameCenter->SetPos(D3DXVECTOR3(-200.0f + fPastPosX, 0.0f, 400.0f));
 	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
+	pGameCenter->GetModel()->SetSize(dSize);
 	pCollision = pGameCenter->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(-5.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(165.0f, 90.0f, 130.0f));
@@ -374,6 +401,9 @@ void CGame::CreateObj()
 	repair.at(0).nRequired = 1;
 	m_pRubble[3]->SetRepair(repair);
 	pObjectManager->SetRubble(m_pRubble[3]);
+
+	//ブランコを直すのに必要なアイテムの目印
+	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 130.0f, 300.0f), CTexture::TEXTURE_FUKIDASI);
 
 	//m_pObjectX[5] = CItemObj::Create();
 	//m_pObjectX[5]->SetType(29);
@@ -456,6 +486,32 @@ void CGame::CreateWood()
 			m_pObjBG[i] = CItemObj::Create();
 			m_pObjBG[i]->SetType(22);
 			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + (100.0f * (i - 39)), 0.0f, -550.0f));
+		}
+
+		//何かあった未来の生成
+		else if (i < 64)
+		{//左の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(32);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX, 0.0f, 500.0f - (100.0f * (i - 51))));
+		}
+		else if (i < 77)
+		{//右の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(32);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(550.0f + fPastPosX, 0.0f, 500.0f - (100.0f * (i - 64))));
+		}
+		else if (i < 90)
+		{//上の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(32);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX + (100.0f * (i - 77)), 0.0f, 550.0f));
+		}
+		else if (i < 103)
+		{//下の木
+			m_pObjBG[i] = CItemObj::Create();
+			m_pObjBG[i]->SetType(32);
+			m_pObjBG[i]->SetPos(D3DXVECTOR3(-550.0f + fPastPosX +(100.0f * (i - 90)), 0.0f, -550.0f));
 		}
 	}
 }

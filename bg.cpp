@@ -107,8 +107,3 @@ void CBg::SetTexture(CTexture::NUM_TEXTURE tex)
 {
 	m_pObject2D->SetTexture(tex);
 }
-
-void CBg::SetSize(float fWidth, float fHeight)
-{
-	m_pObject2D->SetSize(fWidth, fHeight);
-}

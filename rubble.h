@@ -21,6 +21,7 @@
 //--------------------------------
 class CLine;
 class CItemMark;
+class CGetScore;
 
 //=============================================================================
 // モデルオブジェクトクラス
@@ -100,6 +101,7 @@ private:
 	int m_nRequired;						// 修理数
 	int m_nCntRequired;						// 修理数カウント
 	bool m_bComplete;						// 完了Flag
+	CGetScore* m_pGetScore;
 };
 
 #endif

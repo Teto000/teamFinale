@@ -219,7 +219,7 @@ void CPlayer::Update()
 		{
 			CObject *pCollidedObj = apCollidedObj.at(nCntObj);
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
 				&& CInputKeyboard::Trigger(DIK_SPACE))
 				{// アイテムを保持しておらす、アイテムオブジェクトに触れていた場合取得
@@ -262,7 +262,7 @@ void CPlayer::Update()
 						}
 					}
 				}
-#endif // _DEBUG
+//#endif // _DEBUG
 
 			if (pCollidedObj->GetObjType() == CObject::OBJTYPE_ITEM
 				&&pJoypad->Trigger(CInputJoypad::JOYKEY_A))
@@ -779,13 +779,13 @@ void CPlayer::Coll_Clock(D3DXVECTOR3 size, CObjectX* pObject)
 		, targetPos, D3DXVECTOR3(50.0f, 50.0f, 50.0f))
 		&& pObject->GetObjType() == CObject::OBJTYPE_CLOCK)
 	{// 衝突判定が行われた。
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bWarp)
 		{//0キーを押したとき & ワープしない状態なら
 		 //ワープ
 			newPos = Warp(pos);
 		}
-#endif // _DEBUG
+//#endif // _DEBUG
 
 		if (pJoypad->Trigger(CInputJoypad::JOYKEY_X) && !m_bWarp)
 		{//0キーを押したとき & ワープしない状態なら
@@ -932,12 +932,12 @@ void CPlayer::Update_Idel()
 		Drop();
 	}
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_SPACE))
 	{// アイテムの保持の解除
 		Drop();
 	}
-#endif // _DEBUG
+//#endif // _DEBUG
 
 	m_EAction = NEUTRAL_ACTION;
 
