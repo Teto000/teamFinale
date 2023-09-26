@@ -154,7 +154,7 @@ void CTime::Update()
 
 				m_pMessage = CMessage::Create(
 					D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
-					, 800.0f, 200.0f);
+					, CMessage::MESSAGE_TYPE_FINISH);
 			}
 		}
 	}

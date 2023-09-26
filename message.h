@@ -18,6 +18,13 @@
 class CMessage : public CObject2D
 {
 public:
+	enum MESSAGETYPE
+	{
+		MESSAGETYPE_NONE = 0,
+		MESSAGE_TYPE_FINISH,
+		MESSAGE_TYPE_COMPLETE
+	};
+
 	CMessage();		//コンストラクタ
 	~CMessage();	//デストラクタ
 
@@ -32,7 +39,11 @@ public:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CMessage* Create(D3DXVECTOR3 pos, float fWidth, float fHeight);
+	static CMessage* Create(D3DXVECTOR3 pos, MESSAGETYPE m_type);
+
+private:
+	MESSAGETYPE m_type;
+	int m_nTime;
 };
 
 #endif

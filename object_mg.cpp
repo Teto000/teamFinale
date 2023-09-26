@@ -13,6 +13,8 @@
 
 #include "object_mg.h"
 #include "rubble.h"
+#include "message.h"
+#include "renderer.h"
 
 //=============================================================================
 // インスタンス生成
@@ -49,7 +51,8 @@ CObjectManager::CObjectManager() : CObjectManager(0)
 CObjectManager::CObjectManager(int nPriority) : CObject(nPriority),
 m_pos(D3DXVECTOR3()),					// 位置
 m_posOld(D3DXVECTOR3()),				// 過去位置
-m_nMaxRubble(0)
+m_nMaxRubble(0),
+m_pMessage(0)
 {
 	
 }
@@ -130,6 +133,11 @@ void CObjectManager::UpdateRubble()
 	for (int nCntRubble = 0; nCntRubble < m_nMaxRubble; nCntRubble++)
 	{
 		m_pRubble.at(nCntRubble)->Reset();
+
+		//メッセージの表示
+		m_pMessage = CMessage::Create(
+			D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
+			, CMessage::MESSAGE_TYPE_COMPLETE);
 	}
 }
 
