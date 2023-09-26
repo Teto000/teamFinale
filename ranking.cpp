@@ -186,10 +186,10 @@ void CRanking::Load()
 //=========================================
 void CRanking::Ranking()
 {
-	m_nRankUpdate = -1;
-	if (m_nScore <= m_pScore[nMaxRanking - 1]->GetScore())
+	/*m_nRankUpdate = -1;
+	if (m_nScore >= m_pScore[0]->GetScore())
 	{//î‰är
-		m_pScore[nMaxRanking - 1]->SetScore(m_nScore);
+		m_pScore[0]->SetScore(m_nScore);
 
 		//è∏èáÇ…ï¿Ç—ïœÇ¶ÇÈ
 		std::vector<int> rank = { m_pScore[0]->GetScore()
@@ -198,16 +198,30 @@ void CRanking::Ranking()
 								, m_pScore[3]->GetScore()
 								, m_pScore[4]->GetScore() };
 
-		std::sort(rank.begin(), rank.end());
+		//std::sort(rank.begin(), rank.end());
 
-		for (int i = 0; i < nMaxRanking; i++)
-		{//ï¿Ç—ïœÇ¶ÇΩÇ‚Ç¬Çë„ì¸
-			m_pScore[i]->SetScore(rank[i]);
+		//for (int i = 0; i < nMaxRanking; i++)
+		//{//ï¿Ç—ïœÇ¶ÇΩÇ‚Ç¬Çë„ì¸
+		//	m_pScore[i]->SetScore(rank[i]);
 
-			if (m_nScore == rank[i])
-			{
-				m_nRankUpdate = i;
-			}
+		//	if (m_nScore == rank[i])
+		//	{
+		//		m_nRankUpdate = i;
+		//	}
+		//}
+	}*/
+
+	for (int nCnt = 0; nCnt < nMaxRanking; nCnt++)
+	{
+		int nCopy = 0;
+
+		//èåèéÆÇ™ê^ÇÃèÍçáé¿çs
+		if (m_nScore > m_pScore[nCnt]->GetScore())
+		{//êîílÇà⁄Ç∑
+			nCopy = m_pScore[nCnt]->GetScore();
+			m_pScore[nCnt]->SetScore(m_nScore);
+			m_nScore = nCopy;
+			m_nRankUpdate = nCnt;
 		}
 	}
 }

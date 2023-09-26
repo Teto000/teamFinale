@@ -75,7 +75,7 @@ HRESULT CResult::Init()
 		}
 
 		//今回のスコアの値をリセット
-		CApplication::ResetStageScore(i);
+		//CApplication::ResetStageScore(i);
 	}
 
 	//BGMの再生

@@ -106,7 +106,8 @@ void CScore::Update()
 	if (CGame::GetFinish())
 	{//ゲームが終了しているなら
 		//現在のスコアをステージのスコアに設定
-		CApplication::SetStageScore(0,m_nScore);
+		//CApplication::SetStageScore(0,m_nScore);
+		CRanking::SetNewTime(m_nScore);
 	}
 }
 
