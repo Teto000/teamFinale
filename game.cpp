@@ -239,20 +239,22 @@ void CGame::CreateObj()
 	//-----------------------------------
 	// ゲームセンターの設定
 	//-----------------------------------
-	CGameCenter* pGameCenter = CGameCenter::Create();
-	pGameCenter->SetType(1);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
-	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
-	pGameCenter->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
-	pCollision = pGameCenter->GetCollision();
+#ifdef _DEBUG
+	CGameCenter* pTest = CGameCenter::Create();
+	pTest->SetType(1);
+	pTest->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pTest->SetItemType(CItemObj::TYPE_WOOD);
+	pTest->SetPos(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	pCollision = pTest->GetCollision();
 	pCollision->SetPos(D3DXVECTOR3(0.0f, 25.0f, 0.0f));
 	pCollision->SetSize(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+#endif
 
 	//-----------------------------------
 	// オブジェクトの生成(東屋)
 	//-----------------------------------
 	//綺麗な東屋
-	pGameCenter = CGameCenter::Create();
+	CGameCenter* pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(18);
 	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
 	pGameCenter->SetPos(D3DXVECTOR3(200.0f + fPastPosX, 0.0f, 0.0f));
@@ -350,7 +352,7 @@ void CGame::CreateObj()
 	repair.clear();
 	repair.resize(m_pRubble[2]->GetRequired());
 	repair.at(0).type = CItemObj::TYPE_WOOD;
-	repair.at(0).nRequired = 1;
+	repair.at(0).nRequired = 2;
 	m_pRubble[2]->SetRepair(repair);
 	pObjectManager->SetRubble(m_pRubble[2]);
 
@@ -389,7 +391,7 @@ void CGame::CreateObj()
 	repair.clear();
 	repair.resize(m_pRubble[3]->GetRequired());
 	repair.at(0).type = CItemObj::TYPE_WOOD;
-	repair.at(0).nRequired = 1;
+	repair.at(0).nRequired = 3;
 	m_pRubble[3]->SetRepair(repair);
 	pObjectManager->SetRubble(m_pRubble[3]);
 
@@ -519,8 +521,8 @@ void CGame::SetItemMark()
 	m_pRubble[1]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 200.0f), CTexture::TEXTURE_FUKIDASI4);
 
 	//滑り台を直すのに必要なアイテムの目印
-	m_pRubble[2]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI);
+	m_pRubble[2]->SetMark(D3DXVECTOR3(200.0f, 130.0f, 0.0f), CTexture::TEXTURE_FUKIDASI2);
 
 	//ブランコを直すのに必要なアイテムの目印
-	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 130.0f, 300.0f), CTexture::TEXTURE_FUKIDASI);
+	m_pRubble[3]->SetMark(D3DXVECTOR3(-300.0f, 130.0f, 300.0f), CTexture::TEXTURE_FUKIDASI3);
 }
