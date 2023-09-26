@@ -11,6 +11,7 @@
 #include "mode.h"
 #include "game.h"
 #include "title.h"
+#include "tutorial.h"
 #include "result.h"
 #include "stage_select.h"
 #include "fade.h"
@@ -21,6 +22,7 @@
 //------------------------
 CTitle*			CMode::m_pTitle = nullptr;			//タイトル
 CGame*			CMode::m_pGame = nullptr;			//ゲーム
+CTutorial*		CMode::m_pTutorial = nullptr;		//チュートリアル
 CResult*		CMode::m_pResult = nullptr;			//リザルト
 CStageSelect*	CMode::m_pStageSelect = nullptr;	//ステージ選択
 CFade*			CMode::m_pFade = nullptr;			//フェード
@@ -78,6 +80,16 @@ void CMode::Uninit()
 	}
 
 	//----------------------------
+	// チュートリアルの終了
+	//----------------------------
+	if (m_pTutorial != nullptr)
+	{
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
+	}
+
+	//----------------------------
 	// リザルトの終了
 	//----------------------------
 	if (m_pResult != nullptr)
@@ -123,6 +135,10 @@ void CMode::Update()
 		m_pGame->Update();
 		break;
 
+	case MODE_TUTORIAL:
+		m_pTutorial->Update();
+		break;
+
 	case MODE_RESULT:
 		m_pResult->Update();
 		break;
@@ -159,6 +175,12 @@ void CMode::SetMode(MODE mode)
 		m_pGame->Uninit();
 		delete m_pGame;
 		m_pGame = nullptr;
+		break;
+
+	case MODE_TUTORIAL:
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
 		break;
 
 	case MODE_RESULT:
@@ -201,6 +223,12 @@ void CMode::SetMode(MODE mode)
 		m_pGame = nullptr;
 		m_pGame = new CGame;
 		m_pGame->Init();
+		break;
+
+	case MODE_TUTORIAL:
+		m_pTutorial = nullptr;
+		m_pTutorial = new CTutorial;
+		m_pTutorial->Init();
 		break;
 
 	case MODE_RESULT:

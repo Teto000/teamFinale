@@ -203,6 +203,9 @@
     <ClCompile Include="object_mg.cpp">
       <Filter>Main\Object</Filter>
     </ClCompile>
+    <ClCompile Include="tutorial.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -346,6 +349,11 @@
     </ClInclude>
     <ClInclude Include="score.h">
       <Filter>Main\Object\2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="get_score.h" />
+    <ClInclude Include="object_mg.h" />
+    <ClInclude Include="tutorial.h">
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

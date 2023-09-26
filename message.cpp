@@ -37,7 +37,7 @@ HRESULT CMessage::Init(D3DXVECTOR3 pos)
 	{
 	case MESSAGE_TYPE_FINISH:
 		CObject2D::SetTexture(CTexture::TEXTURE_FINISH);
-		SetSize(800.0f, 200.0f);
+		SetSize(700.0f, 200.0f);
 		break;
 
 	case MESSAGE_TYPE_COMPLETE:

@@ -17,6 +17,7 @@
 //--------------------------------
 class CGame;		//ゲーム
 class CTitle;		//タイトル
+class CTutorial;	//チュートリアル
 class CResult;		//リザルト
 class CStageSelect;	//ステージ選択
 class CFade;		//フェード
@@ -33,6 +34,7 @@ public:
 	enum MODE
 	{
 		MODE_TITLE = 0,		//タイトル
+		MODE_TUTORIAL,		//チュートリアル
 		MODE_GAME,			//ゲーム
 		MODE_RESULT,		//リザルト
 		MODE_STAGESELECT,	//ステージ選択画面
@@ -67,6 +69,7 @@ private:
 	static MODE				m_mode;			//モード
 	static CGame*			m_pGame;		//ゲーム
 	static CTitle*			m_pTitle;		//タイトル
+	static CTutorial*		m_pTutorial;	//チュートリアル
 	static CResult*			m_pResult;		//リザルト
 	static CStageSelect*	m_pStageSelect;	//ステージ選択
 	static CFade*			m_pFade;		//フェード

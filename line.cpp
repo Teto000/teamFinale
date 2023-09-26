@@ -132,6 +132,7 @@ void CLine::Update()
 //=============================================================================
 void CLine::Draw()
 {// レンダラーのゲット
+#ifndef _DEBAG
 	CRenderer *pRenderer = CApplication::GetRenderer();
 
 	// デバイスの取得
@@ -197,6 +198,7 @@ void CLine::Draw()
 
 	// テクスチャの解除
 	pDevice->SetTexture(0, nullptr);
+#endif
 }
 
 //=============================================================================

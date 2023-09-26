@@ -101,7 +101,7 @@ void CRanking::Update()
 	{
 		for (int i = 0; i < nMaxRanking; i++)
 		{
-			m_pScore[i]->SetScore(999);
+			m_pScore[i]->SetScore(0);
 			Save();		//‘‚«‚İ
 		}
 	}

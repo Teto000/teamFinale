@@ -21,6 +21,7 @@ public:
 	enum BGTYPE
 	{
 		BGTYPE_TITLE,		//タイトル
+		BGTYPE_TUTORIAL,	//チュートリアル
 		BGTYPE_RESULT,		//リザルト
 		BGTYPE_MAX
 	};

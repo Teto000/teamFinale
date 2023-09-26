@@ -41,6 +41,9 @@ public:
 		TEXTURE_TITLE_BG,
 		TEXTURE_PRESSENTER,
 
+		/* ↓ チュートリアル ↓ */
+		TEXTURE_TUTORIAL,		//チュートリアル
+
 		/* ↓ リザルト ↓ */
 		TEXTURE_RESULT,			//リザルト背景
 		TEXTURE_RANKING,		//ランキングロゴ
