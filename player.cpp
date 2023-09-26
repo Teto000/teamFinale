@@ -289,6 +289,23 @@ void CPlayer::Update()
 					pGameCenter->SetGame(true);
 				}
 			}
+			else if (m_pMyItem != nullptr
+				&& pCollidedObj->GetObjType() == CObject::OBJTYPE_BREAK)
+			{// ƒQ[ƒ€ƒZƒ“ƒ^[‚ÉG‚ê‚Ä‚¢‚é
+				CRubble *pRubble = (CRubble*)pCollidedObj;
+
+				if (pJoypad->Trigger(CInputJoypad::JOYKEY_A))
+				{
+					int nCntChild = 0;
+					m_pMyItem->SearchChild(nCntChild);
+					pRubble->Repair(m_pMyItem);
+
+					if (nCntChild == 1)
+					{
+						m_pMyItem = nullptr;
+					}
+				}
+			}
 		}
 	}
 
