@@ -198,7 +198,14 @@ void CScore::SetScore(int nScore)
 //=======================
 void CScore::AddScore(int nScore)
 {
-	m_nScore += nScore;
+	if (m_nScore + nScore <= 9999)
+	{
+		m_nScore += nScore;
+	}
+	else
+	{
+		m_nScore = 9999;
+	}
 
 	SetNumber();
 }

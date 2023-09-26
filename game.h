@@ -47,6 +47,7 @@ public:
 	// セッター
 	//------------------
 	static void SetFinish(bool fin) { m_bFinish = fin; }	//ゲーム終了状態を設定
+	static void SetItemMark();
 
 	//------------------
 	// ゲッター

@@ -15,6 +15,8 @@
 #include "rubble.h"
 #include "message.h"
 #include "renderer.h"
+#include "game.h"
+#include "score.h"
 
 //=============================================================================
 // インスタンス生成
@@ -138,6 +140,12 @@ void CObjectManager::UpdateRubble()
 		m_pMessage = CMessage::Create(
 			D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
 			, CMessage::MESSAGE_TYPE_COMPLETE);
+
+		//スコアの加算
+		CGame::GetScore()->AddScore(500);
+
+		//吹き出しの再設定
+		CGame::SetItemMark();
 	}
 }
 
