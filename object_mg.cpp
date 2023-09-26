@@ -132,20 +132,20 @@ void CObjectManager::UpdateRubble()
 		return;
 	}
 
+	//メッセージの表示
+	m_pMessage = CMessage::Create(
+		D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
+		, CMessage::MESSAGE_TYPE_COMPLETE);
+
+	//スコアの加算
+	CGame::GetScore()->AddScore(500);
+
+	//吹き出しの再設定
+	CGame::SetItemMark();
+
 	for (int nCntRubble = 0; nCntRubble < m_nMaxRubble; nCntRubble++)
 	{
 		m_pRubble.at(nCntRubble)->Reset();
-
-		//メッセージの表示
-		m_pMessage = CMessage::Create(
-			D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f)
-			, CMessage::MESSAGE_TYPE_COMPLETE);
-
-		//スコアの加算
-		CGame::GetScore()->AddScore(500);
-
-		//吹き出しの再設定
-		CGame::SetItemMark();
 	}
 }
 

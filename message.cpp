@@ -42,7 +42,7 @@ HRESULT CMessage::Init(D3DXVECTOR3 pos)
 
 	case MESSAGE_TYPE_COMPLETE:
 		CObject2D::SetTexture(CTexture::TEXTURE_COMPLETE);
-		SetSize(800.0f, 300.0f);
+		SetSize(500.0f, 300.0f);
 		break;
 
 	default:
@@ -69,7 +69,7 @@ void CMessage::Update()
 
 	m_nTime++;
 
-	if (m_type == MESSAGE_TYPE_COMPLETE && m_nTime >= 60)
+	if (m_type == MESSAGE_TYPE_COMPLETE && m_nTime >= 90)
 	{
 		m_nTime = 0;
 		Uninit();
