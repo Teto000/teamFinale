@@ -372,7 +372,7 @@ void CGame::CreateObj()
 	//ãY—í‚Èƒuƒ‰ƒ“ƒR
 	pGameCenter = CGameCenter::Create();
 	pGameCenter->SetType(28);
-	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTUNPUSH);
+	pGameCenter->SetGameType(CMiniGameBasis::TYPE_BUTTONMASH);
 	pGameCenter->SetPos(D3DXVECTOR3(-200.0f + fPastPosX, 0.0f, 400.0f));
 	pGameCenter->SetItemType(CItemObj::TYPE_WOOD);
 	pGameCenter->GetModel()->SetSize(dSize);
