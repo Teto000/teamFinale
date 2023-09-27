@@ -281,11 +281,11 @@ void CCamera::Follow()
 		//プレイヤー間の距離を求める
 		vec = pos1 + pos2;
 
-		vecF = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.z - pos2.z) * (pos1.z - pos2.z));
+		//vecF = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.z - pos2.z) * (pos1.z - pos2.z));
 
 		//その中間を見る
-		target.x = vec.x / 2;
-		target.z = vec.z / 2;
+		target.x = pos1.x;
+		target.z = pos1.z;
 
 		if (CGame::GetPlayer(0)->GetPast() || CGame::GetPlayer(1)->GetPast())
 		{//プレイヤーが過去にいるなら
@@ -294,7 +294,7 @@ void CCamera::Follow()
 		}
 
 		//カメラの高さを調整
-		m_posV.y = vecF * 1.1f;
+		m_posV.y = 50.0f;
 
 		//高さの最低値を設定
 		if (m_posV.y <= 300.0f)
