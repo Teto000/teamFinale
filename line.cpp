@@ -133,7 +133,7 @@ void CLine::Update()
 void CLine::Draw()
 {// レンダラーのゲット
 #ifndef _DEBAG
-	CRenderer *pRenderer = CApplication::GetRenderer();
+	/*CRenderer *pRenderer = CApplication::GetRenderer();
 
 	// デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -197,7 +197,7 @@ void CLine::Draw()
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	// テクスチャの解除
-	pDevice->SetTexture(0, nullptr);
+	pDevice->SetTexture(0, nullptr);*/
 #endif
 }
 
