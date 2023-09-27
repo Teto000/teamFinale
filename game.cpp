@@ -136,7 +136,7 @@ HRESULT CGame::Init()
 	CreateObj();
 
 	//BGM‚ÌÄ¶
-	//CSound::PlaySound(CSound::SOUND_LABEL_GAME);
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME);
 
 	return S_OK;
 }
@@ -147,7 +147,7 @@ HRESULT CGame::Init()
 void CGame::Uninit()
 {
 	//BGM‚Ì’â~
-	//CSound::StopSound();
+	CSound::StopSound();
 
 	//---------------------
 	// ƒJƒƒ‰‚ÌI—¹

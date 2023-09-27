@@ -79,7 +79,7 @@ HRESULT CResult::Init()
 	}
 
 	//BGMの再生
-	//CSound::PlaySound(CSound::SOUND_LABEL_RESULT);
+	CSound::PlaySound(CSound::SOUND_LABEL_RESULT);
 
 	//ランキングの生成
 	m_pRanking = CRanking::Create();
@@ -93,7 +93,7 @@ HRESULT CResult::Init()
 void CResult::Uninit()
 {
 	//BGMの停止
-	//CSound::StopSound();
+	CSound::StopSound();
 }
 
 //===========================
@@ -113,7 +113,7 @@ void CResult::Update()
 		CMode::GetFade()->SetFade(CMode::MODE_TITLE);
 
 		//SEの再生
-		//CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_BUTTOM);
 	}
 
 	CDebugProc::Print("リザルト画面");

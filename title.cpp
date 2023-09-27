@@ -61,7 +61,7 @@ HRESULT CTitle::Init()
 	}
 
 	//BGMÇÃçƒê∂
-	//CSound::PlaySound(CSound::SOUND_LABEL_TITLE);
+	CSound::PlaySound(CSound::SOUND_LABEL_TITLE);
 
 	return S_OK;
 }
@@ -72,7 +72,7 @@ HRESULT CTitle::Init()
 void CTitle::Uninit()
 {
 	////BGMÇÃí‚é~
-	//CSound::StopSound();
+	CSound::StopSound();
 }
 
 //===========================

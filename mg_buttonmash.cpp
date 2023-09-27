@@ -22,6 +22,7 @@
 #include "player.h"
 #include "collision_rectangle3D.h"
 #include "game_center.h"
+#include "sound.h"
 
 //=======================
 // コンストラクタ
@@ -124,8 +125,7 @@ void CButtonMash::Update()
 		if (pJoypad->Trigger(CInputJoypad::JOYKEY_B))
 		{
 			//連打カウントを1増やす
-			m_nMashCounter++;
-		}
+			m_nMashCounter++;		}
 
 		//連打するたびにポリゴンに色を付ける
 		if (m_nMashCounter != -1)

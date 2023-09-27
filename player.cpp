@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <vector>
 
+#include "sound.h"
 #include "player.h"
 #include "game.h"
 #include "stage_select.h"
@@ -579,10 +580,12 @@ D3DXVECTOR3 CPlayer::Warp(D3DXVECTOR3 pos)
 	//-----------------------------
 	if (!m_bPast)
 	{//未来にいるなら
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_CLOCK);
 		pos = D3DXVECTOR3(CGame::GetPastPosX(), pos.y, 0.0f);	//プレイヤーの位置を変更
 	}
 	else
 	{//過去にいるなら
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_CLOCK);
 		pos = D3DXVECTOR3(0.0f, pos.y, 0.0f);
 	}
 
